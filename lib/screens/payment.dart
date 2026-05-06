@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class PaymentPage extends StatelessWidget {
-  final double total;
+  final double? total;
 
-  const PaymentPage({super.key, required this.total});
+  const PaymentPage({super.key, this.total});
+
 
   void completePayment(BuildContext context) {
     final box = Hive.box('orders');

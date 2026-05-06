@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/home.dart';
+import 'package:foodapp/screens/main_screen.dart';
 import 'package:foodapp/widgets/admin.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) =>  HomePage()),
+        MaterialPageRoute(builder: (_) => MainScreen()),
       );
     }
   }

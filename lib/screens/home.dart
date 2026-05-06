@@ -4,7 +4,6 @@ import 'package:foodapp/widgets/search.dart';
 import 'package:foodapp/widgets/categories.dart';
 import 'package:foodapp/widgets/slide_banner.dart';
 import 'package:foodapp/widgets/big_resturant.dart';
-import 'package:foodapp/widgets/bottom_nav.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,7 +14,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _catIndex = 0;
-  int _navIndex = 0;
   final TextEditingController _searchController = TextEditingController();
   String _searchText = "";
 
@@ -274,7 +272,6 @@ Restaurant(
     });
   },
 ),
-          /// BODY CONTENT
           Expanded(
             child: Column(
               children: [
@@ -295,10 +292,10 @@ Restaurant(
 
                 Expanded(
                   child: GridView.builder(
-                    padding: const EdgeInsets.all(12),
+                    padding:  EdgeInsets.all(12),
                     itemCount: displayList.length,
                     gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
+                         SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
@@ -315,10 +312,6 @@ Restaurant(
             ),
           ),
 
-          BottomNavBar(
-            selectedIndex: _navIndex,
-            onTap: (i) => setState(() => _navIndex = i),
-          ),
         ],
       ),
     );

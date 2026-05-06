@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/order.dart';
-import 'package:foodapp/screens/profile.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -17,6 +15,7 @@ class BottomNavBar extends StatelessWidget {
     const items = [
       (Icons.home, 'Home'),
       (Icons.receipt_long, 'Orders'),
+      (Icons.payment, 'Payment'), // ✅ added
       (Icons.person, 'Profile'),
     ];
 
@@ -34,34 +33,13 @@ class BottomNavBar extends StatelessWidget {
           top: Radius.circular(20),
         ),
       ),
-
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: List.generate(items.length, (i) {
           final active = selectedIndex == i;
 
           return GestureDetector(
-            onTap: () {
-              onTap(i);
-
-              if (i == 1) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const OrdersPage(),
-                  ),
-                );
-              }
-
-              if (i == 2) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ProfilePage(),
-                  ),
-                );
-              }
-            },
+            onTap: () => onTap(i), // ✅ no Navigator here
 
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
@@ -75,7 +53,6 @@ class BottomNavBar extends StatelessWidget {
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(20),
               ),
-
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -86,6 +63,7 @@ class BottomNavBar extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
+                  
                     items[i].$2,
                     style: TextStyle(
                       fontSize: active ? 13 : 11,
