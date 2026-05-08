@@ -15,7 +15,7 @@ class CategorySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding:  EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -23,7 +23,7 @@ class CategorySection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+           Text(
             'Categories',
             style: TextStyle(
               fontSize: 18,
@@ -31,9 +31,8 @@ class CategorySection extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
 
-          /// 🔥 WRAP (NO SCROLL + AUTO FIT)
           Wrap(
             spacing: 10,   // horizontal space
             runSpacing: 10, // vertical space
@@ -57,9 +56,9 @@ class CategorySection extends StatelessWidget {
                     children: [
                       Text(
                         categories[i].$1,
-                        style: const TextStyle(fontSize: 24),
+                        style:  TextStyle(fontSize: 24),
                       ),
-                      const SizedBox(height: 6),
+                       SizedBox(height: 6),
                       Text(
                         categories[i].$2,
                         textAlign: TextAlign.center,

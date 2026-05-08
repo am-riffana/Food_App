@@ -22,17 +22,16 @@ class RestaurantCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// 🔥 IMAGE + BADGE
           Expanded(
             flex: 5,
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
+                  borderRadius:  BorderRadius.vertical(
                     top: Radius.circular(18),
                   ),
                   child: restaurant.images.isEmpty
-                      ? const Center(child: Icon(Icons.image_not_supported))
+                      ?  Center(child: Icon(Icons.image_not_supported))
                       : PageView.builder(
                           itemCount: restaurant.images.length,
                           itemBuilder: (context, index) {
@@ -43,13 +42,13 @@ class RestaurantCard extends StatelessWidget {
 
                               loadingBuilder: (context, child, progress) {
                                 if (progress == null) return child;
-                                return const Center(
+                                return  Center(
                                   child: CircularProgressIndicator(strokeWidth: 2),
                                 );
                               },
 
                               errorBuilder: (context, error, stackTrace) {
-                                return const Center(
+                                return  Center(
                                   child: Icon(Icons.broken_image),
                                 );
                               },
@@ -58,19 +57,18 @@ class RestaurantCard extends StatelessWidget {
                         ),
                 ),
 
-                /// OPEN / CLOSED
                 Positioned(
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: restaurant.isOpen ? Colors.green : Colors.red,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       restaurant.isOpen ? "Open" : "Closed",
-                      style: const TextStyle(
+                      style:  TextStyle(
                         color: Colors.white,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
@@ -81,12 +79,10 @@ class RestaurantCard extends StatelessWidget {
               ],
             ),
           ),
-
-          /// 🔥 DETAILS
           Expanded(
             flex: 4,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -95,47 +91,44 @@ class RestaurantCard extends StatelessWidget {
                     restaurant.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                     ),
                   ),
 
-                  const SizedBox(height: 4),
+                   SizedBox(height: 4),
 
-                  /// RATING + DISTANCE
                   Row(
                     children: [
-                      const Icon(Icons.star, size: 14, color: Colors.orange),
-                      const SizedBox(width: 3),
+                       Icon(Icons.star, size: 14, color: Colors.orange),
+                       SizedBox(width: 3),
                       Text(
                         restaurant.rating,
-                        style: const TextStyle(fontSize: 12),
+                        style:  TextStyle(fontSize: 12),
                       ),
-                      const SizedBox(width: 6),
-                      const Icon(Icons.location_on, size: 14, color: Colors.red),
-                      const SizedBox(width: 3),
+                       SizedBox(width: 6),
+                       Icon(Icons.location_on, size: 14, color: Colors.red),
+                       SizedBox(width: 3),
                       Text(
                         restaurant.distance,
-                        style: const TextStyle(fontSize: 12),
+                        style:  TextStyle(fontSize: 12),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 4),
+                   SizedBox(height: 4),
 
-                  /// PRICE
                   Text(
                     "₹${restaurant.price}",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                  const Spacer(),
+                   Spacer(),
 
-                  /// BUTTON
                   SizedBox(
                     width: double.infinity,
                     height: 32,
@@ -156,7 +149,7 @@ class RestaurantCard extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Text(
+                      child:  Text(
                         "View",
                         style: TextStyle(color: Colors.white, fontSize: 13),
                       ),

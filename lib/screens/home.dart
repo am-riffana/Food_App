@@ -14,8 +14,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _catIndex = 0;
-  final TextEditingController _searchController = TextEditingController();
+  bool isSearching = false;
   String _searchText = "";
+  final TextEditingController _searchController = TextEditingController();
 
   final _categories = [
     ('🍽️', 'All'),
@@ -24,7 +25,6 @@ class _HomePageState extends State<HomePage> {
     ('🍱', 'Sushi'),
     ('🥗', 'Salads'),
     ('🍰', 'Desserts'),
-    
   ];
 
   final List<Restaurant> _items = [
@@ -35,7 +35,6 @@ class _HomePageState extends State<HomePage> {
       isOpen: true,
       images: [
         'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
-       
       ],
       price: 199,
       category: 'Burgers',
@@ -64,7 +63,7 @@ class _HomePageState extends State<HomePage> {
       price: 399,
       category: 'Pizza',
     ),
-     Restaurant(
+    Restaurant(
       name: 'sicilian pizza',
       rating: '5.5',
       distance: '3.5km',
@@ -75,7 +74,7 @@ class _HomePageState extends State<HomePage> {
       price: 329,
       category: 'Pizza',
     ),
-     Restaurant(
+    Restaurant(
       name: 'hawaiian pizza',
       rating: '4.9',
       distance: '1.5 km',
@@ -98,7 +97,7 @@ class _HomePageState extends State<HomePage> {
       price: 499,
       category: 'Sushi',
     ),
-     Restaurant(
+    Restaurant(
       name: 'Maki Sushi',
       rating: '5.9',
       distance: '6 km',
@@ -109,7 +108,7 @@ class _HomePageState extends State<HomePage> {
       price: 399,
       category: 'Sushi',
     ),
-     Restaurant(
+    Restaurant(
       name: 'Temaki Sushi',
       rating: '5.0',
       distance: '4.5 km',
@@ -120,7 +119,7 @@ class _HomePageState extends State<HomePage> {
       price: 300,
       category: 'Sushi',
     ),
-     Restaurant(
+    Restaurant(
       name: 'Salmon Sashimi',
       rating: '5.0',
       distance: '2 km',
@@ -137,106 +136,107 @@ class _HomePageState extends State<HomePage> {
       distance: '1.9 km',
       isOpen: true,
       images: [
-        'https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480/img/recipe/ras/Assets/102cf51c-9220-4278-8b63-2b9611ad275e/Derivates/3831dbe2-352e-4409-a2e2-fc87d11cab0a.jpg',    
+        'https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480/img/recipe/ras/Assets/102cf51c-9220-4278-8b63-2b9611ad275e/Derivates/3831dbe2-352e-4409-a2e2-fc87d11cab0a.jpg',
       ],
       price: 200,
       category: 'Burgers',
     ),
     Restaurant(
-      name: 'Turkey Burger', 
+      name: 'Turkey Burger',
       rating: '5.0',
-       distance: '2.2km', 
-       isOpen: true, 
-       images: [
-      'https://hips.hearstapps.com/hmg-prod/images/turkey-burger-index-64873e8770b34.jpg?crop=0.8888888888888888xw:1xh;center,top&resize=1200:*',
-    ], price: 299,
-     category: 'Burgers'
-     ),
+      distance: '2.2km',
+      isOpen: true,
+      images: [
+        'https://hips.hearstapps.com/hmg-prod/images/turkey-burger-index-64873e8770b34.jpg?crop=0.8888888888888888xw:1xh;center,top&resize=1200:*',
+      ],
+      price: 299,
+      category: 'Burgers',
+    ),
 
-      Restaurant(
-      name: 'Veggie Burger', 
+    Restaurant(
+      name: 'Veggie Burger',
       rating: '4.5',
-       distance: '3.5 km', 
-       isOpen: false, 
-       images: [
-      'https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/tk%2Fphoto%2F2025%2F06-2025%2F2025-06-veggie-burger%2Fveggie-burger-340',
-    ], price: 305,
-     category: 'Burgers'
-     ),
-     Restaurant(
-  name: 'Caesar Salad',
-  rating: '4.5',
-  distance: '1.2 km',
-  isOpen: true,
-  images: [
-    'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=800',
-  ],
-  price: 180,
-  category: 'Salads',
-),
+      distance: '3.5 km',
+      isOpen: false,
+      images: [
+        'https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/tk%2Fphoto%2F2025%2F06-2025%2F2025-06-veggie-burger%2Fveggie-burger-340',
+      ],
+      price: 305,
+      category: 'Burgers',
+    ),
+    Restaurant(
+      name: 'Caesar Salad',
+      rating: '4.5',
+      distance: '1.2 km',
+      isOpen: true,
+      images: [
+        'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=800',
+      ],
+      price: 180,
+      category: 'Salads',
+    ),
 
-Restaurant(
-  name: 'Greek Salad',
-  rating: '4.7',
-  distance: '2 km',
-  isOpen: true,
-  images: [
-    'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800',
-  ],
-  price: 220,
-  category: 'Salads',
-),
+    Restaurant(
+      name: 'Greek Salad',
+      rating: '4.7',
+      distance: '2 km',
+      isOpen: true,
+      images: [
+        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800',
+      ],
+      price: 220,
+      category: 'Salads',
+    ),
 
-Restaurant(
-  name: 'Veggie Bowl',
-  rating: '4.3',
-  distance: '3 km',
-  isOpen: false,
-  images: [
-    'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800',
-  ],
-  price: 200,
-  category: 'Salads',
-),
-Restaurant(
-  name: 'Chocolate Cake',
-  rating: '4.9',
-  distance: '1 km',
-  isOpen: true,
-  images: [
-    'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800',
-  ],
-  price: 250,
-  category: 'Desserts',
-),
+    Restaurant(
+      name: 'Veggie Bowl',
+      rating: '4.3',
+      distance: '3 km',
+      isOpen: false,
+      images: [
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800',
+      ],
+      price: 200,
+      category: 'Salads',
+    ),
+    Restaurant(
+      name: 'Chocolate Cake',
+      rating: '4.9',
+      distance: '1 km',
+      isOpen: true,
+      images: [
+        'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800',
+      ],
+      price: 250,
+      category: 'Desserts',
+    ),
 
-Restaurant(
-  name: 'Ice Cream',
-  rating: '4.6',
-  distance: '2.5 km',
-  isOpen: true,
-  images: [
-    'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800',
-  ],
-  price: 120,
-  category: 'Desserts',
-),
+    Restaurant(
+      name: 'Ice Cream',
+      rating: '4.6',
+      distance: '2.5 km',
+      isOpen: true,
+      images: [
+        'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800',
+      ],
+      price: 120,
+      category: 'Desserts',
+    ),
 
-Restaurant(
-  name: 'Cupcake',
-  rating: '4.4',
-  distance: '1.8 km',
-  isOpen: true,
-  images: [
-    'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800',
-  ],
-  price: 90,
-  category: 'Desserts',
-),
-
-    
+    Restaurant(
+      name: 'Cupcake',
+      rating: '4.4',
+      distance: '1.8 km',
+      isOpen: true,
+      images: [
+        'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800',
+      ],
+      price: 90,
+      category: 'Desserts',
+    ),
   ];
-@override
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -246,72 +246,68 @@ Restaurant(
   Widget build(BuildContext context) {
     final selectedCategory = _categories[_catIndex].$2;
 
-    final filtered = _items.where((r) {
+    final displayList = _items.where((r) {
       final matchCategory =
           selectedCategory == 'All' || r.category == selectedCategory;
 
-      final matchSearch =
-          r.name.toLowerCase().contains(_searchText.toLowerCase());
+      final matchSearch = r.name.toLowerCase().contains(
+        _searchText.toLowerCase(),
+      );
 
       return matchCategory && matchSearch;
     }).toList();
 
-    final displayList = filtered.isEmpty ? _items : filtered;
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
-
       body: Column(
         children: [
-          /// 🔍 SEARCH BAR
-         FoodSearchBar(
-  controller: _searchController,
-  onSearchChanged: (value) {
-    setState(() {
-      _searchText = value;
-    });
-  },
-),
-          Expanded(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 160,
-                  child: AutoBannerSlider(),
-                ),
-
-                const SizedBox(height: 10),
-
-                CategorySection(
-                  categories: _categories,
-                  selectedIndex: _catIndex,
-                  onTap: (i) => setState(() => _catIndex = i),
-                ),
-
-                const SizedBox(height: 10),
-
-                Expanded(
-                  child: GridView.builder(
-                    padding:  EdgeInsets.all(12),
-                    itemCount: displayList.length,
-                    gridDelegate:
-                         SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 0.68,
-                    ),
-                    itemBuilder: (context, index) {
-                      return RestaurantCard(
-                        restaurant: displayList[index],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+          FoodSearchBar(
+            controller: _searchController,
+            isSearching: isSearching,
+            onSearchTap: () {
+              setState(() => isSearching = true);
+            },
+            onSearchChanged: (value) {
+              setState(() => _searchText = value);
+            },
+            onClear: () {
+              setState(() {
+                _searchController.clear();
+                _searchText = "";
+                isSearching = false;
+              });
+            },
           ),
 
+          SizedBox(height: 10),
+
+          SizedBox(height: 160, child: AutoBannerSlider()),
+
+          SizedBox(height: 10),
+
+          CategorySection(
+            categories: _categories,
+            selectedIndex: _catIndex,
+            onTap: (i) => setState(() => _catIndex = i),
+          ),
+
+          SizedBox(height: 10),
+
+          Expanded(
+            child: GridView.builder(
+              padding: EdgeInsets.all(12),
+              itemCount: displayList.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.68,
+              ),
+              itemBuilder: (context, index) {
+                return RestaurantCard(restaurant: displayList[index]);
+              },
+            ),
+          ),
         ],
       ),
     );

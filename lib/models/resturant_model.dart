@@ -17,7 +17,6 @@ class Restaurant {
     required this.category,
   });
 
-  /// 🔥 Convert to Map (for Hive / storage)
   Map<String, dynamic> toMap() {
     return {
       'name': name,
@@ -30,7 +29,6 @@ class Restaurant {
     };
   }
 
-  /// 🔥 Convert from Map (for reading data)
   factory Restaurant.fromMap(Map<String, dynamic> map) {
     return Restaurant(
       name: map['name'] ?? '',

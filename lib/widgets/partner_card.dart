@@ -15,19 +15,14 @@ class PartnerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(color: Colors.black12, blurRadius: 6),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
       ),
 
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// IMAGE
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(16),
-            ),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             child: Image.network(
               r.images.isNotEmpty
                   ? r.images.first
@@ -38,24 +33,17 @@ class PartnerCard extends StatelessWidget {
             ),
           ),
 
-          /// TEXT
           Padding(
-            padding: const EdgeInsets.all(15),
+            padding: EdgeInsets.all(15),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  r.name,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(r.name, style: TextStyle(fontWeight: FontWeight.w600)),
 
-                const SizedBox(height: 5),
-
+                SizedBox(height: 5),
                 Text(
                   "₹${r.price}",
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,
                   ),

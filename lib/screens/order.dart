@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/payment.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hive/hive.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -26,12 +25,12 @@ class _OrdersPageState extends State<OrdersPage> {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(const SnackBar(content: Text("Order Placed 🎉")));
+    ).showSnackBar( SnackBar(content: Text("Order Placed 🎉")));
   }
 
   String getRemainingTime(String time) {
     final orderedTime = DateTime.parse(time);
-    final deliveryTime = orderedTime.add(const Duration(minutes: 20));
+    final deliveryTime = orderedTime.add( Duration(minutes: 20));
     final diff = deliveryTime.difference(DateTime.now());
 
     if (diff.isNegative) return "Arrived ✅";
@@ -48,7 +47,7 @@ class _OrdersPageState extends State<OrdersPage> {
       backgroundColor: const Color(0xFFF8F8F8),
 
       appBar: AppBar(
-        title: const Text("My Orders"),
+        title:  Text("My Orders"),
         centerTitle: true,
         backgroundColor: Colors.orange,
       ),
@@ -58,7 +57,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
         builder: (context, box, _) {
           if (box.isEmpty) {
-            return const Center(
+            return  Center(
               child: Text(
                 "No Orders Yet 😔",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -77,7 +76,7 @@ class _OrdersPageState extends State<OrdersPage> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding:  EdgeInsets.all(16),
                   itemCount: box.length,
 
                   itemBuilder: (context, index) {
@@ -88,22 +87,15 @@ class _OrdersPageState extends State<OrdersPage> {
                     final status = item['status'] ?? "cart";
 
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 14),
-                      padding: const EdgeInsets.all(12),
+                      margin:  EdgeInsets.only(bottom: 14),
+                      padding:  EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 8,
-                            color: Colors.black.withOpacity(0.08),
-                          ),
-                        ],
                       ),
 
                       child: Row(
                         children: [
-                          /// IMAGE
                           ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.network(
@@ -114,32 +106,31 @@ class _OrdersPageState extends State<OrdersPage> {
                             ),
                           ),
 
-                          const SizedBox(width: 12),
+                           SizedBox(width: 12),
 
-                          /// DETAILS
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   item['name'] ?? '',
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                const SizedBox(height: 6),
+                                 SizedBox(height: 6),
                                 Text("Price: ₹$price"),
                                 Text("Qty: $qty"),
 
-                                const SizedBox(height: 6),
+                                 SizedBox(height: 6),
 
                                 if (status == "ordered" &&
                                     item['orderedTime'] != null)
                                   Text(
                                     getRemainingTime(item['orderedTime']),
-                                    style: const TextStyle(
+                                    style:  TextStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -147,7 +138,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
                                 Text(
                                   "Total: ₹${price * qty}",
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -155,18 +146,17 @@ class _OrdersPageState extends State<OrdersPage> {
                             ),
                           ),
 
-                          /// ❌ DELETE BUTTON (NEW)
                           IconButton(
                             onPressed: () {
                               box.deleteAt(index);
 
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
+                                 SnackBar(
                                   content: Text("Item Deleted 🗑️"),
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.delete, color: Colors.red),
+                            icon:  Icon(Icons.delete, color: Colors.red),
                           ),
                         ],
                       ),
@@ -175,10 +165,9 @@ class _OrdersPageState extends State<OrdersPage> {
                 ),
               ),
 
-              /// PLACE ORDER BUTTON
               Container(
-                padding: const EdgeInsets.all(16),
-                decoration: const BoxDecoration(
+                padding:  EdgeInsets.all(16),
+                decoration:  BoxDecoration(
                   color: Colors.white,
                   boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black12)],
                 ),
@@ -188,7 +177,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding:  EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -203,7 +192,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       );
                     },
 
-                    child: const Text(
+                    child:  Text(
                       "Place Order",
                       style: TextStyle(
                         fontSize: 16,

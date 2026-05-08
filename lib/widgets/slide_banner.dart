@@ -25,7 +25,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
 
   void autoSlide() async {
     while (mounted) {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(Duration(seconds: 1));
 
       if (!mounted) return;
 
@@ -33,7 +33,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
 
       _controller.animateToPage(
         _currentPage,
-        duration: const Duration(milliseconds: 250),
+        duration: Duration(milliseconds: 250),
         curve: Curves.easeInOut,
       );
     }
@@ -52,7 +52,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
       itemCount: images.length,
       itemBuilder: (_, i) {
         return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8),
+          margin: EdgeInsets.symmetric(horizontal: 8),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(

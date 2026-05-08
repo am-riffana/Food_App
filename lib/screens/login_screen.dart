@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodapp/screens/home.dart';
 import 'package:foodapp/screens/main_screen.dart';
 import 'package:foodapp/widgets/admin.dart';
@@ -16,16 +17,42 @@ class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  void login() {
+  bool isValidEmail(String email) {
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+        .hasMatch(email);
+  }
+
+  Future<void> saveLogin(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', true);
+    await prefs.setString('email', email);
+
+    print("LOGIN SAVED: true");
+    print("EMAIL SAVED: $email");
+  }
+
+  void login() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text("Please enter email & password"),backgroundColor: Colors.orange,),
-      );
+      showMessage("Please enter email & password", Colors.orange);
       return;
     }
+
+    if (!isValidEmail(email)) {
+      showMessage("Enter a valid email", Colors.red);
+      return;
+    }
+
+    if (password.length < 4) {
+      showMessage("Password must be at least 4 characters", Colors.red);
+      return;
+    }
+
+    await saveLogin(email);
+
+    if (!mounted) return;
 
     if (email == "rifanasherin80@gmail.com" && password == "1234") {
       Navigator.pushReplacement(
@@ -35,30 +62,53 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => MainScreen()),
+        MaterialPageRoute(builder: (_) =>  MainScreen()),
       );
     }
   }
 
-  void signUp() {
+  void signUp() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(content: Text("Please fill all fields"),backgroundColor: Colors.orange),
-      );
+      showMessage("Please fill all fields", Colors.orange);
       return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Account created successfully 🎉")),
-    );
+    if (!isValidEmail(email)) {
+      showMessage("Enter a valid email", Colors.red);
+      return;
+    }
+
+    if (password.length < 4) {
+      showMessage("Password must be at least 4 characters", Colors.red);
+      return;
+    }
+
+    await saveLogin(email);
+
+    if (!mounted) return;
+
+    showMessage("Account created successfully 🎉", Colors.green);
 
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) =>  HomePage()),
     );
+  }
+
+  void showMessage(String msg, Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(msg), backgroundColor: color),
+    );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -71,6 +121,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: [
                SizedBox(height: 40),
+
                Icon(
                 Icons.fastfood,
                 color: Color.fromARGB(255, 240, 155, 26),
@@ -88,12 +139,14 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
 
                SizedBox(height: 5),
+
               Text(
                 isLogin ? "Login to continue" : "Create your account",
-                style:  TextStyle(color: const Color.fromARGB(255, 160, 148, 148)),
+                style:  TextStyle(color: Colors.grey),
               ),
 
                SizedBox(height: 30),
+
               Row(
                 children: [
                   Expanded(
@@ -180,13 +233,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (isLogin) {
-                      login();   
+                      login();
                     } else {
-                      signUp();  
+                      signUp();
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 255, 254, 253),
+                    backgroundColor: Colors.orange,
                     padding:  EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -194,7 +247,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Text(
                     isLogin ? "Login" : "Sign Up",
-                    style:  TextStyle(fontSize: 16),
+                    style:  TextStyle(
+                        fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
@@ -205,7 +259,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 isLogin
                     ? "Don’t have an account? Sign Up"
                     : "Already have an account? Login",
-                style:  TextStyle(color: const Color.fromARGB(255, 124, 122, 122)),
+                style:  TextStyle(color: Colors.grey),
               ),
             ],
           ),

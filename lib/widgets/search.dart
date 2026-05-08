@@ -3,17 +3,23 @@ import 'package:flutter/material.dart';
 class FoodSearchBar extends StatelessWidget {
   final TextEditingController controller;
   final ValueChanged<String> onSearchChanged;
+  final VoidCallback? onClear;
+  final VoidCallback? onSearchTap;
+  final bool isSearching;
 
-  const FoodSearchBar({
+  FoodSearchBar({
     super.key,
     required this.controller,
     required this.onSearchChanged,
+    this.onClear,
+    this.onSearchTap,
+    this.isSearching = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
       ),
@@ -30,54 +36,71 @@ class FoodSearchBar extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text('Delivery to'),
+                  SizedBox(height: 2),
                   Row(
                     children: [
                       Icon(Icons.location_on, size: 14),
                       SizedBox(width: 4),
-                      Text('Edappalam pattambi'),
+                      Text('Edappalam Pattambi'),
                     ],
                   ),
                 ],
               ),
-              const Icon(Icons.notifications),
+              Icon(Icons.notifications),
             ],
           ),
 
-          const SizedBox(height: 14),
-
-          /// 🔥 SEARCH CONNECTED TO HOME PAGE
+          SizedBox(height: 14),
           Row(
             children: [
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     color: Colors.grey[200],
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: TextField(
-                    controller: controller,
-                    onChanged: onSearchChanged,
-                    decoration: const InputDecoration(
-                      hintText: 'Search...',
-                      border: InputBorder.none,
-                    ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.search),
+                      SizedBox(width: 8),
+
+                      Expanded(
+                        child: TextField(
+                          controller: controller,
+                          onTap: onSearchTap,
+                          onChanged: onSearchChanged,
+                          decoration: InputDecoration(
+                            hintText: 'Search foods...',
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+
+                      if (controller.text.isNotEmpty)
+                        GestureDetector(
+                          onTap: onClear,
+                          child: Icon(Icons.close, size: 18),
+                        ),
+                    ],
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+
+              SizedBox(width: 10),
+
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.orange,
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.tune, color: Colors.white),
-              )
+                child: Icon(Icons.tune, color: Colors.white),
+              ),
             ],
-          )
+          ),
         ],
       ),
     );

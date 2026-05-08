@@ -15,7 +15,7 @@ class BottomNavBar extends StatelessWidget {
     const items = [
       (Icons.home, 'Home'),
       (Icons.receipt_long, 'Orders'),
-      (Icons.payment, 'Payment'), // ✅ added
+      (Icons.payment, 'Payment'), 
       (Icons.person, 'Profile'),
     ];
 
@@ -23,12 +23,7 @@ class BottomNavBar extends StatelessWidget {
       height: 70,
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 15,
-            color: Colors.black.withOpacity(0.1),
-          )
-        ],
+      
         borderRadius: const BorderRadius.vertical(
           top: Radius.circular(20),
         ),
@@ -39,20 +34,15 @@ class BottomNavBar extends StatelessWidget {
           final active = selectedIndex == i;
 
           return GestureDetector(
-            onTap: () => onTap(i), // ✅ no Navigator here
+            onTap: () => onTap(i), 
 
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              padding: const EdgeInsets.symmetric(
+              duration:  Duration(milliseconds: 300),
+              padding:  EdgeInsets.symmetric(
                 horizontal: 14,
                 vertical: 8,
               ),
-              decoration: BoxDecoration(
-                color: active
-                    ? Colors.orange.withOpacity(0.15)
-                    : Colors.transparent,
-                borderRadius: BorderRadius.circular(20),
-              ),
+              
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -61,7 +51,7 @@ class BottomNavBar extends StatelessWidget {
                     size: active ? 28 : 24,
                     color: active ? Colors.orange : Colors.grey,
                   ),
-                  const SizedBox(height: 4),
+                   SizedBox(height: 4),
                   Text(
                   
                     items[i].$2,

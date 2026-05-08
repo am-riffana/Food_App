@@ -21,7 +21,7 @@ class PaymentPage extends StatelessWidget {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Payment Successful 🎉")),
+       SnackBar(content: Text("Payment Successful 🎉")),
     );
 
     Navigator.pop(context); // back to orders
@@ -33,31 +33,26 @@ class PaymentPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Payment"),
+        title:  Text("Payment"),
         backgroundColor: Colors.orange,
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           children: [
-            /// 💰 TOTAL
             Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.orange.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
+              padding:  EdgeInsets.all(16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                   Text(
                     "Total Amount",
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
                     "₹$total",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.orange,
@@ -67,25 +62,23 @@ class PaymentPage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
 
-            /// 💳 PAYMENT OPTIONS
             _paymentTile("Cash on Delivery"),
             _paymentTile("UPI"),
             _paymentTile("Card"),
 
-            const Spacer(),
+             Spacer(),
 
-            /// 🔘 PAY BUTTON
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () => completePayment(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding:  EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text(
+                child:  Text(
                   "Pay Now",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
@@ -99,16 +92,16 @@ class PaymentPage extends StatelessWidget {
 
   Widget _paymentTile(String title) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      margin:  EdgeInsets.only(bottom: 12),
+      padding:  EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
-          const Icon(Icons.payment),
-          const SizedBox(width: 10),
+           Icon(Icons.payment),
+           SizedBox(width: 10),
           Text(title),
         ],
       ),
