@@ -7,7 +7,7 @@ class FoodSearchBar extends StatelessWidget {
   final VoidCallback? onSearchTap;
   final bool isSearching;
 
-  FoodSearchBar({
+   const FoodSearchBar({
     super.key,
     required this.controller,
     required this.onSearchChanged,
@@ -66,7 +66,6 @@ class FoodSearchBar extends StatelessWidget {
                     children: [
                       Icon(Icons.search),
                       SizedBox(width: 8),
-
                       Expanded(
                         child: TextField(
                           controller: controller,
@@ -78,7 +77,6 @@ class FoodSearchBar extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       if (controller.text.isNotEmpty)
                         GestureDetector(
                           onTap: onClear,

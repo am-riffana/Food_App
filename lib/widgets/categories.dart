@@ -32,7 +32,6 @@ class CategorySection extends StatelessWidget {
           ),
 
            SizedBox(height: 10),
-
           Wrap(
             spacing: 5,   
             runSpacing: 5, 
