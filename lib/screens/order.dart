@@ -25,12 +25,12 @@ class _OrdersPageState extends State<OrdersPage> {
 
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar( SnackBar(content: Text("Order Placed 🎉")));
+    ).showSnackBar(SnackBar(content: Text("Order Placed 🎉")));
   }
 
   String getRemainingTime(String time) {
     final orderedTime = DateTime.parse(time);
-    final deliveryTime = orderedTime.add( Duration(minutes: 20));
+    final deliveryTime = orderedTime.add(Duration(minutes: 20));
     final diff = deliveryTime.difference(DateTime.now());
 
     if (diff.isNegative) return "Arrived ✅";
@@ -47,7 +47,7 @@ class _OrdersPageState extends State<OrdersPage> {
       backgroundColor: const Color(0xFFF8F8F8),
 
       appBar: AppBar(
-        title:  Text("My Orders"),
+        title: Text("My Orders"),
         centerTitle: true,
         backgroundColor: Colors.orange,
       ),
@@ -57,7 +57,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
         builder: (context, box, _) {
           if (box.isEmpty) {
-            return  Center(
+            return Center(
               child: Text(
                 "No Orders Yet 😔",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -76,7 +76,7 @@ class _OrdersPageState extends State<OrdersPage> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  padding:  EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   itemCount: box.length,
 
                   itemBuilder: (context, index) {
@@ -87,8 +87,8 @@ class _OrdersPageState extends State<OrdersPage> {
                     final status = item['status'] ?? "cart";
 
                     return Container(
-                      margin:  EdgeInsets.only(bottom: 14),
-                      padding:  EdgeInsets.all(12),
+                      margin: EdgeInsets.only(bottom: 14),
+                      padding: EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(18),
@@ -106,7 +106,7 @@ class _OrdersPageState extends State<OrdersPage> {
                             ),
                           ),
 
-                           SizedBox(width: 12),
+                          SizedBox(width: 12),
 
                           Expanded(
                             child: Column(
@@ -114,23 +114,23 @@ class _OrdersPageState extends State<OrdersPage> {
                               children: [
                                 Text(
                                   item['name'] ?? '',
-                                  style:  TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                 SizedBox(height: 6),
+                                SizedBox(height: 6),
                                 Text("Price: ₹$price"),
                                 Text("Qty: $qty"),
 
-                                 SizedBox(height: 6),
+                                SizedBox(height: 6),
 
                                 if (status == "ordered" &&
                                     item['orderedTime'] != null)
                                   Text(
                                     getRemainingTime(item['orderedTime']),
-                                    style:  TextStyle(
+                                    style: TextStyle(
                                       color: Colors.green,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -138,9 +138,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
                                 Text(
                                   "Total: ₹${price * qty}",
-                                  style:  TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ],
                             ),
@@ -151,12 +149,10 @@ class _OrdersPageState extends State<OrdersPage> {
                               box.deleteAt(index);
 
                               ScaffoldMessenger.of(context).showSnackBar(
-                                 SnackBar(
-                                  content: Text("Item Deleted 🗑️"),
-                                ),
+                                SnackBar(content: Text("Item Deleted 🗑️")),
                               );
                             },
-                            icon:  Icon(Icons.delete, color: Colors.red),
+                            icon: Icon(Icons.delete, color: Colors.red),
                           ),
                         ],
                       ),
@@ -166,8 +162,8 @@ class _OrdersPageState extends State<OrdersPage> {
               ),
 
               Container(
-                padding:  EdgeInsets.all(16),
-                decoration:  BoxDecoration(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black12)],
                 ),
@@ -177,7 +173,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
-                      padding:  EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14),
                       ),
@@ -192,7 +188,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       );
                     },
 
-                    child:  Text(
+                    child: Text(
                       "Place Order",
                       style: TextStyle(
                         fontSize: 16,

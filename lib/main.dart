@@ -6,12 +6,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
-  await Hive.openBox('cart');
   await Hive.openBox('orders');
 
   runApp( MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

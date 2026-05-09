@@ -16,10 +16,10 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const HomePage(),
-    const OrdersPage(),
-    const PaymentPage(), 
-    const ProfilePage(),
+     HomePage(),
+     OrdersPage(),
+     PaymentPage(total: 0), 
+     ProfilePage(),
   ];
 
   @override

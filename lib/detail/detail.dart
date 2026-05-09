@@ -5,10 +5,7 @@ import 'package:hive/hive.dart';
 class DetailsPage extends StatelessWidget {
   final Restaurant restaurant;
 
-  const DetailsPage({
-    super.key,
-    required this.restaurant,
-  });
+  const DetailsPage({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,6 @@ class DetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// 🔥 IMAGE (SAFE)
             Image.network(
               restaurant.images.isNotEmpty
                   ? restaurant.images.first
@@ -37,70 +33,55 @@ class DetailsPage extends StatelessWidget {
             ),
 
             Padding(
-              padding: const EdgeInsets.all(18),
+              padding: EdgeInsets.all(18),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// 🍔 NAME
                   Text(
                     restaurant.name,
-                    style: const TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
 
-                  /// ⭐ RATING
                   Row(
                     children: [
-                      const Icon(Icons.star, color: Colors.orange),
-                      const SizedBox(width: 6),
+                      Icon(Icons.star, color: Colors.orange),
+                      SizedBox(width: 6),
                       Text(
                         restaurant.rating,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
+                  SizedBox(height: 10),
 
-                  const SizedBox(height: 10),
-
-                  /// 📍 DISTANCE
                   Row(
                     children: [
-                      const Icon(Icons.location_on, color: Colors.red),
-                      const SizedBox(width: 6),
-                      Text(
-                        restaurant.distance,
-                        style: const TextStyle(fontSize: 14),
-                      ),
+                      Icon(Icons.location_on, color: Colors.red),
+                      SizedBox(width: 6),
+                      Text(restaurant.distance, style: TextStyle(fontSize: 14)),
                     ],
                   ),
+                  SizedBox(height: 20),
 
-                  const SizedBox(height: 20),
-
-                  /// 📝 DESCRIPTION
-                  const Text(
+                  Text(
                     "Delicious food with amazing taste and fast delivery.",
                     style: TextStyle(fontSize: 14, height: 1.5),
                   ),
+                  SizedBox(height: 30),
 
-                  const SizedBox(height: 30),
-
-                  /// 🛒 BUTTON
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 14),
+                        padding: EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                         ),
                       ),
 
@@ -110,7 +91,7 @@ class DetailsPage extends StatelessWidget {
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(20),
                             ),
@@ -124,37 +105,34 @@ class DetailsPage extends StatelessWidget {
                                     left: 20,
                                     right: 20,
                                     top: 20,
-                                    bottom: MediaQuery.of(context)
-                                            .viewInsets
-                                            .bottom +
+                                    bottom:
+                                        MediaQuery.of(
+                                          context,
+                                        ).viewInsets.bottom +
                                         20,
                                   ),
 
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      /// TITLE
                                       Text(
                                         restaurant.name,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      SizedBox(height: 20),
 
-                                      const SizedBox(height: 20),
-
-                                      /// PRICE
                                       Text(
                                         "Price: ₹${restaurant.price}",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
 
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: 20),
 
-                                      /// QUANTITY
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
@@ -165,49 +143,46 @@ class DetailsPage extends StatelessWidget {
                                                 setState(() => qty--);
                                               }
                                             },
-                                            icon: const Icon(Icons.remove),
+                                            icon: Icon(Icons.remove),
                                           ),
                                           Text(
                                             "$qty",
-                                            style: const TextStyle(
-                                                fontSize: 18),
+                                            style: TextStyle(fontSize: 18),
                                           ),
                                           IconButton(
                                             onPressed: () {
                                               setState(() => qty++);
                                             },
-                                            icon: const Icon(Icons.add),
+                                            icon: Icon(Icons.add),
                                           ),
                                         ],
                                       ),
 
-                                      const SizedBox(height: 20),
-
-                                      /// TOTAL
+                                      SizedBox(height: 20),
                                       Text(
                                         "Total: ₹${restaurant.price * qty}",
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.orange,
                                         ),
                                       ),
 
-                                      const SizedBox(height: 20),
+                                      SizedBox(height: 20),
 
-                                      /// ADD BUTTON
                                       SizedBox(
                                         width: double.infinity,
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor: Colors.orange,
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 14),
+                                            padding: EdgeInsets.symmetric(
+                                              vertical: 15,
+                                            ),
                                           ),
                                           onPressed: () {
                                             ordersBox.add({
                                               'name': restaurant.name,
-                                              'image': restaurant.images.isNotEmpty
+                                              'image':
+                                                  restaurant.images.isNotEmpty
                                                   ? restaurant.images.first
                                                   : '',
                                               'price': restaurant.price,
@@ -216,21 +191,22 @@ class DetailsPage extends StatelessWidget {
 
                                             Navigator.pop(context);
 
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
                                               SnackBar(
                                                 content: Text(
                                                   "${restaurant.name} added",
                                                 ),
-                                                duration:
-                                                    const Duration(seconds: 1),
+                                                duration: Duration(seconds: 1),
                                               ),
                                             );
                                           },
-                                          child: const Text(
+                                          child: Text(
                                             "Add To Orders",
                                             style: TextStyle(
-                                                color: Colors.white),
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -243,10 +219,10 @@ class DetailsPage extends StatelessWidget {
                         );
                       },
 
-                      child: const Text(
+                      child: Text(
                         "Add To Orders",
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 19,
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),

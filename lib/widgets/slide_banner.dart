@@ -15,6 +15,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
     'https://img.freepik.com/free-psd/delicious-burger-food-menu-web-banner-template_120329-6365.jpg',
     'https://img.freepik.com/free-psd/delicious-burger-food-menu-web-banner-template_120329-4793.jpg',
     'https://i.pinimg.com/736x/59/36/43/593643e81c33f3eeff13906662a68022.jpg',
+    'https://img.freepik.com/free-psd/food-menu-delicious-pizza-facebook-cover-banner-template_120329-4895.jpg?semt=ais_hybrid&w=740&q=80'
   ];
 
   @override

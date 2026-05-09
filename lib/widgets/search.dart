@@ -88,7 +88,6 @@ class FoodSearchBar extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(width: 10),
 
               Container(

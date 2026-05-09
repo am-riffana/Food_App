@@ -5,10 +5,7 @@ import 'package:foodapp/models/resturant_model.dart';
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
 
-  const RestaurantCard({
-    super.key,
-    required this.restaurant,
-  });
+  const RestaurantCard({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +13,6 @@ class RestaurantCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
-        
       ),
 
       child: Column(
@@ -27,11 +23,9 @@ class RestaurantCard extends StatelessWidget {
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius:  BorderRadius.vertical(
-                    top: Radius.circular(18),
-                  ),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
                   child: restaurant.images.isEmpty
-                      ?  Center(child: Icon(Icons.image_not_supported))
+                      ? Center(child: Icon(Icons.image_not_supported))
                       : PageView.builder(
                           itemCount: restaurant.images.length,
                           itemBuilder: (context, index) {
@@ -42,15 +36,15 @@ class RestaurantCard extends StatelessWidget {
 
                               loadingBuilder: (context, child, progress) {
                                 if (progress == null) return child;
-                                return  Center(
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 );
                               },
 
                               errorBuilder: (context, error, stackTrace) {
-                                return  Center(
-                                  child: Icon(Icons.broken_image),
-                                );
+                                return Center(child: Icon(Icons.broken_image));
                               },
                             );
                           },
@@ -61,14 +55,14 @@ class RestaurantCard extends StatelessWidget {
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
                       color: restaurant.isOpen ? Colors.green : Colors.red,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
                       restaurant.isOpen ? "Open" : "Closed",
-                      style:  TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
@@ -82,52 +76,42 @@ class RestaurantCard extends StatelessWidget {
           Expanded(
             flex: 4,
             child: Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// NAME
                   Text(
                     restaurant.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style:  TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
 
-                   SizedBox(height: 4),
+                  SizedBox(height: 4),
 
                   Row(
                     children: [
-                       Icon(Icons.star, size: 14, color: Colors.orange),
-                       SizedBox(width: 3),
-                      Text(
-                        restaurant.rating,
-                        style:  TextStyle(fontSize: 12),
-                      ),
-                       SizedBox(width: 6),
-                       Icon(Icons.location_on, size: 14, color: Colors.red),
-                       SizedBox(width: 3),
-                      Text(
-                        restaurant.distance,
-                        style:  TextStyle(fontSize: 12),
-                      ),
+                      Icon(Icons.star, size: 14, color: Colors.orange),
+                      SizedBox(width: 3),
+                      Text(restaurant.rating, style: TextStyle(fontSize: 12)),
+                      SizedBox(width: 6),
+                      Icon(Icons.location_on, size: 14, color: Colors.red),
+                      SizedBox(width: 3),
+                      Text(restaurant.distance, style: TextStyle(fontSize: 12)),
                     ],
                   ),
 
-                   SizedBox(height: 4),
+                  SizedBox(height: 4),
 
                   Text(
                     "₹${restaurant.price}",
-                    style:  TextStyle(
+                    style: TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                   Spacer(),
+                  Spacer(),
 
                   SizedBox(
                     width: double.infinity,
@@ -144,12 +128,11 @@ class RestaurantCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                DetailsPage(restaurant: restaurant),
+                            builder: (_) => DetailsPage(restaurant: restaurant),
                           ),
                         );
                       },
-                      child:  Text(
+                      child: Text(
                         "View",
                         style: TextStyle(color: Colors.white, fontSize: 13),
                       ),

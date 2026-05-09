@@ -65,7 +65,6 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               child: Icon(Icons.fastfood, size: 60, color: Colors.white),
             ),
-
             SizedBox(height: 25),
 
             Text(
@@ -76,7 +75,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 letterSpacing: 1.5,
               ),
             ),
-
             SizedBox(height: 8),
 
             Text("Fresh Food, Faster 🍔", style: TextStyle(color: Colors.grey)),

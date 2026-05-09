@@ -34,8 +34,8 @@ class CategorySection extends StatelessWidget {
            SizedBox(height: 10),
 
           Wrap(
-            spacing: 10,   // horizontal space
-            runSpacing: 10, // vertical space
+            spacing: 5,   
+            runSpacing: 5, 
             children: List.generate(categories.length, (i) {
               final active = selectedIndex == i;
 

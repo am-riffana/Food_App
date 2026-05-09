@@ -229,7 +229,7 @@ class _HomePageState extends State<HomePage> {
       distance: '1.8 km',
       isOpen: true,
       images: [
-        'https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800',
+        'https://www.preciouscore.com/wp-content/uploads/2025/07/ChocolateCupcakeswithchocolatefrosting_Feature_4.jpg',
       ],
       price: 90,
       category: 'Desserts',

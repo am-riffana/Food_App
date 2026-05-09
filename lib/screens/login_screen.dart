@@ -18,8 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
 
   bool isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-        .hasMatch(email);
+    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
 
   Future<void> saveLogin(String email) async {
@@ -57,12 +56,12 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email == "rifanasherin80@gmail.com" && password == "1234") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) =>  Admin()),
+        MaterialPageRoute(builder: (_) => Admin()),
       );
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) =>  MainScreen()),
+        MaterialPageRoute(builder: (_) => MainScreen()),
       );
     }
   }
@@ -94,14 +93,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (_) =>  HomePage()),
+      MaterialPageRoute(builder: (_) => HomePage()),
     );
   }
 
   void showMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: color),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: color));
   }
 
   @override
@@ -117,35 +116,29 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: const Color(0xFFF8F8F8),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding:  EdgeInsets.all(20),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
-               SizedBox(height: 40),
+              SizedBox(height: 40),
 
-               Icon(
+              Icon(
                 Icons.fastfood,
                 color: Color.fromARGB(255, 240, 155, 26),
                 size: 60,
               ),
+              SizedBox(height: 20),
 
-               SizedBox(height: 20),
-
-               Text(
+              Text(
                 "Welcome Back",
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
               ),
-
-               SizedBox(height: 5),
+              SizedBox(height: 5),
 
               Text(
                 isLogin ? "Login to continue" : "Create your account",
-                style:  TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey),
               ),
-
-               SizedBox(height: 30),
+              SizedBox(height: 30),
 
               Row(
                 children: [
@@ -153,7 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: GestureDetector(
                       onTap: () => setState(() => isLogin = true),
                       child: Container(
-                        padding:  EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: isLogin ? Colors.orange : Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -169,12 +162,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                   SizedBox(width: 10),
+                  SizedBox(width: 10),
                   Expanded(
                     child: GestureDetector(
                       onTap: () => setState(() => isLogin = false),
                       child: Container(
-                        padding:  EdgeInsets.all(12),
+                        padding: EdgeInsets.all(12),
                         decoration: BoxDecoration(
                           color: !isLogin ? Colors.orange : Colors.white,
                           borderRadius: BorderRadius.circular(10),
@@ -192,14 +185,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ],
               ),
-
-               SizedBox(height: 25),
+              SizedBox(height: 25),
 
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(
                   hintText: "Email",
-                  prefixIcon:  Icon(Icons.email),
+                  prefixIcon: Icon(Icons.email),
                   filled: true,
                   fillColor: const Color.fromARGB(255, 247, 230, 211),
                   border: OutlineInputBorder(
@@ -208,15 +200,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
-               SizedBox(height: 15),
+              SizedBox(height: 15),
 
               TextField(
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: "Password",
-                  prefixIcon:  Icon(Icons.lock),
+                  prefixIcon: Icon(Icons.lock),
                   filled: true,
                   fillColor: const Color.fromARGB(255, 247, 230, 211),
                   border: OutlineInputBorder(
@@ -225,8 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-
-               SizedBox(height: 25),
+              SizedBox(height: 25),
 
               SizedBox(
                 width: double.infinity,
@@ -240,26 +230,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
-                    padding:  EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: Text(
                     isLogin ? "Login" : "Sign Up",
-                    style:  TextStyle(
-                        fontSize: 16, color: Colors.white),
+                    style: TextStyle(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ),
-
-               SizedBox(height: 20),
+              SizedBox(height: 20),
 
               Text(
                 isLogin
                     ? "Don’t have an account? Sign Up"
                     : "Already have an account? Login",
-                style:  TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey),
               ),
             ],
           ),

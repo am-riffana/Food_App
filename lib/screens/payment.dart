@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class PaymentPage extends StatelessWidget {
-  final double? total;
+  final double total;
 
-  const PaymentPage({super.key, this.total});
-
+  const PaymentPage({super.key, required this.total});
 
   void completePayment(BuildContext context) {
     final box = Hive.box('orders');
@@ -24,19 +23,16 @@ class PaymentPage extends StatelessWidget {
        SnackBar(content: Text("Payment Successful 🎉")),
     );
 
-    Navigator.pop(context); // back to orders
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   @override
   Widget build(BuildContext context) {
-    String selectedMethod = "COD";
-
     return Scaffold(
       appBar: AppBar(
         title:  Text("Payment"),
         backgroundColor: Colors.orange,
       ),
-
       body: Padding(
         padding:  EdgeInsets.all(16),
         child: Column(
@@ -51,7 +47,7 @@ class PaymentPage extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   ),
                   Text(
-                    "₹$total",
+                    "₹${total.toStringAsFixed(2)}",
                     style:  TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
