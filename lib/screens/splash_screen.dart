@@ -4,6 +4,7 @@ import 'package:foodapp/screens/login_screen.dart';
 import 'package:foodapp/screens/main_screen.dart';
 import 'package:foodapp/widgets/admin.dart';
 
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
