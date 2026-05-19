@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     ('🍱', 'Sushi'),
     ('🥗', 'Salads'),
     ('🍰', 'Desserts'),
+    
   ];
 
   final List<Restaurant> _items = [
@@ -282,7 +283,7 @@ class _HomePageState extends State<HomePage> {
           SizedBox(height: 160, child: AutoBannerSlider()),
 
           SizedBox(height: 10),
-          
+
           CategorySection(
             categories: _categories,
             selectedIndex: _catIndex,

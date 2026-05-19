@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodapp/screens/login_screen.dart';
-import 'package:foodapp/screens/main_screen.dart';
+import 'package:foodapp/screens/bottom_nav.dart';
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     checkLogin();
   }
 void checkLogin() async {
-  await Future.delayed(const Duration(seconds: 3));
+  await Future.delayed( Duration(seconds: 3));
 
   final prefs = await SharedPreferences.getInstance();
 
