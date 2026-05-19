@@ -29,7 +29,6 @@ void checkLogin() async {
       MaterialPageRoute(builder: (_) =>  MainScreen()),
     );
   } else {
-    // not logged in → login page
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (_) =>  LoginScreen()),

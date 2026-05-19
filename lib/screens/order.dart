@@ -20,7 +20,7 @@ class _OrdersPageState extends State<OrdersPage> {
   String getRemainingTime(String time) {
 
     final orderedTime = DateTime.parse(time);
-    final deliveryTime = orderedTime.add(const Duration(minutes: 20));
+    final deliveryTime = orderedTime.add( Duration(minutes: 20));
     final diff = deliveryTime.difference(DateTime.now());
 
     if (diff.isNegative) return "Delivered";
@@ -35,9 +35,8 @@ class _OrdersPageState extends State<OrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
-
       appBar: AppBar(
-        title:  Text("Your Cart"),
+        title:  Text("  Your Orders"),
         centerTitle: true,
         backgroundColor: Colors.orange,
       ),
@@ -47,7 +46,7 @@ class _OrdersPageState extends State<OrdersPage> {
           if (box.isEmpty) {
             return  Center(
               child: Text(
-                "Your cart is empty 🛒",
+                " empty 🛒",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             );
@@ -225,6 +224,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     ),
                   ],
                 ),
+                
               ),
             ],
           );

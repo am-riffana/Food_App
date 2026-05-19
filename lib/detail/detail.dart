@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/models/resturant_model.dart';
-import 'package:foodapp/screens/order.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 class DetailsPage extends StatefulWidget {
 
