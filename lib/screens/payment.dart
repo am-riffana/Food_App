@@ -1,104 +1,158 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:foodapp/screens/card_payment.dart';
+import 'package:foodapp/screens/cash_payment.dart';
+import 'package:foodapp/screens/upi_payment.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
   final double total;
 
   const PaymentPage({super.key, required this.total});
 
-  void completePayment(BuildContext context) {
-    final box = Hive.box('orders');
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
 
-    for (int i = 0; i < box.length; i++) {
-      final item = Map<String, dynamic>.from(box.getAt(i));
+class _PaymentPageState extends State<PaymentPage> {
 
-      box.putAt(i, {
-        ...item,
-        "status": "ordered",
-        "orderedTime": DateTime.now().toIso8601String(),
-      });
+  void navigate(BuildContext context, String method) {
+    if (method == "Card") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CardPayment(total: widget.total),
+        ),
+      );
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-       SnackBar(content: Text("Payment Successful 🎉")),
-    );
+    if (method == "UPI") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => UpiPayment(total: widget.total),
+        ),
+      );
+    }
 
-    Navigator.of(context).popUntil((route) => route.isFirst);
+    if (method == "Cash") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CodPayment(total: widget.total),
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        title:  Text("Payment"),
+        title:  Text("Checkout"),
         backgroundColor: Colors.orange,
+        centerTitle: true,
       ),
-      body: Padding(
-        padding:  EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Container(
+      body: Column(
+        children: [
+           SizedBox(height: 20),
+          Container(
+            margin:  EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow:  [
+                BoxShadow(color: Colors.black12, blurRadius: 6),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                 Text(
+                  "Total Amount",
+                  style: TextStyle(fontSize: 18),
+                ),
+                Text(
+                  "₹${widget.total.toStringAsFixed(2)}",
+                  style:  TextStyle(
+                    fontSize: 22,
+                    color: Colors.orange,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+           SizedBox(height: 10),
+          GestureDetector(
+            onTap: () => navigate(context, "Card"),
+            child: Container(
+              margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               padding:  EdgeInsets.all(16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow:  [
+                  BoxShadow(color: Colors.black12, blurRadius: 6),
+                ],
+              ),
+              child:  Row(
                 children: [
-                   Text(
-                    "Total Amount",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Text(
-                    "₹${total.toStringAsFixed(2)}",
-                    style:  TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.orange,
-                    ),
-                  ),
+                  Icon(Icons.credit_card, color: Colors.orange),
+                  SizedBox(width: 12),
+                  Text("Card Payment", style: TextStyle(fontSize: 16)),
+                  Spacer(),
+                  Icon(Icons.arrow_forward_ios, size: 16),
                 ],
               ),
             ),
-
-             SizedBox(height: 20),
-
-            _paymentTile("Cash on Delivery"),
-            _paymentTile("UPI"),
-            _paymentTile("Card"),
-
-             Spacer(),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () => completePayment(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding:  EdgeInsets.symmetric(vertical: 16),
-                ),
-                child:  Text(
-                  "Pay Now",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
+          ),
+          GestureDetector(
+            onTap: () => navigate(context, "UPI"),
+            child: Container(
+              margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding:  EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow:  [
+                  BoxShadow(color: Colors.black12, blurRadius: 6),
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _paymentTile(String title) {
-    return Container(
-      margin:  EdgeInsets.only(bottom: 12),
-      padding:  EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-           Icon(Icons.payment),
-           SizedBox(width: 10),
-          Text(title),
+              child:  Row(
+                children: [
+                  Icon(Icons.account_balance_wallet, color: Colors.orange),
+                  SizedBox(width: 12),
+                  Text("UPI Payment", style: TextStyle(fontSize: 16)),
+                  Spacer(),
+                  Icon(Icons.arrow_forward_ios, size: 16),
+                ],
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => navigate(context, "Cash"),
+            child: Container(
+              margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              padding:  EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow:  [
+                  BoxShadow(color: Colors.black12, blurRadius: 6),
+                ],
+              ),
+              child:  Row(
+                children: [
+                  Icon(Icons.delivery_dining, color: Colors.orange),
+                  SizedBox(width: 12),
+                  Text("Cash on Delivery", style: TextStyle(fontSize: 16)),
+                  Spacer(),
+                  Icon(Icons.arrow_forward_ios, size: 16),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

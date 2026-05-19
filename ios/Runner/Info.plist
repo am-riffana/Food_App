@@ -42,7 +42,6 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
-	<!-- ✅ ADD THIS (Fix for Firebase warning) -->
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -94,15 +93,26 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 
-	<!-- ✅ Firebase URL Scheme -->
+	<!-- 🔥 URL SCHEMES (Firebase + Supabase) -->
 	<key>CFBundleURLTypes</key>
 	<array>
+
+		<!-- Firebase -->
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>app-1-764009059570-ios-fbc1463b629303f6766c6b</string>
 			</array>
 		</dict>
+
+		<!-- Supabase (IMPORTANT FOR GOOGLE LOGIN) -->
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>io.supabase.flutter</string>
+			</array>
+		</dict>
+
 	</array>
 
 </dict>

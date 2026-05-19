@@ -7,7 +7,7 @@ class FoodSearchBar extends StatelessWidget {
   final VoidCallback? onSearchTap;
   final bool isSearching;
 
-   const FoodSearchBar({
+  const FoodSearchBar({
     super.key,
     required this.controller,
     required this.onSearchChanged,

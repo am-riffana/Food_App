@@ -1,65 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:foodapp/screens/login_screen.dart';
 
-class Admin extends StatelessWidget {
-  const Admin({super.key});
-
-  Future<void> logout(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.remove('isLoggedIn');
-    await prefs.remove('email');
-
-    Navigator.pushAndRemoveUntil(
-      context,
-      MaterialPageRoute(builder: (_) => LoginScreen()),
-      (route) => false,
-    );
-  }
+class AdminScreen extends StatelessWidget {
+  const AdminScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Admin Panel"),
-        backgroundColor: Colors.orange,
-        actions: [
-          IconButton(
-            onPressed: () {
-              logout(context);
-            },
-            icon: Icon(Icons.logout),
-          ),
-        ],
+        title: const Text("Admin Panel"),
+        backgroundColor: Colors.black,
       ),
 
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
+
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
 
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                minimumSize: Size(double.infinity, 50),
-              ),
-              child: Text("Add Food Item"),
-            ),
-
-            SizedBox(height: 20),
-
-            Expanded(
-              child: Center(
-                child: Text(
-                  "Food items will appear here 🍔",
-                  style: TextStyle(fontSize: 16),
-                ),
+            const Text(
+              "Welcome Admin 👑",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
+
+            const SizedBox(height: 20),
+
+            // Example cards
+            adminCard("Total Users"),
+            adminCard("Orders"),
+            adminCard("Revenue"),
+            adminCard("Food Items"),
+
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget adminCard(String title) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.orange.shade100,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

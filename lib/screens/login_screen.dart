@@ -3,14 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodapp/screens/main_screen.dart';
 import 'package:foodapp/widgets/admin.dart';
 import 'signup_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -18,13 +16,11 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
-
   Future<void> saveLogin(String email) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
     await prefs.setString('email', email);
   }
-
   void login() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
@@ -51,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email == "rifanasherin80@gmail.com" && password == "1234") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => Admin()),
+        MaterialPageRoute(builder: (_) => AdminScreen()),
       );
     } else {
       Navigator.pushReplacement(
@@ -60,12 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
-
   void showMessage(String msg, Color color) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(msg), backgroundColor: color));
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,13 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             Icon(Icons.fastfood, color: Colors.orange, size: 60),
             SizedBox(height: 20),
-
             Text("Login", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
             SizedBox(height: 20),
-
             TextField(
               controller: emailController,
               decoration: InputDecoration(
@@ -94,7 +85,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderSide: BorderSide.none),
               ),
             ),
-
             SizedBox(height: 15),
 
             TextField(
@@ -110,7 +100,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderSide: BorderSide.none),
               ),
             ),
-
             SizedBox(height: 20),
 
             SizedBox(
@@ -124,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text("Login", style: TextStyle(color: Colors.white)),
               ),
             ),
-
             SizedBox(height: 20),
 
             TextButton(

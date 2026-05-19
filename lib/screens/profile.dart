@@ -48,7 +48,8 @@ class ProfilePage extends StatelessWidget {
                   Text(
                     "Food Lover 🍔",
                     style:
-                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 18,
+                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "user@email.com",
@@ -57,7 +58,6 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             ),
-
             Container(
               margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
@@ -73,7 +73,6 @@ class ProfilePage extends StatelessWidget {
                 },
               ),
             ),
-
             Container(
               margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
@@ -88,7 +87,6 @@ class ProfilePage extends StatelessWidget {
                 onTap: () {},
               ),
             ),
-
             Container(
               margin:  EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
