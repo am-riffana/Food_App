@@ -19,7 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String email = emailController.text.trim();
 
     if (email.isEmpty) {
-      showMessage("Enter Email", Colors.red);
+      showMessage("Enter Email", const Color.fromARGB(255, 110, 30, 25));
       return;
     }
     setState(() {
@@ -38,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         MaterialPageRoute(builder: (_) => Otpscreen(email: email)),
       );
     } catch (e) {
-      showMessage(e.toString(), Colors.red);
+      showMessage(e.toString(), const Color.fromARGB(255, 152, 38, 30));
     } finally {
       setState(() {
         isLoading = false;
@@ -61,10 +61,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Sign Up",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
+              "Sign Up",style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),),
+            SizedBox(height: 10),
+            Text('Create an account to continue',style: TextStyle(fontSize: 12,color: Colors.grey),),
+            SizedBox(height: 15),
             TextField(
               controller: firstname,
               decoration: InputDecoration(
@@ -125,12 +125,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 onPressed: isLoading ? null : sendOtp,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                 ),
                 child: isLoading
                     ? CircularProgressIndicator(color: Colors.white)
                     : Text(
-                        "Send OTP",
+                        " Sign Up",
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
               ),
@@ -141,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               child: OutlinedButton(
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(vertical: 12),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
     String password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      showMessage("Enter email & password", Colors.orange);
+      showMessage("Enter email & password", const Color.fromARGB(255, 131, 31, 25));
       return;
     }
 
@@ -71,8 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             Icon(Icons.fastfood, color: Colors.orange, size: 60),
             SizedBox(height: 20),
-            Text("Login", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+            Text("Welcome back!", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
             SizedBox(height: 20),
+            Text('Login to Continue',style: TextStyle(fontSize: 12,color: const Color.fromARGB(255, 112, 111, 111)),),
+            SizedBox(height: 10),
             TextField(
               controller: emailController,
               decoration: InputDecoration(

@@ -38,7 +38,7 @@ class _OtpscreenState extends State<Otpscreen> {
     timer?.cancel();
 
     setState(() {
-      secondsRemaining = 30;
+      secondsRemaining = 60;
       canResend = false;
     });
 

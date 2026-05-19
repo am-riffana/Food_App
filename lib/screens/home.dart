@@ -277,13 +277,12 @@ class _HomePageState extends State<HomePage> {
               });
             },
           ),
-
           SizedBox(height: 10),
 
           SizedBox(height: 160, child: AutoBannerSlider()),
 
           SizedBox(height: 10),
-
+      
           CategorySection(
             categories: _categories,
             selectedIndex: _catIndex,
