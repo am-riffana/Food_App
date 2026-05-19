@@ -51,7 +51,6 @@ class FoodSearchBar extends StatelessWidget {
               Icon(Icons.notifications),
             ],
           ),
-
           SizedBox(height: 14),
           Row(
             children: [
@@ -87,7 +86,6 @@ class FoodSearchBar extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10),
-
               Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(

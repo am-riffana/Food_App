@@ -289,9 +289,7 @@ class _HomePageState extends State<HomePage> {
             selectedIndex: _catIndex,
             onTap: (i) => setState(() => _catIndex = i),
           ),
-
           SizedBox(height: 10),
-
           Expanded(
             child: GridView.builder(
               padding: EdgeInsets.all(12),

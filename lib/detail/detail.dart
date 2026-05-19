@@ -209,7 +209,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       ],
                     ),
                   ),
-                   SizedBox(height: 20),
+                   SizedBox(height: 15),
                    Text(
                     "About this restaurant",
                     style: TextStyle(
@@ -222,7 +222,6 @@ class _DetailsPageState extends State<DetailsPage> {
                     "Delicious food prepared with fresh ingredients. Fast delivery and hygienic packaging guaranteed.",
                     style: TextStyle(height: 1.5),
                   ),
-                   SizedBox(height: 30),
                 ],
               ),
             ),
