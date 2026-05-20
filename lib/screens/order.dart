@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/payment.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:foodapp/widgets/track_order.dart';
+import 'package:hive_flutter/adapters.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -8,8 +8,8 @@ class OrdersPage extends StatefulWidget {
   @override
   State<OrdersPage> createState() => _OrdersPageState();
 }
-class _OrdersPageState extends State<OrdersPage> {
 
+class _OrdersPageState extends State<OrdersPage> {
   late Box ordersBox;
 
   @override
@@ -17,216 +17,390 @@ class _OrdersPageState extends State<OrdersPage> {
     super.initState();
     ordersBox = Hive.box('orders');
   }
-  String getRemainingTime(String time) {
 
+  String deliveryTime(String time) {
     final orderedTime = DateTime.parse(time);
-    final deliveryTime = orderedTime.add( Duration(minutes: 20));
-    final diff = deliveryTime.difference(DateTime.now());
 
-    if (diff.isNegative) return "Delivered";
+    final delivery = orderedTime.add(
+      const Duration(minutes: 25),
+    );
 
-    final minutes = diff.inMinutes;
-    final seconds = diff.inSeconds % 60;
+    final diff = delivery.difference(
+      DateTime.now(),
+    );
 
-    return "$minutes:${seconds.toString().padLeft(2, '0')} min";
+    if (diff.isNegative) {
+      return "Delivered";
+    }
+
+    return "${diff.inMinutes} mins away";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF2F2F2),
+
       appBar: AppBar(
-        title:  Text("  Your Orders"),
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
-        backgroundColor: Colors.orange,
+
+        title: const Text(
+          "Your Orders",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
-      body: ValueListenableBuilder<Box>(
+
+      body: ValueListenableBuilder(
         valueListenable: ordersBox.listenable(),
+
         builder: (context, box, _) {
-          if (box.isEmpty) {
-            return  Center(
-              child: Text(
-                " empty 🛒",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          final items = box.values.toList();
+
+          if (items.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment:
+                    MainAxisAlignment.center,
+                children: const [
+                  Icon(
+                    Icons.shopping_bag_outlined,
+                    size: 90,
+                    color: Colors.orange,
+                  ),
+
+                  SizedBox(height: 15),
+
+                  Text(
+                    "No Orders Yet",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  SizedBox(height: 6),
+
+                  Text(
+                    "Order something tasty 🍔",
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             );
           }
-          double total = 0;
-          List items = [];
-          for (int i = 0; i < box.length; i++) {
-            final data = box.getAt(i);
-            if (data is Map) {
-              final item = Map<String, dynamic>.from(data);
-              items.add(item);
-              total += (item['price'] ?? 0) * (item['qty'] ?? 0);
-            }
-          }
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  padding:  EdgeInsets.all(12),
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                    final item = items[index];
-                    final int price = item['price'] ?? 0;
-                    final int qty = item['qty'] ?? 1;
-                    final status = item['status'] ?? "cart";
-                    return Container(
-                      margin:  EdgeInsets.only(bottom: 12),
-                      padding:  EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(18),
-                        boxShadow:  [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                          )
-                        ],
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(14),
+            itemCount: items.length,
+
+            itemBuilder: (context, index) {
+              final item = items[index];
+
+              return Container(
+                margin: const EdgeInsets.only(
+                  bottom: 16,
+                ),
+
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius:
+                      BorderRadius.circular(22),
+
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 8,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+
+                child: Column(
+                  children: [
+
+                    /// TOP STATUS
+                    Container(
+                      padding:
+                          const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
                       ),
+
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade50,
+
+                        borderRadius:
+                            const BorderRadius.vertical(
+                          top: Radius.circular(22),
+                        ),
+                      ),
+
                       child: Row(
                         children: [
+
+                          const Icon(
+                            Icons.delivery_dining,
+                            color: Colors.orange,
+                          ),
+
+                          const SizedBox(width: 10),
+
+                          Expanded(
+                            child: Text(
+                              item['orderedTime'] !=
+                                      null
+                                  ? deliveryTime(
+                                      item[
+                                          'orderedTime'],
+                                    )
+                                  : "Preparing",
+
+                              style: const TextStyle(
+                                fontWeight:
+                                    FontWeight.bold,
+                                color: Colors.orange,
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            padding:
+                                const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 5,
+                            ),
+
+                            decoration: BoxDecoration(
+                              color: Colors.green
+                                  .shade100,
+
+                              borderRadius:
+                                  BorderRadius.circular(
+                                20,
+                              ),
+                            ),
+
+                            child: const Text(
+                              "LIVE",
+
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight:
+                                    FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(14),
+
+                      child: Row(
+                        children: [
+
+                          /// IMAGE
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
+                            borderRadius:
+                                BorderRadius.circular(
+                              16,
+                            ),
+
                             child: Image.network(
-                              item['image'] ?? '',
-                              width: 85,
-                              height: 85,
+                              item['image'],
+                              height: 100,
+                              width: 100,
                               fit: BoxFit.cover,
                             ),
                           ),
-                           SizedBox(width: 12),
+
+                          const SizedBox(width: 14),
+
+                          /// DETAILS
                           Expanded(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item['name'] ?? '',
-                                  style:  TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                 SizedBox(height: 6),
-                                Text(
-                                  "₹$price x $qty",
-                                  style:  TextStyle(color: Colors.grey),
-                                ),
-                                 SizedBox(height: 6),
-                                Container(
-                                  padding:  EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: status == "ordered"
-                                        ? Colors.green.shade100
-                                        : Colors.orange.shade100,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
+                              crossAxisAlignment:
+                                  CrossAxisAlignment
+                                      .start,
 
-                                  child: Text(
-                                    status == "ordered"
-                                        ? "Ordered"
-                                        : "In Cart",
-                                    style: TextStyle(
-                                      color: status == "ordered"
-                                          ? Colors.green
-                                          : Colors.orange,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                 SizedBox(height: 6),
+                              children: [
+
                                 Text(
-                                  "Total: ₹${price * qty}",
-                                  style:  TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                  item['name'],
+
+                                  maxLines: 1,
+                                  overflow:
+                                      TextOverflow
+                                          .ellipsis,
+
+                                  style:
+                                      const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight:
+                                        FontWeight.bold,
                                   ),
                                 ),
-                                if (status == "ordered" &&
-                                    item['orderedTime'] != null)
-                                  Text(
-                                    "Delivery: ${getRemainingTime(item['orderedTime'])}",
-                                    style: const TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+
+                                const SizedBox(
+                                    height: 6),
+
+                                const Text(
+                                  "Delivered by FoodApp",
+
+                                  style: TextStyle(
+                                    color:
+                                        Colors.grey,
                                   ),
+                                ),
+
+                                const SizedBox(
+                                    height: 10),
+
+                                Row(
+                                  children: [
+
+                                    Container(
+                                      padding:
+                                          const EdgeInsets.symmetric(
+                                        horizontal:
+                                            10,
+                                        vertical: 5,
+                                      ),
+
+                                      decoration:
+                                          BoxDecoration(
+                                        color: Colors
+                                            .orange
+                                            .shade50,
+
+                                        borderRadius:
+                                            BorderRadius.circular(
+                                          12,
+                                        ),
+                                      ),
+
+                                      child: Text(
+                                        "Qty ${item['qty']}",
+                                        style:
+                                            const TextStyle(
+                                          color:
+                                              Colors.orange,
+                                          fontWeight:
+                                              FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                        width: 10),
+
+                                    Text(
+                                      "₹${item['price'] * item['qty']}",
+
+                                      style:
+                                          const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight:
+                                            FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                const SizedBox(
+                                    height: 12),
+
+                                Row(
+                                  children: [
+
+                                    Expanded(
+                                      child: ElevatedButton(
+                                        style:
+                                            ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              Colors.orange,
+
+                                          shape:
+                                              RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(
+                                              12,
+                                            ),
+                                          ),
+                                        ),
+
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context, 
+                                            MaterialPageRoute(builder: (context)=>TrackOrderPage(itemName: item['name'], image: item['image'], orderedTime: item['orderedTime']??
+                                            DateTime.now().toIso8601String())));
+
+                                        },
+
+                                        child: const Text(
+                                          "Track Order",
+
+                                          style: TextStyle(
+                                            color:
+                                                Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    const SizedBox(
+                                        width: 10),
+
+                                    Container(
+                                      decoration:
+                                          BoxDecoration(
+                                        border:
+                                            Border.all(
+                                          color:
+                                              Colors.red,
+                                        ),
+
+                                        borderRadius:
+                                            BorderRadius.circular(
+                                          12,
+                                        ),
+                                      ),
+
+                                      child: IconButton(
+                                        onPressed: () {
+                                          box.deleteAt(
+                                            index,
+                                          );
+                                        },
+
+                                        icon: const Icon(
+                                          Icons.delete_outline,
+                                          color:
+                                              Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
-                          IconButton(
-                            onPressed: () {
-                              box.deleteAt(index);
-                            },
-                            icon:  Icon(Icons.delete, color: Colors.red),
-                          ),
                         ],
                       ),
-                    );
-                  },
-                ),
-              ),
-              Container(
-                padding:  EdgeInsets.all(16),
-                decoration:  BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(color: Colors.black12, blurRadius: 10),
-                  ],
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         Text(
-                          "Total Price",
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Text(
-                          "₹${total.toStringAsFixed(0)}",
-                          style:  TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orange,
-                          ),
-                        ),
-                      ],
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        padding:  EdgeInsets.symmetric(
-                          horizontal: 25,
-                          vertical: 14,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => PaymentPage(total: total),
-                          ),
-                        );
-                      },
-                      child:  Text(
-                        "Checkout",
-                        style: TextStyle(color: Colors.white),
-                      ),
                     ),
                   ],
                 ),
-                
-              ),
-            ],
+              );
+            },
           );
         },
       ),

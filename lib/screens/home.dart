@@ -1,238 +1,329 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/models/resturant_model.dart';
-import 'package:foodapp/widgets/search.dart';
-import 'package:foodapp/widgets/categories.dart';
-import 'package:foodapp/widgets/slide_banner.dart';
+import 'package:foodapp/screens/notification_page.dart';
+import 'package:foodapp/screens/profile.dart';
 import 'package:foodapp/widgets/big_resturant.dart';
+import 'package:foodapp/widgets/search.dart';
+import 'package:foodapp/widgets/slide_banner.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() =>
+      _HomePageState();
 }
+
 class _HomePageState extends State<HomePage> {
-  int _catIndex = 0;
+
   bool isSearching = false;
   String _searchText = "";
-  final TextEditingController _searchController = TextEditingController();
 
-  final _categories = [
-    ('🍽️', 'All'),
-    ('🍔', 'Burgers'),
-    ('🍕', 'Pizza'),
-    ('🍱', 'Sushi'),
-    ('🥗', 'Salads'),
-    ('🍰', 'Desserts'),
-    
-  ];
+  final TextEditingController
+      _searchController =
+      TextEditingController();
 
   final List<Restaurant> _items = [
+
+    /// CHEESE BURGER
     Restaurant(
       name: 'Cheese Burger',
       rating: '4.8',
       distance: '2 km',
       isOpen: true,
+
       images: [
         'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=800',
       ],
+
       price: 199,
       category: 'Burgers',
+
+      ingredients: [
+        "Cheese",
+        "Tomato",
+        "Onion",
+        "Lettuce",
+        "Burger Sauce",
+      ],
+
+      description:
+          "Juicy grilled cheese burger with crispy lettuce and creamy burger sauce.",
+
+      deliveryTime: "25 mins",
+
+      offer:
+          "50% OFF up to ₹100",
     ),
 
+    /// PEPPERONI PIZZA
     Restaurant(
       name: 'Pepperoni Pizza',
       rating: '4.6',
       distance: '1 km',
       isOpen: true,
+
       images: [
         'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800',
       ],
+
       price: 299,
       category: 'Pizza',
+
+      ingredients: [
+        "Pepperoni",
+        "Mozzarella",
+        "Tomato Sauce",
+        "Olives",
+      ],
+
+      description:
+          "Classic pepperoni pizza loaded with rich mozzarella cheese.",
+
+      deliveryTime: "30 mins",
+
+      offer:
+          "Free Coke on orders above ₹499",
     ),
 
+    /// MARGHERITA PIZZA
     Restaurant(
-      name: 'margherita pizza',
+      name: 'Margherita Pizza',
       rating: '4.9',
-      distance: '2km',
+      distance: '2 km',
       isOpen: true,
+
       images: [
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmomF1DksRYo9MLTC6zi2qx1XjX7R5PSqPYQ&s',
       ],
+
       price: 399,
       category: 'Pizza',
-    ),
-    Restaurant(
-      name: 'sicilian pizza',
-      rating: '5.5',
-      distance: '3.5km',
-      isOpen: true,
-      images: [
-        'https://www.seriouseats.com/thmb/uWam_1G3L2QhYeARM_9W_OY6jD4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__images__2016__05__20160503-spicy-spring-pizza-recipe-37-2be36645b22a4ef3b3545bdb6ab2ad61.jpg',
+
+      ingredients: [
+        "Fresh Basil",
+        "Mozzarella",
+        "Tomato",
+        "Olive Oil",
       ],
-      price: 329,
-      category: 'Pizza',
-    ),
-    Restaurant(
-      name: 'hawaiian pizza',
-      rating: '4.9',
-      distance: '1.5 km',
-      isOpen: true,
-      images: [
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSo0zdloorMSKb9nPMUAGY47xznZiWwSCH6Cw&s',
-      ],
-      price: 299,
-      category: 'Pizza',
+
+      description:
+          "Fresh margherita pizza topped with basil and creamy mozzarella.",
+
+      deliveryTime: "28 mins",
+
+      offer:
+          "Flat ₹75 OFF on first order",
     ),
 
+    /// SUSHI SET
     Restaurant(
       name: 'Sushi Set',
       rating: '4.9',
       distance: '4 km',
       isOpen: true,
+
       images: [
         'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=800',
       ],
+
       price: 499,
       category: 'Sushi',
-    ),
-    Restaurant(
-      name: 'Maki Sushi',
-      rating: '5.9',
-      distance: '6 km',
-      isOpen: true,
-      images: [
-        'https://takestwoeggs.com/wp-content/uploads/2023/08/Tekka-Maki-Tuna-Sushi-Roll-Takestwoeggs-sq.jpg',
+
+      ingredients: [
+        "Rice",
+        "Salmon",
+        "Seaweed",
+        "Soy Sauce",
       ],
-      price: 399,
-      category: 'Sushi',
+
+      description:
+          "Premium sushi platter with authentic Japanese taste and fresh salmon.",
+
+      deliveryTime: "35 mins",
+
+      offer:
+          "20% OFF on sushi combo",
     ),
-    Restaurant(
-      name: 'Temaki Sushi',
-      rating: '5.0',
-      distance: '4.5 km',
-      isOpen: true,
-      images: [
-        'https://www.worldofvegan.com/wp-content/uploads/2022/12/temaki-sushi-hand-rolls.jpg',
-      ],
-      price: 300,
-      category: 'Sushi',
-    ),
-    Restaurant(
-      name: 'Salmon Sashimi',
-      rating: '5.0',
-      distance: '2 km',
-      isOpen: true,
-      images: [
-        'https://www.manusmenu.com/wp-content/uploads/2016/06/salmon-sashimi-served-with-ponzu-and-wasabi-500x375.webp',
-      ],
-      price: 600,
-      category: 'Sushi',
-    ),
+
+    /// CLASSIC BEEF BURGER
     Restaurant(
       name: 'Classic Beef Burger',
       rating: '4.8',
       distance: '1.9 km',
       isOpen: true,
+
       images: [
         'https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480/img/recipe/ras/Assets/102cf51c-9220-4278-8b63-2b9611ad275e/Derivates/3831dbe2-352e-4409-a2e2-fc87d11cab0a.jpg',
       ],
+
       price: 200,
       category: 'Burgers',
-    ),
-    Restaurant(
-      name: 'Turkey Burger',
-      rating: '5.0',
-      distance: '2.2km',
-      isOpen: true,
-      images: [
-        'https://hips.hearstapps.com/hmg-prod/images/turkey-burger-index-64873e8770b34.jpg?crop=0.8888888888888888xw:1xh;center,top&resize=1200:*',
+
+      ingredients: [
+        "Beef Patty",
+        "Cheddar Cheese",
+        "Onion",
+        "Lettuce",
       ],
-      price: 299,
-      category: 'Burgers',
+
+      description:
+          "Tender beef burger with smoky grilled flavors and soft buns.",
+
+      deliveryTime: "22 mins",
+
+      offer:
+          "Buy 1 Get 1 Free",
     ),
 
-    Restaurant(
-      name: 'Veggie Burger',
-      rating: '4.5',
-      distance: '3.5 km',
-      isOpen: false,
-      images: [
-        'https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_1:1/tk%2Fphoto%2F2025%2F06-2025%2F2025-06-veggie-burger%2Fveggie-burger-340',
-      ],
-      price: 305,
-      category: 'Burgers',
-    ),
-    Restaurant(
-      name: 'Caesar Salad',
-      rating: '4.5',
-      distance: '1.2 km',
-      isOpen: true,
-      images: [
-        'https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=800',
-      ],
-      price: 180,
-      category: 'Salads',
-    ),
-
+    /// GREEK SALAD
     Restaurant(
       name: 'Greek Salad',
       rating: '4.7',
       distance: '2 km',
       isOpen: true,
+
       images: [
         'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800',
       ],
+
       price: 220,
       category: 'Salads',
+
+      ingredients: [
+        "Cucumber",
+        "Tomato",
+        "Olives",
+        "Feta Cheese",
+      ],
+
+      description:
+          "Healthy greek salad packed with crunchy vegetables and feta cheese.",
+
+      deliveryTime: "18 mins",
+
+      offer:
+          "Healthy combo at ₹299",
     ),
 
-    Restaurant(
-      name: 'Veggie Bowl',
-      rating: '4.3',
-      distance: '3 km',
-      isOpen: false,
-      images: [
-        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800',
-      ],
-      price: 200,
-      category: 'Salads',
-    ),
+    /// CHOCOLATE CAKE
     Restaurant(
       name: 'Chocolate Cake',
       rating: '4.9',
       distance: '1 km',
       isOpen: true,
+
       images: [
         'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800',
       ],
+
       price: 250,
       category: 'Desserts',
+
+      ingredients: [
+        "Chocolate",
+        "Cream",
+        "Cocoa",
+        "Milk",
+      ],
+
+      description:
+          "Soft chocolate cake layered with creamy frosting and cocoa flavor.",
+
+      deliveryTime: "20 mins",
+
+      offer:
+          "Free dessert on orders above ₹599",
     ),
 
+    /// ICE CREAM
     Restaurant(
       name: 'Ice Cream',
       rating: '4.6',
       distance: '2.5 km',
       isOpen: true,
+
       images: [
         'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800',
       ],
+
       price: 120,
       category: 'Desserts',
+
+      ingredients: [
+        "Milk",
+        "Cream",
+        "Vanilla",
+        "Chocolate Syrup",
+      ],
+
+      description:
+          "Creamy and chilled ice cream with delicious sweet toppings.",
+
+      deliveryTime: "15 mins",
+
+      offer:
+          "Buy 2 Scoops Get 1 Free",
     ),
 
+    /// TURKEY BURGER
     Restaurant(
-      name: 'Cupcake',
-      rating: '4.4',
-      distance: '1.8 km',
+      name: 'Turkey Burger',
+      rating: '5.0',
+      distance: '2.2 km',
       isOpen: true,
+
       images: [
-        'https://www.preciouscore.com/wp-content/uploads/2025/07/ChocolateCupcakeswithchocolatefrosting_Feature_4.jpg',
+        'https://hips.hearstapps.com/hmg-prod/images/turkey-burger-index-64873e8770b34.jpg?crop=0.8888888888888888xw:1xh;center,top&resize=1200:*',
       ],
-      price: 90,
-      category: 'Desserts',
+
+      price: 299,
+      category: 'Burgers',
+
+      ingredients: [
+        "Turkey Patty",
+        "Tomato",
+        "Lettuce",
+        "Cheese",
+      ],
+
+      description:
+          "Healthy turkey burger with juicy meat and fresh vegetables.",
+
+      deliveryTime: "24 mins",
+
+      offer:
+          "Free fries with burger combo",
+    ),
+
+    /// VEGGIE BOWL
+    Restaurant(
+      name: 'Veggie Bowl',
+      rating: '4.3',
+      distance: '3 km',
+      isOpen: false,
+
+      images: [
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800',
+      ],
+
+      price: 200,
+      category: 'Salads',
+
+      ingredients: [
+        "Broccoli",
+        "Corn",
+        "Rice",
+        "Carrot",
+      ],
+
+      description:
+          "Healthy veggie bowl loaded with fresh vegetables and herbs.",
+
+      deliveryTime: "20 mins",
+
+      offer:
+          "20% OFF on healthy meals",
     ),
   ];
 
@@ -244,68 +335,280 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedCategory = _categories[_catIndex].$2;
 
-    final displayList = _items.where((r) {
-      final matchCategory =
-          selectedCategory == 'All' || r.category == selectedCategory;
+    final displayList =
+        _items.where((r) {
 
-      final matchSearch = r.name.toLowerCase().contains(
-        _searchText.toLowerCase(),
-      );
+      final matchSearch = r.name
+          .toLowerCase()
+          .contains(
+            _searchText.toLowerCase(),
+          );
 
-      return matchCategory && matchSearch;
+      return matchSearch;
+
     }).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F8F8),
-      body: Column(
-        children: [
-          FoodSearchBar(
-            controller: _searchController,
-            isSearching: isSearching,
-            onSearchTap: () {
-              setState(() => isSearching = true);
-            },
-            onSearchChanged: (value) {
-              setState(() => _searchText = value);
-            },
-            onClear: () {
-              setState(() {
-                _searchController.clear();
-                _searchText = "";
-                isSearching = false;
-              });
-            },
-          ),
-          SizedBox(height: 10),
+      backgroundColor:
+          const Color(0xFFF8F8F8),
 
-          SizedBox(height: 160, child: AutoBannerSlider()),
+      body: SafeArea(
+        child: Column(
+          children: [
 
-          SizedBox(height: 10),
-
-          CategorySection(
-            categories: _categories,
-            selectedIndex: _catIndex,
-            onTap: (i) => setState(() => _catIndex = i),
-          ),
-          SizedBox(height: 10),
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(12),
-              itemCount: displayList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-                childAspectRatio: 0.68,
+            /// TOP HEADER
+            Container(
+              padding:
+                  const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 14,
               ),
-              itemBuilder: (context, index) {
-                return RestaurantCard(restaurant: displayList[index]);
-              },
+
+              color: Colors.white,
+
+              child: Column(
+                children: [
+
+                  /// LOCATION + ICONS
+                  Row(
+                    children: [
+
+                      const Icon(
+                        Icons.location_on,
+                        color: Colors.orange,
+                        size: 28,
+                      ),
+
+                      const SizedBox(width: 8),
+
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment:
+                              CrossAxisAlignment
+                                  .start,
+
+                          children: [
+
+                            Text(
+                              "Home",
+
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight:
+                                    FontWeight.bold,
+                              ),
+                            ),
+
+                            SizedBox(height: 2),
+
+                            Text(
+                              "Calicut, Kerala",
+
+                              style: TextStyle(
+                                color:
+                                    Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// NOTIFICATION BUTTON
+                      GestureDetector(
+                        onTap: () {
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  const NotificationPage(),
+                            ),
+                          );
+
+                        },
+
+                        child: Stack(
+                          children: [
+
+                            Container(
+                              padding:
+                                  const EdgeInsets.all(
+                                10,
+                              ),
+
+                              decoration:
+                                  BoxDecoration(
+                                color: Colors
+                                    .orange
+                                    .shade50,
+
+                                shape:
+                                    BoxShape.circle,
+                              ),
+
+                              child: const Icon(
+                                Icons
+                                    .notifications_none,
+                                color:
+                                    Colors.orange,
+                              ),
+                            ),
+
+                            Positioned(
+                              right: 2,
+                              top: 2,
+
+                              child: Container(
+                                height: 10,
+                                width: 10,
+
+                                decoration:
+                                    const BoxDecoration(
+                                  color: Colors.red,
+                                  shape:
+                                      BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(width: 12),
+
+                      /// PROFILE BUTTON
+                      GestureDetector(
+                        onTap: () {
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  const ProfilePage(),
+                            ),
+                          );
+
+                        },
+
+                        child: Container(
+                          padding:
+                              const EdgeInsets.all(
+                            10,
+                          ),
+
+                          decoration:
+                              BoxDecoration(
+                            color: Colors
+                                .orange
+                                .shade50,
+
+                            shape:
+                                BoxShape.circle,
+                          ),
+
+                          child: const Icon(
+                            Icons.person,
+                            color:
+                                Colors.orange,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 18),
+
+                  /// SEARCH BAR
+                  FoodSearchBar(
+                    controller:
+                        _searchController,
+
+                    isSearching:
+                        isSearching,
+
+                    onSearchTap: () {
+
+                      setState(() {
+                        isSearching = true;
+                      });
+
+                    },
+
+                    onSearchChanged:
+                        (value) {
+
+                      setState(() {
+                        _searchText = value;
+                      });
+
+                    },
+
+                    onClear: () {
+
+                      setState(() {
+
+                        _searchController
+                            .clear();
+
+                        _searchText = "";
+
+                        isSearching = false;
+
+                      });
+
+                    },
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+
+            const SizedBox(height: 12),
+
+            /// BANNER
+            SizedBox(
+              height: 180,
+              child: AutoBannerSlider(),
+            ),
+
+            const SizedBox(height: 10),
+
+            /// GRID
+            Expanded(
+              child: GridView.builder(
+                padding:
+                    const EdgeInsets.all(
+                  12,
+                ),
+
+                itemCount:
+                    displayList.length,
+
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+
+                  crossAxisCount: 2,
+
+                  crossAxisSpacing: 12,
+
+                  mainAxisSpacing: 12,
+
+                  childAspectRatio: 0.68,
+                ),
+
+                itemBuilder:
+                    (context, index) {
+
+                  return RestaurantCard(
+                    restaurant:
+                        displayList[index],
+                  );
+
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

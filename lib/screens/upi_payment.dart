@@ -1,50 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-class UpiPayment extends StatelessWidget {
+class UpiPaymentPage extends StatelessWidget {
   final double total;
 
-  const UpiPayment({super.key, required this.total});
+  const UpiPaymentPage({
+    super.key,
+    required this.total,
+  });
 
-  void pay(BuildContext context) {
-    final box = Hive.box('orders');
-
-    for (int i = 0; i < box.length; i++) {
-      final item = Map<String, dynamic>.from(box.getAt(i));
-
-      box.putAt(i, {
-        ...item,
-        "status": "ordered",
-        "orderedTime": DateTime.now().toIso8601String(),
-      });
-    }
-
-    Navigator.popUntil(context, (route) => route.isFirst);
-  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor:
+          const Color(0xFFF5F5F5),
+
       appBar: AppBar(
-        title: Text("UPI Payment"),
-        backgroundColor: Colors.orange,
+        title: const Text(
+          "UPI Payment",
+        ),
+
+        backgroundColor:
+            Colors.white,
+
+        foregroundColor:
+            Colors.black,
       ),
+
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding:
+            const EdgeInsets.all(16),
+
         child: Column(
           children: [
-            TextField(
-              decoration: InputDecoration
-              (labelText: "Enter UPI ID")),
 
-            Spacer(),
-
-            ElevatedButton(
-              onPressed: () => pay(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                minimumSize: Size(double.infinity, 50),
+            Container(
+              padding:
+                  const EdgeInsets.all(
+                18,
               ),
-              child: Text("Pay via UPI"),
+
+              decoration: BoxDecoration(
+                color: Colors.white,
+
+                borderRadius:
+                    BorderRadius.circular(
+                  20,
+                ),
+              ),
+
+              child: Column(
+                children: [
+
+                  const Icon(
+                    Icons.qr_code,
+                    size: 100,
+                    color: Colors.green,
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  Text(
+                    "Pay ₹${total.toStringAsFixed(2)}",
+
+                    style:
+                        const TextStyle(
+                      fontSize: 24,
+                      fontWeight:
+                          FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  const Text(
+                    "Use any UPI app to complete payment",
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  SizedBox(
+                    width: double.infinity,
+
+                    height: 55,
+
+                    child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.green,
+                      ),
+
+                      onPressed: () {},
+
+                      child: const Text(
+                        "Pay Now",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color:
+                              Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

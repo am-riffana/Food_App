@@ -6,6 +6,10 @@ class Restaurant {
   final List<String> images;
   final int price;
   final String category;
+  final List<String> ingredients;
+  final String description;
+  final String deliveryTime;
+  final String offer;
 
   Restaurant({
     required this.name,
@@ -15,6 +19,10 @@ class Restaurant {
     required this.images,
     required this.price,
     required this.category,
+    required this.ingredients,
+    required this.description,
+    required this.deliveryTime,
+    required this.offer,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,18 +34,38 @@ class Restaurant {
       'images': images,
       'price': price,
       'category': category,
+      'ingredients': ingredients,
+      'description': description,
+      'deliveryTime': deliveryTime,
+      'offer': offer,
     };
   }
 
-  factory Restaurant.fromMap(Map<String, dynamic> map) {
+  factory Restaurant.fromMap(
+    Map<String, dynamic> map,
+  ) {
     return Restaurant(
       name: map['name'] ?? '',
       rating: map['rating'] ?? '0.0',
       distance: map['distance'] ?? '',
       isOpen: map['isOpen'] ?? false,
-      images: List<String>.from(map['images'] ?? []),
+      images: List<String>.from(
+        map['images'] ?? [],
+      ),
       price: map['price'] ?? 0,
       category: map['category'] ?? '',
+
+      ingredients: List<String>.from(
+        map['ingredients'] ?? [],
+      ),
+
+      description:
+          map['description'] ?? '',
+
+      deliveryTime:
+          map['deliveryTime'] ?? '',
+
+      offer: map['offer'] ?? '',
     );
   }
 }

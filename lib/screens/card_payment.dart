@@ -1,63 +1,167 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-class CardPayment extends StatelessWidget {
 
+class CardPaymentPage extends StatelessWidget {
   final double total;
 
-  const CardPayment({super.key, required this.total});
+  const CardPaymentPage({
+    super.key,
+    required this.total,
+  });
 
-  void pay(BuildContext context) {
-
-    final box = Hive.box('orders');
-
-    for (int i = 0; i < box.length; i++) {
-
-      final item = Map<String, dynamic>.from(box.getAt(i));
-
-      box.putAt(i, {
-        ...item,
-        "status": "ordered",
-        "orderedTime": DateTime.now().toIso8601String(),
-      });
-    }
-    Navigator.popUntil(context, (route) => route.isFirst);
-  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor:
+          const Color(0xFFF5F5F5),
+
       appBar: AppBar(
-        title:  Text("Card Payment"),
-        backgroundColor: Colors.orange,
+        title:
+            const Text("Card Payment"),
+
+        backgroundColor:
+            Colors.white,
+
+        foregroundColor:
+            Colors.black,
       ),
+
       body: Padding(
-        padding:  EdgeInsets.all(16),
+        padding:
+            const EdgeInsets.all(16),
+
         child: Column(
           children: [
-            TextField(
-              decoration:  
-              InputDecoration(
-                labelText: "Card Number"),
-            ),
-            TextField(
-              decoration: 
-               InputDecoration(
-                labelText: "Expiry Date"),
-            ),
-            TextField(
-              decoration: 
-               InputDecoration(
-                labelText: "CVV"),
-            ),
-             Spacer(),
 
-            ElevatedButton(
-              onPressed: () => pay(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                minimumSize:  Size(double.infinity, 50),
+            Container(
+              padding:
+                  const EdgeInsets.all(
+                18,
               ),
-              child:  Text("Pay Now"),
-            )
+
+              decoration: BoxDecoration(
+                color: Colors.white,
+
+                borderRadius:
+                    BorderRadius.circular(
+                  20,
+                ),
+              ),
+
+              child: Column(
+                children: [
+
+                  TextField(
+                    decoration:
+                        InputDecoration(
+                      hintText:
+                          "Card Number",
+
+                      border:
+                          OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          14,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  Row(
+                    children: [
+
+                      Expanded(
+                        child: TextField(
+                          decoration:
+                              InputDecoration(
+                            hintText:
+                                "MM/YY",
+
+                            border:
+                                OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.circular(
+                                14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(width: 12),
+
+                      Expanded(
+                        child: TextField(
+                          decoration:
+                              InputDecoration(
+                            hintText: "CVV",
+
+                            border:
+                                OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.circular(
+                                14,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  TextField(
+                    decoration:
+                        InputDecoration(
+                      hintText:
+                          "Card Holder Name",
+
+                      border:
+                          OutlineInputBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          14,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                   SizedBox(height: 24),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 55,
+
+                    child: ElevatedButton(
+                      style:
+                          ElevatedButton.styleFrom(
+                        backgroundColor:
+                            Colors.orange,
+                      ),
+
+                      onPressed: () {
+                        
+                        
+                      },
+
+                      child: Text(
+                        "Pay ₹${total.toStringAsFixed(2)}",
+
+                        style:
+                            const TextStyle(
+                          color:
+                              Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

@@ -13,10 +13,11 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const items = [
-      (Icons.home, 'Home'),
-      (Icons.receipt_long, 'Orders'),
-      (Icons.payment, 'Payment'), 
-      (Icons.person, 'Profile'),
+      (Icons.food_bank, 'Home'),
+      (Icons.add_shopping_cart_rounded,'Cart'),
+
+      (Icons.receipt_long_rounded, 'Orders'),
+      (Icons.payments_rounded, 'Payment'), 
     ];
 
     return Container(

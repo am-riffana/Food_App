@@ -1,58 +1,116 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-class CodPayment extends StatelessWidget {
 
+class CashPaymentPage extends StatelessWidget {
   final double total;
 
-  const CodPayment({super.key, required this.total});
+  const CashPaymentPage({
+    super.key,
+    required this.total,
+  });
 
-  void confirmOrder(BuildContext context) {
-
-    final box = Hive.box('orders');
-
-    for (int i = 0; i < box.length; i++) {
-
-      final item = Map<String, dynamic>.from(box.getAt(i));
-
-      box.putAt(i, {
-        ...item,
-        "status": "ordered",
-        "orderedTime": DateTime.now().toIso8601String(),
-      });
-    }
-    Navigator.popUntil(context, (route) => route.isFirst);
-  }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor:
+          const Color(0xFFF5F5F5),
+
       appBar: AppBar(
-        title:  Text("Cash on Delivery"),
-        backgroundColor: Colors.orange,
+        title: const Text(
+          "Cash On Delivery",
+        ),
+
+        backgroundColor:
+            Colors.white,
+
+        foregroundColor:
+            Colors.black,
       ),
-      body: Column(
-        children: [
-           SizedBox(height: 30),
-           Icon(Icons.delivery_dining, size: 100, color: Colors.orange),
-           SizedBox(height: 20),
 
-           Text(
-            "Pay when your order arrives 🚚",
-            style: TextStyle(fontSize: 18),
-          ),
-           Spacer(),
+      body: Padding(
+        padding:
+            const EdgeInsets.all(16),
 
-          Padding(
-            padding:  EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: () => confirmOrder(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
-                minimumSize:  Size(double.infinity, 50),
-              ),
-              child:  Text("Confirm Order"),
+        child: Container(
+          width: double.infinity,
+
+          padding:
+              const EdgeInsets.all(20),
+
+          decoration: BoxDecoration(
+            color: Colors.white,
+
+            borderRadius:
+                BorderRadius.circular(
+              22,
             ),
-          )
-        ],
+          ),
+
+          child: Column(
+            mainAxisSize:
+                MainAxisSize.min,
+
+            children: [
+
+              const Icon(
+                Icons.delivery_dining,
+                size: 90,
+                color: Colors.orange,
+              ),
+
+              const SizedBox(height: 16),
+
+              Text(
+                "Pay ₹${total.toStringAsFixed(2)} on delivery",
+
+                textAlign:
+                    TextAlign.center,
+
+                style:
+                    const TextStyle(
+                  fontSize: 24,
+                  fontWeight:
+                      FontWeight.bold,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              const Text(
+                "Please keep exact change ready for faster delivery.",
+                textAlign:
+                    TextAlign.center,
+              ),
+
+              const SizedBox(height: 24),
+
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+
+                child: ElevatedButton(
+                  style:
+                      ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.orange,
+                  ),
+
+                  onPressed: () {},
+
+                  child: const Text(
+                    "Confirm Order",
+
+                    style: TextStyle(
+                      color:
+                          Colors.white,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
