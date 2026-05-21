@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/cart.dart';
+import 'package:foodapp/screens/categories.dart';
 import 'package:foodapp/screens/home.dart';
 import 'package:foodapp/screens/order.dart';
 import 'package:foodapp/screens/payment.dart';
@@ -18,10 +20,11 @@ class _MainScreenState
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const HomePage(),
-    const CartPage(),
-    const OrdersPage(),
-    const PaymentPage(total: 0),
+     HomePage(),
+     CategoriesPage(),
+     CartPage(),
+     OrdersPage(),
+     PaymentPage(total: 0),
   ];
 
   @override

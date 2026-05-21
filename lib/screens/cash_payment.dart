@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/screens/order.dart';
 
-class CashPaymentPage extends StatelessWidget {
+class CashPaymentPage extends StatefulWidget {
   final double total;
 
   const CashPaymentPage({
@@ -9,106 +10,264 @@ class CashPaymentPage extends StatelessWidget {
   });
 
   @override
+  State<CashPaymentPage> createState() =>
+      _CashPaymentPageState();
+}
+
+class _CashPaymentPageState
+    extends State<CashPaymentPage> {
+
+  bool isConfirmed = false;
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor:
-          const Color(0xFFF5F5F5),
+          const Color(0xFFF6F6F6),
 
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+
+        centerTitle: true,
+
         title: const Text(
           "Cash On Delivery",
+
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
 
-        backgroundColor:
-            Colors.white,
-
-        foregroundColor:
-            Colors.black,
+        iconTheme:
+            const IconThemeData(
+          color: Colors.black,
+        ),
       ),
 
-      body: Padding(
-        padding:
-            const EdgeInsets.all(16),
-
-        child: Container(
-          width: double.infinity,
-
+      body: Center(
+        child: Padding(
           padding:
-              const EdgeInsets.all(20),
+              const EdgeInsets.all(16),
 
-          decoration: BoxDecoration(
-            color: Colors.white,
+          child: Container(
+            width: double.infinity,
 
-            borderRadius:
-                BorderRadius.circular(
-              22,
-            ),
-          ),
+            padding:
+                const EdgeInsets.all(24),
 
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min,
+            decoration: BoxDecoration(
+              color: Colors.white,
 
-            children: [
-
-              const Icon(
-                Icons.delivery_dining,
-                size: 90,
-                color: Colors.orange,
+              borderRadius:
+                  BorderRadius.circular(
+                30,
               ),
 
-              const SizedBox(height: 16),
-
-              Text(
-                "Pay ₹${total.toStringAsFixed(2)} on delivery",
-
-                textAlign:
-                    TextAlign.center,
-
-                style:
-                    const TextStyle(
-                  fontSize: 24,
-                  fontWeight:
-                      FontWeight.bold,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                  offset:
+                      const Offset(0, 4),
                 ),
-              ),
+              ],
+            ),
 
-              const SizedBox(height: 12),
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min,
 
-              const Text(
-                "Please keep exact change ready for faster delivery.",
-                textAlign:
-                    TextAlign.center,
-              ),
+              children: [
 
-              const SizedBox(height: 24),
-
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-
-                child: ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Colors.orange,
+                /// TOP ICON
+                Container(
+                  padding:
+                      const EdgeInsets.all(
+                    20,
                   ),
 
-                  onPressed: () {},
+                  decoration:
+                      BoxDecoration(
+                    color:
+                        isConfirmed
+                            ? Colors.green
+                                .shade100
+                            : Colors.orange
+                                .shade100,
 
-                  child: const Text(
-                    "Confirm Order",
+                    shape:
+                        BoxShape.circle,
+                  ),
 
-                    style: TextStyle(
-                      color:
-                          Colors.white,
-                      fontSize: 18,
+                  child: Icon(
+                    isConfirmed
+                        ? Icons.check_circle
+                        : Icons.delivery_dining,
+
+                    size: 80,
+
+                    color:
+                        isConfirmed
+                            ? Colors.green
+                            : Colors.orange,
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                /// TITLE
+                Text(
+                  isConfirmed
+                      ? "Order Confirmed"
+                      : "Pay ₹${widget.total.toStringAsFixed(2)} on Delivery",
+
+                  textAlign:
+                      TextAlign.center,
+
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight:
+                        FontWeight.bold,
+
+                    color:
+                        isConfirmed
+                            ? Colors.green
+                            : Colors.black,
+                  ),
+                ),
+
+                const SizedBox(height: 14),
+
+                /// SUBTITLE
+                Text(
+                  isConfirmed
+                      ? "Your order has been placed successfully"
+                      : "Please keep exact change ready for faster delivery.",
+
+                  textAlign:
+                      TextAlign.center,
+
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                /// INFO CARD
+                if (!isConfirmed)
+
+                  Container(
+                    padding:
+                        const EdgeInsets.all(
+                      18,
+                    ),
+
+                    decoration:
+                        BoxDecoration(
+                      color: Colors.orange
+                          .shade50,
+
+                      borderRadius:
+                          BorderRadius.circular(
+                        20,
+                      ),
+                    ),
+
+                    child: const Row(
+                      children: [
+
+                        Icon(
+                          Icons.info,
+                          color:
+                              Colors.orange,
+                        ),
+
+                        SizedBox(width: 12),
+
+                        Expanded(
+                          child: Text(
+                            "Cash payment will be collected by the delivery partner.",
+
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                const SizedBox(height: 30),
+
+                /// BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 58,
+
+                  child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isConfirmed
+                              ? Colors.green
+                              : Colors.orange,
+
+                      shape:
+                          RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          18,
+                        ),
+                      ),
+                    ),
+
+                    onPressed: () {
+
+                      if (isConfirmed) {
+
+                        Navigator.pushReplacement(
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                const OrdersPage(),
+                          ),
+                        );
+
+                      } else {
+
+                        setState(() {
+                          isConfirmed = true;
+                        });
+
+                      }
+
+                    },
+
+                    child: Text(
+                      isConfirmed
+                          ? "Done"
+                          : "Confirm Order",
+
+                      style:
+                          const TextStyle(
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold,
+
+                        color:
+                            Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

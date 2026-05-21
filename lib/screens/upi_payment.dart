@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/screens/order.dart';
 
-class UpiPaymentPage extends StatelessWidget {
+class UpiPaymentPage extends StatefulWidget {
   final double total;
 
   const UpiPaymentPage({
@@ -9,104 +10,231 @@ class UpiPaymentPage extends StatelessWidget {
   });
 
   @override
+  State<UpiPaymentPage> createState() =>
+      _UpiPaymentPageState();
+}
+
+class _UpiPaymentPageState
+    extends State<UpiPaymentPage> {
+
+  bool isPaid = false;
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       backgroundColor:
-          const Color(0xFFF5F5F5),
+          const Color(0xFFF6F6F6),
 
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+
+        centerTitle: true,
+
         title: const Text(
           "UPI Payment",
+
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
 
-        backgroundColor:
-            Colors.white,
-
-        foregroundColor:
-            Colors.black,
+        iconTheme:
+            const IconThemeData(
+          color: Colors.black,
+        ),
       ),
 
-      body: Padding(
-        padding:
-            const EdgeInsets.all(16),
+      body: Center(
+        child: Padding(
+          padding:
+              const EdgeInsets.all(16),
 
-        child: Column(
-          children: [
+          child: Container(
+            width: double.infinity,
 
-            Container(
-              padding:
-                  const EdgeInsets.all(
-                18,
+            padding:
+                const EdgeInsets.all(22),
+
+            decoration: BoxDecoration(
+              color: Colors.white,
+
+              borderRadius:
+                  BorderRadius.circular(
+                28,
               ),
 
-              decoration: BoxDecoration(
-                color: Colors.white,
-
-                borderRadius:
-                    BorderRadius.circular(
-                  20,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 10,
+                  offset:
+                      const Offset(0, 4),
                 ),
-              ),
+              ],
+            ),
 
-              child: Column(
-                children: [
+            child: Column(
+              mainAxisSize:
+                  MainAxisSize.min,
 
-                  const Icon(
-                    Icons.qr_code,
-                    size: 100,
-                    color: Colors.green,
-                  ),
+              children: [
 
-                  const SizedBox(height: 16),
+                /// ONLY ONE ICON
+                if (isPaid)
 
-                  Text(
-                    "Pay ₹${total.toStringAsFixed(2)}",
+                  Container(
+                    padding:
+                        const EdgeInsets.all(
+                      18,
+                    ),
 
-                    style:
-                        const TextStyle(
-                      fontSize: 24,
-                      fontWeight:
-                          FontWeight.bold,
+                    decoration:
+                        BoxDecoration(
+                      color: Colors.green
+                          .shade100,
+
+                      shape:
+                          BoxShape.circle,
+                    ),
+
+                    child: const Icon(
+                      Icons.check_circle,
+
+                      size: 70,
+
+                      color: Colors.green,
                     ),
                   ),
 
-                  const SizedBox(height: 10),
+                /// QR IMAGE
+                if (!isPaid)
 
-                  const Text(
-                    "Use any UPI app to complete payment",
+                  ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(
+                      20,
+                    ),
+
+                    child: Image.asset(
+                      "assets/qr.png",
+
+                      height: 220,
+                      width: 220,
+
+                      fit: BoxFit.cover,
+                    ),
                   ),
 
-                  const SizedBox(height: 24),
+                const SizedBox(height: 24),
 
-                  SizedBox(
-                    width: double.infinity,
+                /// TITLE
+                Text(
+                  isPaid
+                      ? "Payment Successful"
+                      : "Pay ₹${widget.total.toStringAsFixed(2)}",
 
-                    height: 55,
+                  textAlign:
+                      TextAlign.center,
 
-                    child: ElevatedButton(
-                      style:
-                          ElevatedButton.styleFrom(
-                        backgroundColor:
-                            Colors.green,
-                      ),
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight:
+                        FontWeight.bold,
 
-                      onPressed: () {},
+                    color:
+                        isPaid
+                            ? Colors.green
+                            : Colors.black,
+                  ),
+                ),
 
-                      child: const Text(
-                        "Pay Now",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color:
-                              Colors.white,
+                const SizedBox(height: 10),
+
+                /// SUBTITLE
+                Text(
+                  isPaid
+                      ? "Your order has been placed successfully"
+                      : "Scan QR using any UPI app",
+
+                  textAlign:
+                      TextAlign.center,
+
+                  style: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+
+                /// BUTTON
+                SizedBox(
+                  width: double.infinity,
+                  height: 58,
+
+                  child: ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isPaid
+                              ? Colors.green
+                              : Colors.orange,
+
+                      shape:
+                          RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(
+                          18,
                         ),
                       ),
                     ),
+
+                    onPressed: () {
+
+                      if (isPaid) {
+
+                        Navigator.pushReplacement(
+                          context,
+
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                const OrdersPage(),
+                          ),
+                        );
+
+                      } else {
+
+                        setState(() {
+                          isPaid = true;
+                        });
+
+                      }
+
+                    },
+
+                    child: Text(
+                      isPaid
+                          ? "Done"
+                          : "Pay Now",
+
+                      style:
+                          const TextStyle(
+                        fontSize: 18,
+                        fontWeight:
+                            FontWeight.bold,
+
+                        color:
+                            Colors.white,
+                      ),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
