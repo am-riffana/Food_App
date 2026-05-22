@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodapp/screens/bottom_nav.dart';
-import 'package:foodapp/widgets/admin.dart';
+import 'package:foodapp/admin/admin.dart';
 import 'signup_screen.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (email == "rifanasherin80@gmail.com" && password == "1234") {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => AdminScreen()),
+        MaterialPageRoute(builder: (_) => AdminHomePage()),
       );
     } else {
       Navigator.pushReplacement(

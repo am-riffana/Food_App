@@ -6,31 +6,23 @@ class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
   @override
-  State<CartPage> createState() =>
-      _CartPageState();
+  State<CartPage> createState() => _CartPageState();
 }
 
-class _CartPageState
-    extends State<CartPage> {
-
+class _CartPageState extends State<CartPage> {
   late Box ordersBox;
 
   @override
   void initState() {
     super.initState();
-
     ordersBox = Hive.box('orders');
   }
 
   double get totalPrice {
-
     double total = 0;
 
     for (var item in ordersBox.values) {
-
-      total +=
-          item['price'] * item['qty'];
-
+      total += (item['price'] * item['qty']);
     }
 
     return total;
@@ -38,48 +30,46 @@ class _CartPageState
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-          const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xffF5F5F5),
 
       appBar: AppBar(
-        backgroundColor:
-            Colors.orange,
-
+        backgroundColor: Colors.orange,
         elevation: 0,
-
         centerTitle: true,
+
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
 
         title: const Text(
           "My Cart",
-
           style: TextStyle(
             color: Colors.white,
-            fontWeight:
-                FontWeight.bold,
+            fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
         ),
 
         actions: [
-
           TextButton(
             onPressed: () {
-
               ordersBox.clear();
-
               setState(() {});
-
             },
 
             child: const Text(
               "Clear",
-
               style: TextStyle(
                 color: Colors.white,
-                fontWeight:
-                    FontWeight.bold,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -87,33 +77,23 @@ class _CartPageState
       ),
 
       body: ValueListenableBuilder(
-        valueListenable:
-            ordersBox.listenable(),
+        valueListenable: ordersBox.listenable(),
 
-        builder: (context, box, _) {
+        builder: (context, Box box, _) {
 
           if (box.isEmpty) {
-
             return Center(
               child: Column(
                 mainAxisAlignment:
                     MainAxisAlignment.center,
 
                 children: [
-
                   Container(
-                    padding:
-                        const EdgeInsets.all(
-                      24,
-                    ),
+                    padding: const EdgeInsets.all(24),
 
-                    decoration:
-                        BoxDecoration(
-                      color: Colors.orange
-                          .shade100,
-
-                      shape:
-                          BoxShape.circle,
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade100,
+                      shape: BoxShape.circle,
                     ),
 
                     child: const Icon(
@@ -123,25 +103,20 @@ class _CartPageState
                     ),
                   ),
 
-                  const SizedBox(
-                      height: 20),
+                  const SizedBox(height: 20),
 
-                  const Text(
-                    "Your Cart is Empty",
+                  // const Text(
+                  //   "Your Cart is Empty",
+                  //   style: TextStyle(
+                  //     fontSize: 24,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
 
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(
-                      height: 10),
+                  // const SizedBox(height: 10),
 
                   const Text(
                     "Add delicious food 🍔",
-
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 15,
@@ -158,52 +133,30 @@ class _CartPageState
               /// CART ITEMS
               Expanded(
                 child: ListView.builder(
-                  padding:
-                      const EdgeInsets.all(
-                    16,
-                  ),
+                  padding: const EdgeInsets.all(16),
 
-                  itemCount:
-                      box.length,
+                  itemCount: box.length,
 
-                  itemBuilder:
-                      (context, index) {
+                  itemBuilder: (context, index) {
 
-                    final item =
-                        box.getAt(index);
+                    final item = box.getAt(index);
 
                     return Container(
-                      margin:
-                          const EdgeInsets.only(
-                        bottom: 16,
-                      ),
+                      margin: const EdgeInsets.only(bottom: 16),
 
-                      padding:
-                          const EdgeInsets.all(
-                        12,
-                      ),
+                      padding: const EdgeInsets.all(12),
 
-                      decoration:
-                          BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
 
                         borderRadius:
-                            BorderRadius.circular(
-                          24,
-                        ),
+                            BorderRadius.circular(24),
 
                         boxShadow: [
                           BoxShadow(
-                            color:
-                                Colors.black12,
-
+                            color: Colors.black12,
                             blurRadius: 8,
-
-                            offset:
-                                const Offset(
-                              0,
-                              4,
-                            ),
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -212,31 +165,26 @@ class _CartPageState
                         children: [
 
                           /// IMAGE
-                          ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(
-                              18,
-                            ),
-
-                            child: Image.network(
-                              item['image'],
-
-                              height: 100,
-                              width: 100,
-
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-
-                          const SizedBox(
-                              width: 14),
+                        SizedBox(
+  height: 140, // fixed height for all images
+  width: double.infinity,
+  child: ClipRRect(
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(20),
+      topRight: Radius.circular(20),
+    ),
+    child: Image.network(
+      item["image"],
+      fit: BoxFit.cover,
+    ),
+  ),
+),
 
                           /// DETAILS
                           Expanded(
                             child: Column(
                               crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
+                                  CrossAxisAlignment.start,
 
                               children: [
 
@@ -246,37 +194,24 @@ class _CartPageState
                                   maxLines: 1,
 
                                   overflow:
-                                      TextOverflow
-                                          .ellipsis,
+                                      TextOverflow.ellipsis,
 
-                                  style:
-                                      const TextStyle(
-                                    fontSize:
-                                        18,
-
-                                    fontWeight:
-                                        FontWeight
-                                            .bold,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
 
-                                const SizedBox(
-                                    height:
-                                        6),
+                                const SizedBox(height: 6),
 
                                 const Text(
                                   "Fast Delivery",
-
-                                  style:
-                                      TextStyle(
-                                    color:
-                                        Colors.grey,
+                                  style: TextStyle(
+                                    color: Colors.grey,
                                   ),
                                 ),
 
-                                const SizedBox(
-                                    height:
-                                        10),
+                                const SizedBox(height: 10),
 
                                 Row(
                                   children: [
@@ -284,54 +219,39 @@ class _CartPageState
                                     Text(
                                       "₹${item['price']}",
 
-                                      style:
-                                          const TextStyle(
-                                        color:
-                                            Colors.orange,
-
-                                        fontSize:
-                                            20,
-
-                                        fontWeight:
-                                            FontWeight.bold,
+                                      style: const TextStyle(
+                                        color: Colors.orange,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
 
                                     const Spacer(),
 
-                                    /// QTY BUTTON
+                                    /// QTY
                                     Container(
                                       padding:
                                           const EdgeInsets.symmetric(
-                                        horizontal:
-                                            10,
-                                        vertical:
-                                            6,
+                                        horizontal: 10,
+                                        vertical: 6,
                                       ),
 
-                                      decoration:
-                                          BoxDecoration(
-                                        border:
-                                            Border.all(
-                                          color:
-                                              Colors.orange,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.orange,
                                         ),
 
                                         borderRadius:
-                                            BorderRadius.circular(
-                                          14,
-                                        ),
+                                            BorderRadius.circular(14),
                                       ),
 
                                       child: Row(
                                         children: [
 
                                           GestureDetector(
-                                            onTap:
-                                                () {
+                                            onTap: () {
 
-                                              if (item['qty'] >
-                                                  1) {
+                                              if (item['qty'] > 1) {
 
                                                 item['qty']--;
 
@@ -340,46 +260,35 @@ class _CartPageState
                                                   item,
                                                 );
 
-                                                setState(
-                                                    () {});
+                                                setState(() {});
                                               }
                                             },
 
-                                            child:
-                                                const Icon(
-                                              Icons
-                                                  .remove,
-                                              size:
-                                                  18,
+                                            child: const Icon(
+                                              Icons.remove,
+                                              size: 18,
                                             ),
                                           ),
 
                                           Padding(
                                             padding:
                                                 const EdgeInsets.symmetric(
-                                              horizontal:
-                                                  12,
+                                              horizontal: 12,
                                             ),
 
-                                            child:
-                                                Text(
-                                              item['qty']
-                                                  .toString(),
+                                            child: Text(
+                                              item['qty'].toString(),
 
-                                              style:
-                                                  const TextStyle(
+                                              style: const TextStyle(
+                                                fontSize: 16,
                                                 fontWeight:
                                                     FontWeight.bold,
-
-                                                fontSize:
-                                                    16,
                                               ),
                                             ),
                                           ),
 
                                           GestureDetector(
-                                            onTap:
-                                                () {
+                                            onTap: () {
 
                                               item['qty']++;
 
@@ -388,19 +297,13 @@ class _CartPageState
                                                 item,
                                               );
 
-                                              setState(
-                                                  () {});
+                                              setState(() {});
                                             },
 
-                                            child:
-                                                const Icon(
-                                              Icons
-                                                  .add,
-                                              color:
-                                                  Colors.orange,
-
-                                              size:
-                                                  18,
+                                            child: const Icon(
+                                              Icons.add,
+                                              size: 18,
+                                              color: Colors.orange,
                                             ),
                                           ),
                                         ],
@@ -409,16 +312,12 @@ class _CartPageState
                                   ],
                                 ),
 
-                                const SizedBox(
-                                    height:
-                                        12),
+                                const SizedBox(height: 12),
 
                                 GestureDetector(
                                   onTap: () {
 
-                                    box.deleteAt(
-                                      index,
-                                    );
+                                    box.deleteAt(index);
 
                                     setState(() {});
                                   },
@@ -427,24 +326,17 @@ class _CartPageState
                                     children: [
 
                                       Icon(
-                                        Icons
-                                            .delete_outline,
-                                        color:
-                                            Colors.red,
+                                        Icons.delete_outline,
+                                        color: Colors.red,
                                       ),
 
-                                      SizedBox(
-                                          width:
-                                              5),
+                                      SizedBox(width: 5),
 
                                       Text(
                                         "Remove",
 
-                                        style:
-                                            TextStyle(
-                                          color:
-                                              Colors.red,
-
+                                        style: TextStyle(
+                                          color: Colors.red,
                                           fontWeight:
                                               FontWeight.w600,
                                         ),
@@ -464,21 +356,13 @@ class _CartPageState
 
               /// BILL SECTION
               Container(
-                padding:
-                    const EdgeInsets.all(
-                  20,
-                ),
+                padding: const EdgeInsets.all(20),
 
-                decoration:
-                    const BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
 
-                  borderRadius:
-                      BorderRadius.vertical(
-                    top:
-                        Radius.circular(
-                      28,
-                    ),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(28),
                   ),
                 ),
 
@@ -490,25 +374,21 @@ class _CartPageState
                       "₹${totalPrice.toStringAsFixed(0)}",
                     ),
 
-                    const SizedBox(
-                        height: 12),
+                    const SizedBox(height: 12),
 
                     billRow(
                       "Delivery Fee",
                       "₹40",
                     ),
 
-                    const SizedBox(
-                        height: 12),
+                    const SizedBox(height: 12),
 
                     billRow(
                       "Taxes & Charges",
                       "₹20",
                     ),
 
-                    const Divider(
-                      height: 30,
-                    ),
+                    const Divider(height: 30),
 
                     billRow(
                       "To Pay",
@@ -516,30 +396,21 @@ class _CartPageState
                       isBold: true,
                     ),
 
-                    const SizedBox(
-                        height: 20),
+                    const SizedBox(height: 20),
 
                     SizedBox(
-                      width:
-                          double.infinity,
-
+                      width: double.infinity,
                       height: 56,
 
-                      child:
-                          ElevatedButton(
+                      child: ElevatedButton(
                         style:
                             ElevatedButton.styleFrom(
-                          backgroundColor:
-                              Colors.orange,
-
-                          elevation: 0,
+                          backgroundColor: Colors.orange,
 
                           shape:
                               RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(
-                              18,
-                            ),
+                                BorderRadius.circular(18),
                           ),
                         ),
 
@@ -549,12 +420,9 @@ class _CartPageState
                             context,
 
                             MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                      PaymentPage(
-                                total:
-                                    totalPrice +
-                                        60,
+                              builder: (context) =>
+                                  PaymentPage(
+                                total: totalPrice + 60,
                               ),
                             ),
                           );
@@ -563,15 +431,10 @@ class _CartPageState
                         child: Text(
                           "Proceed to Pay • ₹${(totalPrice + 60).toStringAsFixed(0)}",
 
-                          style:
-                              const TextStyle(
-                            color:
-                                Colors.white,
-
+                          style: const TextStyle(
+                            color: Colors.white,
                             fontSize: 17,
-
-                            fontWeight:
-                                FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -604,9 +467,10 @@ class _CartPageState
           style: TextStyle(
             fontSize: 16,
 
-            fontWeight: isBold
-                ? FontWeight.bold
-                : FontWeight.w500,
+            fontWeight:
+                isBold
+                    ? FontWeight.bold
+                    : FontWeight.w500,
           ),
         ),
 
@@ -616,9 +480,10 @@ class _CartPageState
           style: TextStyle(
             fontSize: 16,
 
-            fontWeight: isBold
-                ? FontWeight.bold
-                : FontWeight.w700,
+            fontWeight:
+                isBold
+                    ? FontWeight.bold
+                    : FontWeight.w700,
           ),
         ),
       ],

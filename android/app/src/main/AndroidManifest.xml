@@ -8,6 +8,11 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
+        <!-- ✅ GOOGLE MAP API KEY HERE -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCE6585cB4hs-npUY4yW7bnXIdfeAKIPIY"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -29,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
 
-            <!-- ✅ SUPABASE GOOGLE AUTH REDIRECT FIX -->
+            <!-- SUPABASE GOOGLE AUTH -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -44,13 +49,5 @@
             android:value="2" />
 
     </application>
-
-    <!-- Required for some plugins -->
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.PROCESS_TEXT"/>
-            <data android:mimeType="text/plain"/>
-        </intent>
-    </queries>
 
 </manifest>

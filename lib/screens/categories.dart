@@ -1,42 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/cart.dart';
 import 'package:foodapp/widgets/filter.dart';
+import 'package:hive/hive.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
 
   @override
-  State<CategoriesPage> createState() =>
-      _CategoriesPageState();
+  State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState
-    extends State<CategoriesPage> {
+class _CategoriesPageState extends State<CategoriesPage> {
+  late Box ordersBox;
 
   String selectedFilter = "All";
 
-  List<Map<String, dynamic>> cartItems = [];
+  @override
+  void initState() {
+    super.initState();
+    ordersBox = Hive.box('orders');
+  }
 
+  /// FOOD DATA
   final List<Map<String, dynamic>> foodItems = [
-
-    {
-      "name": "Burger",
-      "price": 120,
-      "rating": 4.5,
-      "time": "20 min",
-      "image":
-          "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
-    },
-
-    {
-      "name": "Pizza",
-      "price": 280,
-      "rating": 4.8,
-      "time": "30 min",
-      "image":
-          "https://images.unsplash.com/photo-1513104890138-7c749659a591",
-    },
-
+   {
+  "name": "Chicken Fry",
+  "price": 240,
+  "rating": 4.6,
+  "time": "25 min",
+  "image":
+      "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec",
+  "type": "Non Veg",
+  "spicy": true,
+  "premium": true,
+  "dessert": false,
+},
+   {
+  "name": "Falooda",
+  "price": 110,
+  "rating": 4.4,
+  "time": "12 min",
+  "image":
+      "https://images.unsplash.com/photo-1579954115545-a95591f28bfc",
+  "type": "Veg",
+  "spicy": false,
+  "premium": false,
+  "dessert": true,
+},
     {
       "name": "Biriyani",
       "price": 190,
@@ -44,8 +54,131 @@ class _CategoriesPageState
       "time": "25 min",
       "image":
           "https://images.unsplash.com/photo-1701579231349-d7459c40919d",
+      "type": "Non Veg",
+      "spicy": true,
+      "premium": true,
+      "dessert": false,
     },
-
+    {
+  "name": "Momos",
+  "price": 150,
+  "rating": 4.5,
+  "time": "18 min",
+  "image":
+      "https://images.unsplash.com/photo-1626776876729-bab4369a5a5d",
+  "type": "Veg",
+  "spicy": true,
+  "premium": false,
+  "dessert": false,
+},
+{
+  "name": "Sandwich",
+  "price": 100,
+  "rating": 4.1,
+  "time": "10 min",
+  "image":
+      "https://images.unsplash.com/photo-1528735602780-2552fd46c7af",
+  "type": "Veg",
+  "spicy": false,
+  "premium": false,
+  "dessert": false,
+},
+{
+  "name": "Tandoori Chicken",
+  "price": 320,
+  "rating": 4.9,
+  "time": "35 min",
+  "image":
+      "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0",
+  "type": "Non Veg",
+  "spicy": true,
+  "premium": true,
+  "dessert": false,
+},
+{
+  "name": "Chocolate Cake",
+  "price": 180,
+  "rating": 4.8,
+  "time": "15 min",
+  "image":
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587",
+  "type": "Veg",
+  "spicy": false,
+  "premium": true,
+  "dessert": true,
+},
+{
+  "name": "French Fries",
+  "price": 90,
+  "rating": 4.2,
+  "time": "8 min",
+  "image":
+      "https://images.unsplash.com/photo-1576107232684-1279f390859f",
+  "type": "Veg",
+  "spicy": false,
+  "premium": false,
+  "dessert": false,
+},
+{
+  "name": "Alfaham",
+  "price": 290,
+  "rating": 4.7,
+  "time": "30 min",
+  "image":
+      "https://images.unsplash.com/photo-1603360946369-dc9bb6258143",
+  "type": "Non Veg",
+  "spicy": true,
+  "premium": true,
+  "dessert": false,
+},
+{
+  "name": "Donut",
+  "price": 130,
+  "rating": 4.3,
+  "time": "10 min",
+  "image":
+      "https://images.unsplash.com/photo-1551024601-bec78aea704b",
+  "type": "Veg",
+  "spicy": false,
+  "premium": false,
+  "dessert": true,
+},
+{
+  "name": "Paneer Butter Masala",
+  "price": 260,
+  "rating": 4.6,
+  "time": "28 min",
+  "image":
+      "https://images.unsplash.com/photo-1631452180519-c014fe946bc7",
+  "type": "Veg",
+  "spicy": true,
+  "premium": true,
+  "dessert": false,
+},
+{
+  "name": "Hot Dog",
+  "price": 170,
+  "rating": 4.4,
+  "time": "14 min",
+  "image":
+      "https://images.unsplash.com/photo-1612392062798-29b64c6b7f2d",
+  "type": "Non Veg",
+  "spicy": false,
+  "premium": false,
+  "dessert": false,
+},
+{
+  "name": "Cup Cake",
+  "price": 95,
+  "rating": 4.5,
+  "time": "9 min",
+  "image":
+      "https://images.unsplash.com/photo-1486427944299-d1955d23e34d",
+  "type": "Veg",
+  "spicy": false,
+  "premium": false,
+  "dessert": true,
+},
     {
       "name": "Shawarma",
       "price": 140,
@@ -53,8 +186,11 @@ class _CategoriesPageState
       "time": "18 min",
       "image":
           "https://images.unsplash.com/photo-1529006557810-274b9b2fc783",
+      "type": "Non Veg",
+      "spicy": true,
+      "premium": false,
+      "dessert": false,
     },
-
     {
       "name": "Pasta",
       "price": 220,
@@ -62,8 +198,11 @@ class _CategoriesPageState
       "time": "22 min",
       "image":
           "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9",
+      "type": "Veg",
+      "spicy": false,
+      "premium": true,
+      "dessert": false,
     },
-
     {
       "name": "Ice Cream",
       "price": 90,
@@ -71,354 +210,331 @@ class _CategoriesPageState
       "time": "10 min",
       "image":
           "https://images.unsplash.com/photo-1563805042-7684c019e1cb",
+      "type": "Veg",
+      "spicy": false,
+      "premium": false,
+      "dessert": true,
+    },
+    {
+      "name": "Noodles",
+      "price": 130,
+      "rating": 4.3,
+      "time": "15 min",
+      "image":
+          "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841",
+      "type": "Veg",
+      "spicy": true,
+      "premium": false,
+      "dessert": false,
+    },
+    {
+      "name": "Fried Rice",
+      "price": 160,
+      "rating": 4.4,
+      "time": "20 min",
+      "image":
+          "https://images.unsplash.com/photo-1604908177522-040c3b5f3f1d",
+      "type": "Non Veg",
+      "spicy": false,
+      "premium": false,
+      "dessert": false,
     },
   ];
 
-  List<Map<String, dynamic>>
-      get filteredItems {
+  /// FILTER LOGIC
+  List<Map<String, dynamic>> get filteredItems {
+    switch (selectedFilter) {
+      case "Low Price":
+        return foodItems.where((e) => e["price"] <= 150).toList();
 
-    if (selectedFilter ==
-        "Low Price") {
+      case "High Rating":
+        return foodItems.where((e) => e["rating"] >= 4.5).toList();
 
-      return foodItems
-          .where(
-            (e) => e["price"] <= 150,
-          )
-          .toList();
+      case "Premium":
+        return foodItems.where((e) => e["premium"] == true).toList();
+
+      case "Fast Delivery":
+        return foodItems.where(
+          (e) => int.parse(e["time"].split(" ")[0]) <= 20,
+        ).toList();
+
+      case "Veg Only":
+        return foodItems.where((e) => e["type"] == "Veg").toList();
+
+      case "Non Veg":
+        return foodItems.where((e) => e["type"] == "Non Veg").toList();
+
+      case "Spicy":
+        return foodItems.where((e) => e["spicy"] == true).toList();
+
+      case "Desserts":
+        return foodItems.where((e) => e["dessert"] == true).toList();
+
+      case "Best Seller":
+        return foodItems.where((e) => e["rating"] >= 4.5).toList();
+
+      case "Healthy":
+        return foodItems.where((e) => e["price"] <= 150).toList();
+
+      case "New Arrivals":
+        return foodItems.reversed.toList();
+
+      case "All":
+      default:
+        return foodItems;
     }
-
-    if (selectedFilter ==
-        "High Rating") {
-
-      return foodItems
-          .where(
-            (e) => e["rating"] >= 4.5,
-          )
-          .toList();
-    }
-
-    return foodItems;
   }
 
-  void addToCart(
-      Map<String, dynamic> item) {
+  /// ADD TO CART
+  void addToCart(Map<String, dynamic> item) {
+    final data = {
+      "name": item["name"],
+      "price": item["price"],
+      "image": item["image"],
+      "qty": 1,
+    };
 
-    setState(() {
-      cartItems.add(item);
-    });
+    int index = ordersBox.values.toList().indexWhere(
+          (e) => e['name'] == item['name'],
+        );
 
-    ScaffoldMessenger.of(
+    if (index != -1) {
+      final existing = Map<String, dynamic>.from(
+        ordersBox.getAt(index),
+      );
+
+      existing['qty'] = (existing['qty'] ?? 1) + 1;
+
+      ordersBox.putAt(index, existing);
+    } else {
+      ordersBox.add(data);
+    }
+
+    setState(() {});
+
+    Navigator.push(
       context,
-    ).showSnackBar(
-      SnackBar(
-        backgroundColor:
-            Colors.orange,
-
-        content: Text(
-          "${item["name"]} added to cart",
-        ),
+      MaterialPageRoute(
+        builder: (_) => const CartPage(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-          const Color(0xffF5F5F5),
+      backgroundColor: const Color(0xffF5F5F5),
 
-      appBar: AppBar(
-        backgroundColor:
-            Colors.orange,
+      body: SafeArea(
+        child: Column(
+          children: [
+            /// HEADER
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "What’s on your mind?",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
 
-        elevation: 0,
+                  /// FILTER BUTTON
+                  IconButton(
+                    onPressed: () async {
+                      final result =
+                          await Navigator.push<String>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => FilterPage(
+                            currentFilter:
+                                selectedFilter,
+                          ),
+                        ),
+                      );
 
-        title: const Text(
-          "Food Items",
-
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight:
-                FontWeight.bold,
-          ),
-        ),
-
-        actions: [
-
-          /// FILTER
-          IconButton(
-            onPressed: () {
-
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      FilterPage(
-                    currentFilter:
-                        selectedFilter,
-
-                    onSelected:
-                        (value) {
-
-                      setState(() {
-                        selectedFilter =
-                            value;
-                      });
-
+                      if (result != null &&
+                          mounted) {
+                        setState(() {
+                          selectedFilter = result;
+                        });
+                      }
                     },
+                    icon: const Icon(
+                      Icons.tune,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-              );
-
-            },
-
-            icon: const Icon(
-              Icons.tune,
-              color: Colors.white,
-            ),
-          ),
-
-          /// CART
-          Stack(
-            children: [
-
-              IconButton(
-                onPressed: () {
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          const CartPage(),
-                    ),
-                  );
-
-                },
-
-                icon: const Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                ),
+                ],
               ),
+            ),
 
-              if (cartItems.isNotEmpty)
-                Positioned(
-                  right: 8,
-                  top: 8,
+            /// GRID
+            Expanded(
+              child: GridView.builder(
+                padding:
+                    const EdgeInsets.all(12),
 
-                  child: Container(
-                    padding:
-                        const EdgeInsets.all(
-                      5,
-                    ),
+                itemCount:
+                    filteredItems.length,
 
-                    decoration:
-                        const BoxDecoration(
-                      color: Colors.red,
-                      shape:
-                          BoxShape.circle,
-                    ),
+                gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.75,
+                ),
 
-                    child: Text(
-                      cartItems.length
-                          .toString(),
+                itemBuilder: (
+                  context,
+                  index,
+                ) {
+                  final item =
+                      filteredItems[index];
 
-                      style:
-                          const TextStyle(
-                        color:
-                            Colors.white,
-                        fontSize: 10,
-                        fontWeight:
-                            FontWeight.bold,
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius:
+                          BorderRadius.circular(
+                        20,
                       ),
                     ),
-                  ),
-                ),
-            ],
-          ),
-        ],
-      ),
 
-      body: Column(
-        children: [
-
-          /// FILTERS
-          SizedBox(
-            height: 60,
-
-            child: ListView(
-              scrollDirection:
-                  Axis.horizontal,
-
-              padding:
-                  const EdgeInsets.all(
-                12,
-              ),
-
-              children: [
-
-                filterItem("All"),
-
-                filterItem(
-                    "Low Price"),
-
-                filterItem(
-                    "High Rating"),
-              ],
-            ),
-          ),
-
-          /// GRID
-          Expanded(
-            child: GridView.builder(
-              padding:
-                  const EdgeInsets.all(
-                14,
-              ),
-
-              itemCount:
-                  filteredItems.length,
-
-              gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-
-                crossAxisSpacing:
-                    14,
-
-                mainAxisSpacing:
-                    14,
-
-                childAspectRatio:
-                    0.70,
-              ),
-
-              itemBuilder:
-                  (context, index) {
-
-                final item =
-                    filteredItems[index];
-
-                return Container(
-                  decoration:
-                      BoxDecoration(
-                    color: Colors.white,
-
-                    borderRadius:
-                        BorderRadius.circular(
-                      20,
-                    ),
-
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            Colors.black12,
-
-                        blurRadius: 6,
-
-                        offset:
-                            const Offset(
-                          0,
-                          3,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment
-                            .start,
-
-                    children: [
-
-                      /// IMAGE
-                      Expanded(
-                        flex: 6,
-
-                        child: Stack(
-                          children: [
-
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.only(
-                                topLeft:
-                                    Radius.circular(
-                                  20,
-                                ),
-
-                                topRight:
-                                    Radius.circular(
-                                  20,
-                                ),
-                              ),
-
-                              child:
-                                  Image.network(
-                                item["image"],
-
-                                width:
-                                    double.infinity,
-
-                                fit:
-                                    BoxFit.cover,
-                              ),
-                            ),
-
-                            Positioned(
-                              left: 8,
-                              bottom: 8,
-
-                              child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(
-                                  horizontal:
-                                      8,
-                                  vertical:
-                                      4,
-                                ),
-
-                                decoration:
-                                    BoxDecoration(
-                                  color:
-                                      Colors.black87,
-
-                                  borderRadius:
-                                      BorderRadius.circular(
-                                    10,
+                    child: Column(
+                      children: [
+                        /// IMAGE
+                        Expanded(
+                          child: Stack(
+                            children: [
+                              ClipRRect(
+                                borderRadius:
+                                    const BorderRadius.only(
+                                  topLeft:
+                                      Radius.circular(
+                                    20,
+                                  ),
+                                  topRight:
+                                      Radius.circular(
+                                    20,
                                   ),
                                 ),
 
-                                child: Text(
-                                  item["time"],
+                                child:
+                                    Image.network(
+                                  item["image"],
+                                  width:
+                                      double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
 
-                                  style:
-                                      const TextStyle(
+                              /// RATING
+                              Positioned(
+                                top: 8,
+                                left: 8,
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(
+                                    horizontal:
+                                        6,
+                                    vertical: 3,
+                                  ),
+
+                                  decoration:
+                                      BoxDecoration(
                                     color:
-                                        Colors.white,
+                                        Colors.green,
+                                    borderRadius:
+                                        BorderRadius.circular(
+                                      6,
+                                    ),
+                                  ),
 
-                                    fontSize:
-                                        11,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.star,
+                                        size: 12,
+                                        color: Colors
+                                            .white,
+                                      ),
 
-                                    fontWeight:
-                                        FontWeight.bold,
+                                      const SizedBox(
+                                        width: 3,
+                                      ),
+
+                                      Text(
+                                        item["rating"]
+                                            .toString(),
+
+                                        style:
+                                            const TextStyle(
+                                          color:
+                                              Colors.white,
+                                          fontSize:
+                                              11,
+                                          fontWeight:
+                                              FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+
+                              /// TIME
+                              Positioned(
+                                top: 8,
+                                right: 8,
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(
+                                    horizontal:
+                                        6,
+                                    vertical: 3,
+                                  ),
+
+                                  decoration:
+                                      BoxDecoration(
+                                    color: Colors
+                                        .black87,
+
+                                    borderRadius:
+                                        BorderRadius.circular(
+                                      6,
+                                    ),
+                                  ),
+
+                                  child: Text(
+                                    item["time"],
+
+                                    style:
+                                        const TextStyle(
+                                      color: Colors
+                                          .white,
+                                      fontSize:
+                                          11,
+                                      fontWeight:
+                                          FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
 
-                      /// DETAILS
-                      Expanded(
-                        flex: 5,
-
-                        child: Padding(
+                        /// DETAILS
+                        Padding(
                           padding:
                               const EdgeInsets.all(
-                            10,
+                            8,
                           ),
 
                           child: Column(
@@ -427,20 +543,12 @@ class _CategoriesPageState
                                     .start,
 
                             children: [
-
                               Text(
                                 item["name"],
-
-                                maxLines: 1,
-
-                                overflow:
-                                    TextOverflow
-                                        .ellipsis,
 
                                 style:
                                     const TextStyle(
                                   fontSize: 16,
-
                                   fontWeight:
                                       FontWeight.bold,
                                 ),
@@ -449,90 +557,26 @@ class _CategoriesPageState
                               const SizedBox(
                                   height: 6),
 
-                              Row(
-                                children: [
+                              Text(
+                                "₹${item["price"]}",
 
-                                  Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(
-                                      horizontal:
-                                          6,
-                                      vertical:
-                                          3,
-                                    ),
-
-                                    decoration:
-                                        BoxDecoration(
-                                      color:
-                                          Colors.green,
-
-                                      borderRadius:
-                                          BorderRadius.circular(
-                                        8,
-                                      ),
-                                    ),
-
-                                    child: Row(
-                                      children: [
-
-                                        const Icon(
-                                          Icons.star,
-                                          size: 12,
-                                          color:
-                                              Colors.white,
-                                        ),
-
-                                        const SizedBox(
-                                            width:
-                                                3),
-
-                                        Text(
-                                          item["rating"]
-                                              .toString(),
-
-                                          style:
-                                              const TextStyle(
-                                            color:
-                                                Colors.white,
-
-                                            fontSize:
-                                                11,
-
-                                            fontWeight:
-                                                FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                                  const Spacer(),
-
-                                  Text(
-                                    "₹${item["price"]}",
-
-                                    style:
-                                        const TextStyle(
-                                      color:
-                                          Colors.orange,
-
-                                      fontSize:
-                                          17,
-
-                                      fontWeight:
-                                          FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                                style:
+                                    const TextStyle(
+                                  color:
+                                      Colors.orange,
+                                  fontSize: 15,
+                                  fontWeight:
+                                      FontWeight.bold,
+                                ),
                               ),
 
-                              const Spacer(),
+                              const SizedBox(
+                                  height: 8),
 
                               SizedBox(
                                 width:
                                     double.infinity,
-
-                                height: 40,
+                                height: 35,
 
                                 child:
                                     ElevatedButton(
@@ -541,103 +585,42 @@ class _CategoriesPageState
                                     backgroundColor:
                                         Colors.orange,
 
-                                    elevation: 0,
-
                                     shape:
                                         RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(
-                                        12,
+                                        10,
                                       ),
                                     ),
                                   ),
 
-                                  onPressed:
-                                      () {
-
-                                    addToCart(
-                                      item,
-                                    );
-
-                                  },
+                                  onPressed: () =>
+                                      addToCart(
+                                    item,
+                                  ),
 
                                   child:
-                                      const Icon(
-                                    Icons.add,
-                                    color:
-                                        Colors.white,
+                                      const Text(
+                                    "Add",
+
+                                    style:
+                                        TextStyle(
+                                      color: Colors
+                                          .white,
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget filterItem(String title) {
-
-    bool isSelected =
-        selectedFilter == title;
-
-    return GestureDetector(
-      onTap: () {
-
-        setState(() {
-          selectedFilter = title;
-        });
-
-      },
-
-      child: Container(
-        margin:
-            const EdgeInsets.only(
-          right: 10,
-        ),
-
-        padding:
-            const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 10,
-        ),
-
-        decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.orange
-              : Colors.white,
-
-          borderRadius:
-              BorderRadius.circular(
-            30,
-          ),
-
-          border: Border.all(
-            color: isSelected
-                ? Colors.orange
-                : Colors.grey.shade300,
-          ),
-        ),
-
-        child: Text(
-          title,
-
-          style: TextStyle(
-            color: isSelected
-                ? Colors.white
-                : Colors.black,
-
-            fontWeight:
-                FontWeight.bold,
-          ),
+          ],
         ),
       ),
     );

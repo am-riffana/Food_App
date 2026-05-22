@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/cart.dart';
 import 'package:foodapp/screens/categories.dart';
