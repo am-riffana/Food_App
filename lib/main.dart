@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/splash_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -10,6 +11,8 @@ void main() async {
 
   await Hive.openBox('orders');
   await Hive.openBox('payment');
+
+  await Firebase.initializeApp();
 
   await Supabase.initialize(
     url: 'https://cgclfpzqgrqlbfhdkefn.supabase.co',

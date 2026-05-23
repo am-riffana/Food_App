@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/card_payment.dart';
-import 'package:foodapp/screens/cash_payment.dart';
-import 'package:foodapp/screens/upi_payment.dart';
+import 'package:foodapp/payments/card_payment.dart';
+import 'package:foodapp/payments/cash_payment.dart';
+import 'package:foodapp/payments/upi_payment.dart';
 
 class PaymentPage extends StatelessWidget {
   final double total;

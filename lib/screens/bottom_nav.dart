@@ -3,7 +3,7 @@ import 'package:foodapp/screens/cart.dart';
 import 'package:foodapp/screens/categories.dart';
 import 'package:foodapp/screens/home.dart';
 import 'package:foodapp/screens/order.dart';
-import 'package:foodapp/screens/payment.dart';
+import 'package:foodapp/payments/payment.dart';
 import 'package:foodapp/widgets/bottom_nav.dart';
 
 class MainScreen extends StatefulWidget {

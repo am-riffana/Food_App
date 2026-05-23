@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/payment.dart';
+import 'package:foodapp/payments/payment.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CartPage extends StatefulWidget {

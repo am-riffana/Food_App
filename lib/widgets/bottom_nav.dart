@@ -16,7 +16,6 @@ class BottomNavBar extends StatelessWidget {
       (Icons.food_bank, 'Home'),
       (Icons.category_outlined,'Categories'),
       (Icons.add_shopping_cart_rounded,'Cart'),
-
       (Icons.receipt_long_rounded, 'Orders'),
       (Icons.payments_rounded, 'Payment'), 
     ];
