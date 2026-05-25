@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/models/resturant_model.dart';
+import 'package:foodapp/screens/profile_screen.dart';
 import 'package:foodapp/widgets/notification_page.dart';
-import 'package:foodapp/screens/profile.dart';
 import 'package:foodapp/widgets/big_resturant.dart';
+import 'package:foodapp/widgets/resturant_model.dart';
 import 'package:foodapp/widgets/search.dart';
 import 'package:foodapp/widgets/slide_banner.dart';
 

@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/order.dart';
+import 'package:foodapp/screens/orders_screen.dart';
 
 class UpiPaymentPage extends StatefulWidget {
   final double total;
@@ -18,6 +19,40 @@ class _UpiPaymentPageState
     extends State<UpiPaymentPage> {
 
   bool isPaid = false;
+
+  Future<void> saveOrderAndNavigate() async {
+
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .add({
+
+      'userName': 'Rifana',
+
+      'totalPrice': widget.total,
+
+      'paymentMethod': 'UPI',
+
+      'paymentStatus': 'paid',
+
+      'orderStatus': 'Pending',
+
+      'deliveryBoyName': '',
+
+      'createdAt':
+          FieldValue.serverTimestamp(),
+    });
+
+    if (mounted) {
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) =>
+              const OrdersPage(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +117,7 @@ class _UpiPaymentPageState
 
               children: [
 
-                /// ONLY ONE ICON
+                /// SUCCESS ICON
                 if (isPaid)
 
                   Container(
@@ -192,18 +227,11 @@ class _UpiPaymentPageState
                       ),
                     ),
 
-                    onPressed: () {
+                    onPressed: () async {
 
                       if (isPaid) {
 
-                        Navigator.pushReplacement(
-                          context,
-
-                          MaterialPageRoute(
-                            builder: (_) =>
-                                const OrdersPage(),
-                          ),
-                        );
+                        await saveOrderAndNavigate();
 
                       } else {
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/track_order.dart';
+import 'package:foodapp/widgets/track_order.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class OrdersPage extends StatefulWidget {

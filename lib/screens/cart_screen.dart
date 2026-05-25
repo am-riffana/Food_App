@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/payments/payment.dart';
+import 'package:foodapp/screens/home_screen.dart';
+import 'package:foodapp/screens/main_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CartPage extends StatefulWidget {
@@ -40,7 +42,12 @@ class _CartPageState extends State<CartPage> {
 
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(
+    builder: (_) => const  MainScreen(),
+  ),
+);
           },
 
           icon: const Icon(
@@ -88,6 +95,7 @@ class _CartPageState extends State<CartPage> {
                     MainAxisAlignment.center,
 
                 children: [
+
                   Container(
                     padding: const EdgeInsets.all(24),
 
@@ -104,16 +112,6 @@ class _CartPageState extends State<CartPage> {
                   ),
 
                   const SizedBox(height: 20),
-
-                  // const Text(
-                  //   "Your Cart is Empty",
-                  //   style: TextStyle(
-                  //     fontSize: 24,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-
-                  // const SizedBox(height: 10),
 
                   const Text(
                     "Add delicious food 🍔",
@@ -142,76 +140,145 @@ class _CartPageState extends State<CartPage> {
                     final item = box.getAt(index);
 
                     return Container(
-                      margin: const EdgeInsets.only(bottom: 16),
+                      margin:
+                          const EdgeInsets.only(
+                        bottom: 16,
+                      ),
 
-                      padding: const EdgeInsets.all(12),
+                      padding:
+                          const EdgeInsets.all(12),
 
                       decoration: BoxDecoration(
                         color: Colors.white,
 
                         borderRadius:
-                            BorderRadius.circular(24),
+                            BorderRadius.circular(
+                          24,
+                        ),
 
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 8,
-                            offset: const Offset(0, 4),
+                            offset:
+                                const Offset(0, 4),
                           ),
                         ],
                       ),
 
                       child: Row(
+                        crossAxisAlignment:
+                            CrossAxisAlignment.start,
+
                         children: [
 
                           /// IMAGE
-                        SizedBox(
-  height: 140, // fixed height for all images
-  width: double.infinity,
-  child: ClipRRect(
-    borderRadius: const BorderRadius.only(
-      topLeft: Radius.circular(20),
-      topRight: Radius.circular(20),
-    ),
-    child: Image.network(
-      item["image"],
-      fit: BoxFit.cover,
-    ),
-  ),
-),
+                          ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(
+                              18,
+                            ),
+
+                            child: Image.network(
+
+                              item["image"] ?? "",
+
+                              height: 110,
+                              width: 110,
+
+                              fit: BoxFit.cover,
+
+                              errorBuilder:
+                                  (
+                                    context,
+                                    error,
+                                    stackTrace,
+                                  ) {
+
+                                return Container(
+                                  height: 110,
+                                  width: 110,
+                                  color:
+                                      Colors.orange
+                                          .shade100,
+
+                                  child: const Icon(
+                                    Icons.fastfood,
+                                    color:
+                                        Colors.orange,
+                                    size: 40,
+                                  ),
+                                );
+                              },
+
+                              loadingBuilder:
+                                  (
+                                    context,
+                                    child,
+                                    loadingProgress,
+                                  ) {
+
+                                if (loadingProgress ==
+                                    null) {
+                                  return child;
+                                }
+
+                                return Container(
+                                  height: 110,
+                                  width: 110,
+                                  alignment:
+                                      Alignment.center,
+
+                                  child:
+                                      const CircularProgressIndicator(),
+                                );
+                              },
+                            ),
+                          ),
+
+                          const SizedBox(width: 14),
 
                           /// DETAILS
                           Expanded(
                             child: Column(
                               crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                  CrossAxisAlignment
+                                      .start,
 
                               children: [
 
                                 Text(
-                                  item['name'],
+                                  item['name'] ??
+                                      "Food Item",
 
                                   maxLines: 1,
 
                                   overflow:
-                                      TextOverflow.ellipsis,
+                                      TextOverflow
+                                          .ellipsis,
 
-                                  style: const TextStyle(
+                                  style:
+                                      const TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight:
+                                        FontWeight.bold,
                                   ),
                                 ),
 
-                                const SizedBox(height: 6),
+                                const SizedBox(
+                                    height: 6),
 
                                 const Text(
                                   "Fast Delivery",
+
                                   style: TextStyle(
-                                    color: Colors.grey,
+                                    color:
+                                        Colors.grey,
                                   ),
                                 ),
 
-                                const SizedBox(height: 10),
+                                const SizedBox(
+                                    height: 10),
 
                                 Row(
                                   children: [
@@ -219,10 +286,13 @@ class _CartPageState extends State<CartPage> {
                                     Text(
                                       "₹${item['price']}",
 
-                                      style: const TextStyle(
-                                        color: Colors.orange,
+                                      style:
+                                          const TextStyle(
+                                        color:
+                                            Colors.orange,
                                         fontSize: 20,
-                                        fontWeight: FontWeight.bold,
+                                        fontWeight:
+                                            FontWeight.bold,
                                       ),
                                     ),
 
@@ -232,17 +302,23 @@ class _CartPageState extends State<CartPage> {
                                     Container(
                                       padding:
                                           const EdgeInsets.symmetric(
-                                        horizontal: 10,
+                                        horizontal:
+                                            10,
                                         vertical: 6,
                                       ),
 
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.orange,
+                                      decoration:
+                                          BoxDecoration(
+                                        border:
+                                            Border.all(
+                                          color:
+                                              Colors.orange,
                                         ),
 
                                         borderRadius:
-                                            BorderRadius.circular(14),
+                                            BorderRadius.circular(
+                                          14,
+                                        ),
                                       ),
 
                                       child: Row(
@@ -251,7 +327,8 @@ class _CartPageState extends State<CartPage> {
                                           GestureDetector(
                                             onTap: () {
 
-                                              if (item['qty'] > 1) {
+                                              if (item['qty'] >
+                                                  1) {
 
                                                 item['qty']--;
 
@@ -260,12 +337,15 @@ class _CartPageState extends State<CartPage> {
                                                   item,
                                                 );
 
-                                                setState(() {});
+                                                setState(
+                                                    () {});
                                               }
                                             },
 
-                                            child: const Icon(
-                                              Icons.remove,
+                                            child:
+                                                const Icon(
+                                              Icons
+                                                  .remove,
                                               size: 18,
                                             ),
                                           ),
@@ -273,14 +353,18 @@ class _CartPageState extends State<CartPage> {
                                           Padding(
                                             padding:
                                                 const EdgeInsets.symmetric(
-                                              horizontal: 12,
+                                              horizontal:
+                                                  12,
                                             ),
 
                                             child: Text(
-                                              item['qty'].toString(),
+                                              item['qty']
+                                                  .toString(),
 
-                                              style: const TextStyle(
-                                                fontSize: 16,
+                                              style:
+                                                  const TextStyle(
+                                                fontSize:
+                                                    16,
                                                 fontWeight:
                                                     FontWeight.bold,
                                               ),
@@ -297,13 +381,16 @@ class _CartPageState extends State<CartPage> {
                                                 item,
                                               );
 
-                                              setState(() {});
+                                              setState(
+                                                  () {});
                                             },
 
-                                            child: const Icon(
+                                            child:
+                                                const Icon(
                                               Icons.add,
                                               size: 18,
-                                              color: Colors.orange,
+                                              color:
+                                                  Colors.orange,
                                             ),
                                           ),
                                         ],
@@ -312,12 +399,15 @@ class _CartPageState extends State<CartPage> {
                                   ],
                                 ),
 
-                                const SizedBox(height: 12),
+                                const SizedBox(
+                                    height: 12),
 
                                 GestureDetector(
                                   onTap: () {
 
-                                    box.deleteAt(index);
+                                    box.deleteAt(
+                                      index,
+                                    );
 
                                     setState(() {});
                                   },
@@ -326,19 +416,25 @@ class _CartPageState extends State<CartPage> {
                                     children: [
 
                                       Icon(
-                                        Icons.delete_outline,
-                                        color: Colors.red,
+                                        Icons
+                                            .delete_outline,
+                                        color:
+                                            Colors.red,
                                       ),
 
-                                      SizedBox(width: 5),
+                                      SizedBox(
+                                          width: 5),
 
                                       Text(
                                         "Remove",
 
-                                        style: TextStyle(
-                                          color: Colors.red,
+                                        style:
+                                            TextStyle(
+                                          color:
+                                              Colors.red,
                                           fontWeight:
-                                              FontWeight.w600,
+                                              FontWeight
+                                                  .w600,
                                         ),
                                       ),
                                     ],
@@ -356,13 +452,18 @@ class _CartPageState extends State<CartPage> {
 
               /// BILL SECTION
               Container(
-                padding: const EdgeInsets.all(20),
+                padding:
+                    const EdgeInsets.all(20),
 
-                decoration: const BoxDecoration(
+                decoration:
+                    const BoxDecoration(
                   color: Colors.white,
 
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(28),
+                  borderRadius:
+                      BorderRadius.vertical(
+                    top: Radius.circular(
+                      28,
+                    ),
                   ),
                 ),
 
@@ -405,12 +506,15 @@ class _CartPageState extends State<CartPage> {
                       child: ElevatedButton(
                         style:
                             ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
+                          backgroundColor:
+                              Colors.orange,
 
                           shape:
                               RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(18),
+                                BorderRadius.circular(
+                              18,
+                            ),
                           ),
                         ),
 
@@ -422,7 +526,9 @@ class _CartPageState extends State<CartPage> {
                             MaterialPageRoute(
                               builder: (context) =>
                                   PaymentPage(
-                                total: totalPrice + 60,
+                                total:
+                                    totalPrice +
+                                        60,
                               ),
                             ),
                           );
@@ -431,10 +537,12 @@ class _CartPageState extends State<CartPage> {
                         child: Text(
                           "Proceed to Pay • ₹${(totalPrice + 60).toStringAsFixed(0)}",
 
-                          style: const TextStyle(
+                          style:
+                              const TextStyle(
                             color: Colors.white,
                             fontSize: 17,
-                            fontWeight: FontWeight.bold,
+                            fontWeight:
+                                FontWeight.bold,
                           ),
                         ),
                       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/cart.dart';
+import 'package:foodapp/screens/cart_screen.dart';
 import 'package:foodapp/widgets/filter.dart';
 import 'package:hive/hive.dart';
 

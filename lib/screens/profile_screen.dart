@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/cart.dart';
+import 'package:foodapp/screens/cart_screen.dart';
 import 'package:foodapp/screens/login_screen.dart';
-import 'package:foodapp/screens/order.dart';
+import 'package:foodapp/screens/orders_screen.dart';
 import 'package:foodapp/widgets/address.dart';
 import 'package:foodapp/widgets/settings.dart';
 import 'package:hive/hive.dart';
@@ -262,7 +262,7 @@ class ProfilePage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (_) =>
-                              const OrdersPage(),
+                              OrdersPage (),
                         ),
                       );
 

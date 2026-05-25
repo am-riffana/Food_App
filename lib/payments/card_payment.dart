@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/order.dart';
+import 'package:foodapp/screens/orders_screen.dart';
 
 class CardPaymentPage extends StatefulWidget {
   final double total;
