@@ -10,22 +10,16 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() =>
-      _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   bool isSearching = false;
   String _searchText = "";
 
-  final TextEditingController
-      _searchController =
-      TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   final List<Restaurant> _items = [
-
-    /// CHEESE BURGER
     Restaurant(
       name: 'Cheese Burger',
       rating: '4.8',
@@ -39,24 +33,16 @@ class _HomePageState extends State<HomePage> {
       price: 199,
       category: 'Burgers',
 
-      ingredients: [
-        "Cheese",
-        "Tomato",
-        "Onion",
-        "Lettuce",
-        "Burger Sauce",
-      ],
+      ingredients: ["Cheese", "Tomato", "Onion", "Lettuce", "Burger Sauce"],
 
       description:
           "Juicy grilled cheese burger with crispy lettuce and creamy burger sauce.",
 
       deliveryTime: "25 mins",
 
-      offer:
-          "50% OFF up to ₹100",
+      offer: "50% OFF up to ₹100",
     ),
 
-    /// PEPPERONI PIZZA
     Restaurant(
       name: 'Pepperoni Pizza',
       rating: '4.6',
@@ -70,23 +56,16 @@ class _HomePageState extends State<HomePage> {
       price: 299,
       category: 'Pizza',
 
-      ingredients: [
-        "Pepperoni",
-        "Mozzarella",
-        "Tomato Sauce",
-        "Olives",
-      ],
+      ingredients: ["Pepperoni", "Mozzarella", "Tomato Sauce", "Olives"],
 
       description:
           "Classic pepperoni pizza loaded with rich mozzarella cheese.",
 
       deliveryTime: "30 mins",
 
-      offer:
-          "Free Coke on orders above ₹499",
+      offer: "Free Coke on orders above ₹499",
     ),
 
-    /// MARGHERITA PIZZA
     Restaurant(
       name: 'Margherita Pizza',
       rating: '4.9',
@@ -100,23 +79,16 @@ class _HomePageState extends State<HomePage> {
       price: 399,
       category: 'Pizza',
 
-      ingredients: [
-        "Fresh Basil",
-        "Mozzarella",
-        "Tomato",
-        "Olive Oil",
-      ],
+      ingredients: ["Fresh Basil", "Mozzarella", "Tomato", "Olive Oil"],
 
       description:
           "Fresh margherita pizza topped with basil and creamy mozzarella.",
 
       deliveryTime: "28 mins",
 
-      offer:
-          "Flat ₹75 OFF on first order",
+      offer: "Flat ₹75 OFF on first order",
     ),
 
-    /// SUSHI SET
     Restaurant(
       name: 'Sushi Set',
       rating: '4.9',
@@ -130,23 +102,16 @@ class _HomePageState extends State<HomePage> {
       price: 499,
       category: 'Sushi',
 
-      ingredients: [
-        "Rice",
-        "Salmon",
-        "Seaweed",
-        "Soy Sauce",
-      ],
+      ingredients: ["Rice", "Salmon", "Seaweed", "Soy Sauce"],
 
       description:
           "Premium sushi platter with authentic Japanese taste and fresh salmon.",
 
       deliveryTime: "35 mins",
 
-      offer:
-          "20% OFF on sushi combo",
+      offer: "20% OFF on sushi combo",
     ),
 
-    /// CLASSIC BEEF BURGER
     Restaurant(
       name: 'Classic Beef Burger',
       rating: '4.8',
@@ -160,23 +125,16 @@ class _HomePageState extends State<HomePage> {
       price: 200,
       category: 'Burgers',
 
-      ingredients: [
-        "Beef Patty",
-        "Cheddar Cheese",
-        "Onion",
-        "Lettuce",
-      ],
+      ingredients: ["Beef Patty", "Cheddar Cheese", "Onion", "Lettuce"],
 
       description:
           "Tender beef burger with smoky grilled flavors and soft buns.",
 
       deliveryTime: "22 mins",
 
-      offer:
-          "Buy 1 Get 1 Free",
+      offer: "Buy 1 Get 1 Free",
     ),
 
-    /// GREEK SALAD
     Restaurant(
       name: 'Greek Salad',
       rating: '4.7',
@@ -190,23 +148,16 @@ class _HomePageState extends State<HomePage> {
       price: 220,
       category: 'Salads',
 
-      ingredients: [
-        "Cucumber",
-        "Tomato",
-        "Olives",
-        "Feta Cheese",
-      ],
+      ingredients: ["Cucumber", "Tomato", "Olives", "Feta Cheese"],
 
       description:
           "Healthy greek salad packed with crunchy vegetables and feta cheese.",
 
       deliveryTime: "18 mins",
 
-      offer:
-          "Healthy combo at ₹299",
+      offer: "Healthy combo at ₹299",
     ),
 
-    /// CHOCOLATE CAKE
     Restaurant(
       name: 'Chocolate Cake',
       rating: '4.9',
@@ -220,23 +171,16 @@ class _HomePageState extends State<HomePage> {
       price: 250,
       category: 'Desserts',
 
-      ingredients: [
-        "Chocolate",
-        "Cream",
-        "Cocoa",
-        "Milk",
-      ],
+      ingredients: ["Chocolate", "Cream", "Cocoa", "Milk"],
 
       description:
           "Soft chocolate cake layered with creamy frosting and cocoa flavor.",
 
       deliveryTime: "20 mins",
 
-      offer:
-          "Free dessert on orders above ₹599",
+      offer: "Free dessert on orders above ₹599",
     ),
 
-    /// ICE CREAM
     Restaurant(
       name: 'Ice Cream',
       rating: '4.6',
@@ -250,23 +194,16 @@ class _HomePageState extends State<HomePage> {
       price: 120,
       category: 'Desserts',
 
-      ingredients: [
-        "Milk",
-        "Cream",
-        "Vanilla",
-        "Chocolate Syrup",
-      ],
+      ingredients: ["Milk", "Cream", "Vanilla", "Chocolate Syrup"],
 
       description:
           "Creamy and chilled ice cream with delicious sweet toppings.",
 
       deliveryTime: "15 mins",
 
-      offer:
-          "Buy 2 Scoops Get 1 Free",
+      offer: "Buy 2 Scoops Get 1 Free",
     ),
 
-    /// TURKEY BURGER
     Restaurant(
       name: 'Turkey Burger',
       rating: '5.0',
@@ -280,23 +217,16 @@ class _HomePageState extends State<HomePage> {
       price: 299,
       category: 'Burgers',
 
-      ingredients: [
-        "Turkey Patty",
-        "Tomato",
-        "Lettuce",
-        "Cheese",
-      ],
+      ingredients: ["Turkey Patty", "Tomato", "Lettuce", "Cheese"],
 
       description:
           "Healthy turkey burger with juicy meat and fresh vegetables.",
 
       deliveryTime: "24 mins",
 
-      offer:
-          "Free fries with burger combo",
+      offer: "Free fries with burger combo",
     ),
 
-    /// VEGGIE BOWL
     Restaurant(
       name: 'Veggie Bowl',
       rating: '4.3',
@@ -310,20 +240,14 @@ class _HomePageState extends State<HomePage> {
       price: 200,
       category: 'Salads',
 
-      ingredients: [
-        "Broccoli",
-        "Corn",
-        "Rice",
-        "Carrot",
-      ],
+      ingredients: ["Broccoli", "Corn", "Rice", "Carrot"],
 
       description:
           "Healthy veggie bowl loaded with fresh vegetables and herbs.",
 
       deliveryTime: "20 mins",
 
-      offer:
-          "20% OFF on healthy meals",
+      offer: "20% OFF on healthy meals",
     ),
   ];
 
@@ -335,68 +259,45 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     final displayList =
         _items.where((r) {
-
-      final matchSearch = r.name
-          .toLowerCase()
-          .contains(
+          final matchSearch = r.name.toLowerCase().contains(
             _searchText.toLowerCase(),
           );
 
-      return matchSearch;
-
-    }).toList();
+          return matchSearch;
+        }).toList();
 
     return Scaffold(
-      backgroundColor:
-          const Color(0xFFF8F8F8),
+      backgroundColor: const Color(0xFFF8F8F8),
 
       body: SafeArea(
         child: Column(
           children: [
-
-            /// TOP HEADER
             Container(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 16,
-                vertical: 14,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
 
               color: Colors.white,
 
               child: Column(
                 children: [
-
-                  /// LOCATION + ICONS
                   Row(
                     children: [
+                      Icon(Icons.location_on, color: Colors.orange, size: 28),
 
-                      const Icon(
-                        Icons.location_on,
-                        color: Colors.orange,
-                        size: 28,
-                      ),
+                      SizedBox(width: 8),
 
-                      const SizedBox(width: 8),
-
-                      const Expanded(
+                      Expanded(
                         child: Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment
-                                  .start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
 
                           children: [
-
                             Text(
                               "Home",
 
                               style: TextStyle(
                                 fontSize: 18,
-                                fontWeight:
-                                    FontWeight.bold,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
 
@@ -405,53 +306,36 @@ class _HomePageState extends State<HomePage> {
                             Text(
                               "Calicut, Kerala",
 
-                              style: TextStyle(
-                                color:
-                                    Colors.grey,
-                              ),
+                              style: TextStyle(color: Colors.grey),
                             ),
                           ],
                         ),
                       ),
 
-                      /// NOTIFICATION BUTTON
                       GestureDetector(
                         onTap: () {
-
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  const NotificationPage(),
+                              builder: (_) => NotificationPage(),
                             ),
                           );
-
                         },
 
                         child: Stack(
                           children: [
-
                             Container(
-                              padding:
-                                  const EdgeInsets.all(
-                                10,
+                              padding: EdgeInsets.all(10),
+
+                              decoration: BoxDecoration(
+                                color: Colors.orange.shade50,
+
+                                shape: BoxShape.circle,
                               ),
 
-                              decoration:
-                                  BoxDecoration(
-                                color: Colors
-                                    .orange
-                                    .shade50,
-
-                                shape:
-                                    BoxShape.circle,
-                              ),
-
-                              child: const Icon(
-                                Icons
-                                    .notifications_none,
-                                color:
-                                    Colors.orange,
+                              child: Icon(
+                                Icons.notifications_none,
+                                color: Colors.orange,
                               ),
                             ),
 
@@ -463,11 +347,9 @@ class _HomePageState extends State<HomePage> {
                                 height: 10,
                                 width: 10,
 
-                                decoration:
-                                    const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.red,
-                                  shape:
-                                      BoxShape.circle,
+                                  shape: BoxShape.circle,
                                 ),
                               ),
                             ),
@@ -475,118 +357,77 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
 
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12),
 
-                      /// PROFILE BUTTON
                       GestureDetector(
                         onTap: () {
-
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  const ProfilePage(),
-                            ),
+                            MaterialPageRoute(builder: (_) => ProfilePage()),
                           );
-
                         },
 
                         child: Container(
-                          padding:
-                              const EdgeInsets.all(
-                            10,
+                          padding: EdgeInsets.all(10),
+
+                          decoration: BoxDecoration(
+                            color: Colors.orange.shade50,
+
+                            shape: BoxShape.circle,
                           ),
 
-                          decoration:
-                              BoxDecoration(
-                            color: Colors
-                                .orange
-                                .shade50,
-
-                            shape:
-                                BoxShape.circle,
-                          ),
-
-                          child: const Icon(
-                            Icons.person,
-                            color:
-                                Colors.orange,
-                          ),
+                          child: Icon(Icons.person, color: Colors.orange),
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 18),
+                  SizedBox(height: 18),
 
-                  /// SEARCH BAR
                   FoodSearchBar(
-                    controller:
-                        _searchController,
+                    controller: _searchController,
 
-                    isSearching:
-                        isSearching,
+                    isSearching: isSearching,
 
                     onSearchTap: () {
-
                       setState(() {
                         isSearching = true;
                       });
-
                     },
 
-                    onSearchChanged:
-                        (value) {
-
+                    onSearchChanged: (value) {
                       setState(() {
                         _searchText = value;
                       });
-
                     },
 
                     onClear: () {
-
                       setState(() {
-
-                        _searchController
-                            .clear();
+                        _searchController.clear();
 
                         _searchText = "";
 
                         isSearching = false;
-
                       });
-
                     },
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12),
 
-            /// BANNER
-            SizedBox(
-              height: 180,
-              child: AutoBannerSlider(),
-            ),
+            SizedBox(height: 180, child: AutoBannerSlider()),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
 
-            /// GRID
             Expanded(
               child: GridView.builder(
-                padding:
-                    const EdgeInsets.all(
-                  12,
-                ),
+                padding: EdgeInsets.all(12),
 
-                itemCount:
-                    displayList.length,
+                itemCount: displayList.length,
 
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
 
                   crossAxisSpacing: 12,
@@ -596,14 +437,8 @@ class _HomePageState extends State<HomePage> {
                   childAspectRatio: 0.68,
                 ),
 
-                itemBuilder:
-                    (context, index) {
-
-                  return RestaurantCard(
-                    restaurant:
-                        displayList[index],
-                  );
-
+                itemBuilder: (context, index) {
+                  return RestaurantCard(restaurant: displayList[index]);
                 },
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/widgets/track_order.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({super.key});
@@ -10,400 +10,394 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> {
-  late Box ordersBox;
+  final _supabase = Supabase.instance.client;
+  List<Map<String, dynamic>> orders = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    ordersBox = Hive.box('orders');
+    fetchOrders();
   }
 
-  String deliveryTime(String time) {
-    final orderedTime = DateTime.parse(time);
+  Future<void> fetchOrders() async {
+    setState(() => isLoading = true);
+    try {
+      final data = await _supabase
+          .from('orders')
+          .select()
+          .order('created_at', ascending: false);
 
-    final delivery = orderedTime.add(
-      const Duration(minutes: 25),
-    );
-
-    final diff = delivery.difference(
-      DateTime.now(),
-    );
-
-    if (diff.isNegative) {
-      return "Delivered";
+      setState(() {
+        orders = List<Map<String, dynamic>>.from(data);
+        isLoading = false;
+      });
+    } catch (e) {
+      debugPrint('Fetch orders error: $e');
+      setState(() => isLoading = false);
     }
+  }
 
-    return "${diff.inMinutes} mins away";
+  Color statusColor(String status) {
+    switch (status) {
+      case 'pending':
+        return Colors.orange;
+      case 'confirmed':
+        return Colors.blue;
+      case 'preparing':
+        return Colors.purple;
+      case 'delivered':
+        return Colors.green;
+      case 'cancelled':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  IconData statusIcon(String status) {
+    switch (status) {
+      case 'pending':
+        return Icons.hourglass_top;
+      case 'confirmed':
+        return Icons.check_circle_outline;
+      case 'preparing':
+        return Icons.restaurant;
+      case 'delivered':
+        return Icons.delivery_dining;
+      case 'cancelled':
+        return Icons.cancel_outlined;
+      default:
+        return Icons.info_outline;
+    }
+  }
+
+  String statusLabel(String status) {
+    switch (status) {
+      case 'pending':
+        return 'Order Pending';
+      case 'confirmed':
+        return 'Order Confirmed';
+      case 'preparing':
+        return 'Preparing your food...';
+      case 'delivered':
+        return 'Delivered ✓';
+      case 'cancelled':
+        return 'Order Cancelled';
+      default:
+        return status;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF2F2F2),
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-
-        title: const Text(
+        title:  Text(
           "Your Orders",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: fetchOrders,
+            icon:  Icon(Icons.refresh, color: Colors.orange),
+          ),
+        ],
       ),
-
-      body: ValueListenableBuilder(
-        valueListenable: ordersBox.listenable(),
-
-        builder: (context, box, _) {
-          final items = box.values.toList();
-
-          if (items.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center,
-                children: const [
-                  Icon(
-                    Icons.shopping_bag_outlined,
-                    size: 90,
-                    color: Colors.orange,
-                  ),
-
-                  SizedBox(height: 15),
-
-                  Text(
-                    "No Orders Yet",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  SizedBox(height: 6),
-
-                  Text(
-                    "Order something tasty 🍔",
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return ListView.builder(
-            padding: const EdgeInsets.all(14),
-            itemCount: items.length,
-
-            itemBuilder: (context, index) {
-              final item = items[index];
-
-              return Container(
-                margin: const EdgeInsets.only(
-                  bottom: 16,
-                ),
-
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                      BorderRadius.circular(22),
-
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 8,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-
-                child: Column(
-                  children: [
-
-                    /// TOP STATUS
-                    Container(
-                      padding:
-                          const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
-                      ),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade50,
-
-                        borderRadius:
-                            const BorderRadius.vertical(
-                          top: Radius.circular(22),
-                        ),
-                      ),
-
-                      child: Row(
-                        children: [
-
-                          const Icon(
-                            Icons.delivery_dining,
-                            color: Colors.orange,
-                          ),
-
-                          const SizedBox(width: 10),
-
-                          Expanded(
-                            child: Text(
-                              item['orderedTime'] !=
-                                      null
-                                  ? deliveryTime(
-                                      item[
-                                          'orderedTime'],
-                                    )
-                                  : "Preparing",
-
-                              style: const TextStyle(
-                                fontWeight:
-                                    FontWeight.bold,
+      body: isLoading
+          ?  Center(
+              child: CircularProgressIndicator(color: Colors.orange),
+            )
+          : RefreshIndicator(
+              onRefresh: fetchOrders,
+              color: Colors.orange,
+              child: orders.isEmpty
+                  ? ListView(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.7,
+                          child:  Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.shopping_bag_outlined,
+                                size: 90,
                                 color: Colors.orange,
                               ),
-                            ),
-                          ),
-
-                          Container(
-                            padding:
-                                const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 5,
-                            ),
-
-                            decoration: BoxDecoration(
-                              color: Colors.green
-                                  .shade100,
-
-                              borderRadius:
-                                  BorderRadius.circular(
-                                20,
+                              SizedBox(height: 15),
+                              Text(
+                                "No Orders Yet",
+                                style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-
-                            child: const Text(
-                              "LIVE",
-
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontWeight:
-                                    FontWeight.bold,
-                                fontSize: 12,
+                              SizedBox(height: 6),
+                              Text(
+                                "Order something tasty 🍔",
+                                style: TextStyle(color: Colors.grey),
                               ),
-                            ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
+                      padding:  EdgeInsets.all(14),
+                      itemCount: orders.length,
+                      itemBuilder: (context, index) {
+                        final order = orders[index];
+                        final status = order['status'] ?? 'pending';
+                        final items = List<Map<String, dynamic>>.from(
+                            order['items'] ?? []);
+                        final firstItem =
+                            items.isNotEmpty ? items[0] : null;
 
-                    Padding(
-                      padding: const EdgeInsets.all(14),
-
-                      child: Row(
-                        children: [
-
-                          /// IMAGE
-                          ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(
-                              16,
-                            ),
-
-                            child: Image.network(
-                              item['image'],
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
+                        return Container(
+                          margin:  EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(22),
+                            boxShadow:  [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 8,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
                           ),
-
-                          const SizedBox(width: 14),
-
-                          /// DETAILS
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
-
-                              children: [
-
-                                Text(
-                                  item['name'],
-
-                                  maxLines: 1,
-                                  overflow:
-                                      TextOverflow
-                                          .ellipsis,
-
-                                  style:
-                                      const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight:
-                                        FontWeight.bold,
+                          child: Column(
+                            children: [
+                              Container(
+                                padding:  EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: statusColor(status).withOpacity(0.1),
+                                  borderRadius:  BorderRadius.vertical(
+                                    top: Radius.circular(22),
                                   ),
                                 ),
-
-                                const SizedBox(
-                                    height: 6),
-
-                                const Text(
-                                  "Delivered by FoodApp",
-
-                                  style: TextStyle(
-                                    color:
-                                        Colors.grey,
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                    height: 10),
-
-                                Row(
+                                child: Row(
                                   children: [
-
+                                    Icon(
+                                      statusIcon(status),
+                                      color: statusColor(status),
+                                    ),
+                                     SizedBox(width: 10),
+                                    Expanded(
+                                      child: Text(
+                                        statusLabel(status),
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: statusColor(status),
+                                        ),
+                                      ),
+                                    ),
                                     Container(
-                                      padding:
-                                          const EdgeInsets.symmetric(
-                                        horizontal:
-                                            10,
+                                      padding:  EdgeInsets.symmetric(
+                                        horizontal: 10,
                                         vertical: 5,
                                       ),
-
-                                      decoration:
-                                          BoxDecoration(
-                                        color: Colors
-                                            .orange
-                                            .shade50,
-
+                                      decoration: BoxDecoration(
+                                        color: statusColor(status)
+                                            .withOpacity(0.15),
                                         borderRadius:
-                                            BorderRadius.circular(
-                                          12,
-                                        ),
+                                            BorderRadius.circular(20),
                                       ),
-
                                       child: Text(
-                                        "Qty ${item['qty']}",
-                                        style:
-                                            const TextStyle(
-                                          color:
-                                              Colors.orange,
-                                          fontWeight:
-                                              FontWeight.bold,
+                                        status.toUpperCase(),
+                                        style: TextStyle(
+                                          color: statusColor(status),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 11,
                                         ),
-                                      ),
-                                    ),
-
-                                    const SizedBox(
-                                        width: 10),
-
-                                    Text(
-                                      "₹${item['price'] * item['qty']}",
-
-                                      style:
-                                          const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight:
-                                            FontWeight.bold,
                                       ),
                                     ),
                                   ],
                                 ),
-
-                                const SizedBox(
-                                    height: 12),
-
-                                Row(
+                              ),
+                              Padding(
+                                padding:  EdgeInsets.all(14),
+                                child: Column(
                                   children: [
-
-                                    Expanded(
-                                      child: ElevatedButton(
-                                        style:
-                                            ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.orange,
-
-                                          shape:
-                                              RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(
-                                              12,
+                                    ...items.map(
+                                      (item) => Padding(
+                                        padding:
+                                             EdgeInsets.only(bottom: 10),
+                                        child: Row(
+                                          children: [
+                                            // IMAGE
+                                            ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(14),
+                                              child: Image.network(
+                                                item['image'] ?? '',
+                                                height: 80,
+                                                width: 80,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (_, __, ___) =>
+                                                    Container(
+                                                  height: 80,
+                                                  width: 80,
+                                                  color:
+                                                      Colors.orange.shade100,
+                                                  child:  Icon(
+                                                    Icons.fastfood,
+                                                    color: Colors.orange,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                             SizedBox(width: 14),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    item['name'] ?? '',
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style:  TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                   SizedBox(height: 4),
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        padding:  EdgeInsets
+                                                            .symmetric(
+                                                          horizontal: 8,
+                                                          vertical: 3,
+                                                        ),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors
+                                                              .orange.shade50,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                        child: Text(
+                                                          "Qty ${item['qty']}",
+                                                          style:
+                                                               TextStyle(
+                                                            color:
+                                                                Colors.orange,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                       SizedBox(width: 8),
+                                                      Text(
+                                                        "₹${((item['price'] as num) * (item['qty'] as num)).toStringAsFixed(0)}",
+                                                        style:  TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                     Divider(),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                             Text(
+                                              "Total Paid",
+                                              style: TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Text(
+                                              "₹${(order['total_amount'] as num).toStringAsFixed(0)}",
+                                              style:  TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        if (status != 'delivered' &&
+                                            status != 'cancelled')
+                                          ElevatedButton.icon(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.orange,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12),
+                                              ),
+                                            ),
+                                            onPressed: firstItem == null
+                                                ? null
+                                                : () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TrackOrderPage(
+                                                          itemName:
+                                                              firstItem['name'],
+                                                          image: firstItem[
+                                                              'image'],
+                                                          orderedTime: order[
+                                                                  'created_at'] ??
+                                                              DateTime.now()
+                                                                  .toIso8601String(),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                            icon:  Icon(
+                                              Icons.delivery_dining,
+                                              color: Colors.white,
+                                              size: 18,
+                                            ),
+                                            label:  Text(
+                                              "Track Order",
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
-                                        ),
-
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context, 
-                                            MaterialPageRoute(builder: (context)=>TrackOrderPage(itemName: item['name'], image: item['image'], orderedTime: item['orderedTime']??
-                                            DateTime.now().toIso8601String())));
-
-                                        },
-
-                                        child: const Text(
-                                          "Track Order",
-
-                                          style: TextStyle(
-                                            color:
-                                                Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-
-                                    const SizedBox(
-                                        width: 10),
-
-                                    Container(
-                                      decoration:
-                                          BoxDecoration(
-                                        border:
-                                            Border.all(
-                                          color:
-                                              Colors.red,
-                                        ),
-
-                                        borderRadius:
-                                            BorderRadius.circular(
-                                          12,
-                                        ),
-                                      ),
-
-                                      child: IconButton(
-                                        onPressed: () {
-                                          box.deleteAt(
-                                            index,
-                                          );
-                                        },
-
-                                        icon: const Icon(
-                                          Icons.delete_outline,
-                                          color:
-                                              Colors.red,
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  ],
-                ),
-              );
-            },
-          );
-        },
-      ),
+            ),
     );
   }
 }

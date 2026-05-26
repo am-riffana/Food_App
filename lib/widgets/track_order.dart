@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -17,23 +16,16 @@ class TrackOrderPage extends StatefulWidget {
   });
 
   @override
-  State<TrackOrderPage> createState() =>
-      _TrackOrderPageState();
+  State<TrackOrderPage> createState() => _TrackOrderPageState();
 }
 
-class _TrackOrderPageState
-    extends State<TrackOrderPage> {
+class _TrackOrderPageState extends State<TrackOrderPage> {
   late Timer timer;
 
   int remainingMinutes = 25;
 
-  /// RESTAURANT LOCATION
-  final LatLng restaurantLocation =
-      LatLng(11.2588, 75.7804);
-
-  /// USER LOCATION
-  final LatLng userLocation =
-      LatLng(11.3000, 75.8200);
+  final LatLng restaurantLocation = LatLng(11.2588, 75.7804);
+  final LatLng userLocation = LatLng(11.3000, 75.8200);
 
   @override
   void initState() {
@@ -41,29 +33,17 @@ class _TrackOrderPageState
 
     updateTime();
 
-    timer = Timer.periodic(
-      const Duration(seconds: 1),
-      (_) => updateTime(),
-    );
+    timer = Timer.periodic( Duration(seconds: 1), (_) => updateTime());
   }
-
   void updateTime() {
-    final ordered =
-        DateTime.parse(widget.orderedTime);
+    final ordered = DateTime.parse(widget.orderedTime);
 
-    final delivery =
-        ordered.add(
-      const Duration(minutes: 25),
-    );
+    final delivery = ordered.add( Duration(minutes: 25));
 
-    final diff =
-        delivery.difference(
-      DateTime.now(),
-    );
+    final diff = delivery.difference(DateTime.now());
 
     setState(() {
-      remainingMinutes =
-          diff.inMinutes;
+      remainingMinutes = diff.inMinutes;
     });
   }
 
@@ -72,89 +52,55 @@ class _TrackOrderPageState
     timer.cancel();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
-    final delivered =
-        remainingMinutes <= 0;
-
+    final delivered = remainingMinutes <= 0;
     return Scaffold(
-      backgroundColor:
-          const Color(0xFFF5F5F5),
-
+      backgroundColor: const Color(0xFFF5F5F5),
       body: Column(
         children: [
-
-          /// MAP SECTION
           Expanded(
             flex: 5,
             child: Stack(
               children: [
-
-                /// OPEN STREET MAP
                 FlutterMap(
                   options: MapOptions(
-                    initialCenter:
-                        restaurantLocation,
+                    initialCenter: restaurantLocation,
                     initialZoom: 13,
                   ),
-
                   children: [
-
-                    /// MAP
                     TileLayer(
                       urlTemplate:
                           'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
 
-                      userAgentPackageName:
-                          'com.example.foodapp',
+                      userAgentPackageName: 'com.example.foodapp',
                     ),
-
-                    /// ROUTE LINE
                     PolylineLayer(
                       polylines: [
                         Polyline(
-                          points: [
-                            restaurantLocation,
-                            userLocation,
-                          ],
-
+                          points: [restaurantLocation, userLocation],
                           strokeWidth: 5,
-
-                          color:
-                              Colors.orange,
+                          color: Colors.orange,
                         ),
                       ],
                     ),
-
-                    /// MARKERS
                     MarkerLayer(
                       markers: [
-
-                        /// RESTAURANT
                         Marker(
-                          point:
-                              restaurantLocation,
-
+                          point: restaurantLocation,
                           width: 80,
                           height: 80,
-
-                          child: const Icon(
+                          child:  Icon(
                             Icons.restaurant,
                             color: Colors.red,
                             size: 40,
                           ),
                         ),
-
-                        /// USER
                         Marker(
-                          point:
-                              userLocation,
-
+                          point: userLocation,
                           width: 80,
                           height: 80,
-
-                          child: const Icon(
+                          child:  Icon(
                             Icons.location_on,
                             color: Colors.blue,
                             size: 40,
@@ -164,108 +110,60 @@ class _TrackOrderPageState
                     ),
                   ],
                 ),
-
-                /// DARK OVERLAY
                 Container(
-                  decoration:
-                      BoxDecoration(
-                    gradient:
-                        LinearGradient(
-                      begin:
-                          Alignment.topCenter,
-                      end:
-                          Alignment.bottomCenter,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black
-                            .withOpacity(
-                          0.1,
-                        ),
-                        Colors.black
-                            .withOpacity(
-                          0.4,
-                        ),
+                        Colors.black.withOpacity(0.1),
+                        Colors.black.withOpacity(0.4),
                       ],
                     ),
                   ),
                 ),
-
-                /// TOP BAR
                 SafeArea(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(
+                    padding:  EdgeInsets.symmetric(
                       horizontal: 14,
                       vertical: 10,
                     ),
-
                     child: Row(
                       children: [
-
-                        /// BACK BUTTON
                         CircleAvatar(
-                          backgroundColor:
-                              Colors.white,
-
+                          backgroundColor: Colors.white,
                           child: IconButton(
                             onPressed: () {
-                              Navigator.pop(
-                                  context);
+                              Navigator.pop(context);
                             },
-
-                            icon:
-                                const Icon(
+                            icon:  Icon(
                               Icons.arrow_back,
-                              color:
-                                  Colors.black,
+                              color: Colors.black,
                             ),
                           ),
                         ),
-
-                        const Spacer(),
-
-                        /// LIVE BADGE
+                         Spacer(),
                         Container(
-                          padding:
-                              const EdgeInsets.symmetric(
-                            horizontal:
-                                14,
-                            vertical:
-                                8,
+                          padding:  EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
                           ),
-
-                          decoration:
-                              BoxDecoration(
-                            color:
-                                Colors.green,
-
-                            borderRadius:
-                                BorderRadius.circular(
-                              30,
-                            ),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(30),
                           ),
-
-                          child:
-                              const Row(
+                          child:  Row(
                             children: [
-
                               CircleAvatar(
                                 radius: 4,
-                                backgroundColor:
-                                    Colors.white,
+                                backgroundColor: Colors.white,
                               ),
-
-                              SizedBox(
-                                  width: 8),
-
+                              SizedBox(width: 8),
                               Text(
                                 "LIVE",
-
-                                style:
-                                    TextStyle(
-                                  color:
-                                      Colors.white,
-                                  fontWeight:
-                                      FontWeight.bold,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
@@ -275,67 +173,34 @@ class _TrackOrderPageState
                     ),
                   ),
                 ),
-
-                /// DELIVERY ICON
                 Positioned(
                   top: 180,
                   left: 120,
                   right: 120,
-
                   child: Column(
                     children: [
-
                       Container(
-                        padding:
-                            const EdgeInsets.all(
-                          20,
-                        ),
-
-                        decoration:
-                            BoxDecoration(
-                          color:
-                              Colors.white,
-
-                          shape:
-                              BoxShape.circle,
-
+                        padding:  EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                           boxShadow: [
-                            BoxShadow(
-                              color: Colors
-                                  .black26,
-
-                              blurRadius: 10,
-                            ),
+                            BoxShadow(color: Colors.black26, blurRadius: 10),
                           ],
                         ),
-
-                        child:
-                            const Icon(
-                          Icons
-                              .delivery_dining,
-
+                        child:  Icon(
+                          Icons.delivery_dining,
                           size: 50,
-
-                          color:
-                              Colors.orange,
+                          color: Colors.orange,
                         ),
                       ),
-
-                      const SizedBox(
-                          height: 12),
-
-                      const Text(
+                       SizedBox(height: 12),
+                       Text(
                         "Delivery Partner Nearby",
-
-                        style:
-                            TextStyle(
-                          color:
-                              Colors.white,
-
+                        style: TextStyle(
+                          color: Colors.white,
                           fontSize: 18,
-
-                          fontWeight:
-                              FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
@@ -344,156 +209,74 @@ class _TrackOrderPageState
               ],
             ),
           ),
-
-          /// DETAILS SECTION
           Expanded(
             flex: 6,
             child: Container(
-              width:
-                  double.infinity,
-
-              padding:
-                  const EdgeInsets.all(
-                20,
-              ),
-
-              decoration:
-                  const BoxDecoration(
+              width: double.infinity,
+              padding:  EdgeInsets.all(20),
+              decoration:  BoxDecoration(
                 color: Colors.white,
-
-                borderRadius:
-                    BorderRadius.only(
-                  topLeft:
-                      Radius.circular(
-                    34,
-                  ),
-
-                  topRight:
-                      Radius.circular(
-                    34,
-                  ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(34),
+                  topRight: Radius.circular(34),
                 ),
               ),
-
-              child:
-                  SingleChildScrollView(
+              child: SingleChildScrollView(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment
-                          .start,
-
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
-                    /// ETA
                     Text(
                       delivered
                           ? "Order Delivered 🎉"
                           : "$remainingMinutes mins away",
 
-                      style:
-                          const TextStyle(
+                      style:  TextStyle(
                         fontSize: 30,
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-
-                    const SizedBox(
-                        height: 8),
-
+                     SizedBox(height: 8),
                     Text(
                       delivered
                           ? "Enjoy your meal ❤️"
                           : "Your order is on the way",
 
-                      style:
-                          const TextStyle(
-                        color:
-                            Colors.grey,
-                        fontSize: 16,
-                      ),
+                      style:  TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-
-                    const SizedBox(
-                        height: 24),
-
-                    /// FOOD CARD
+                     SizedBox(height: 24),
                     Container(
-                      padding:
-                          const EdgeInsets.all(
-                        14,
+                      padding:  EdgeInsets.all(14),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8F8F8),
+                        borderRadius: BorderRadius.circular(22),
                       ),
-
-                      decoration:
-                          BoxDecoration(
-                        color:
-                            const Color(
-                          0xFFF8F8F8,
-                        ),
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          22,
-                        ),
-                      ),
-
                       child: Row(
                         children: [
-
                           ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(
-                              18,
-                            ),
-
-                            child:
-                                Image.network(
+                            borderRadius: BorderRadius.circular(18),
+                            child: Image.network(
                               widget.image,
-
                               height: 90,
                               width: 90,
-
                               fit: BoxFit.cover,
                             ),
                           ),
-
-                          const SizedBox(
-                              width: 14),
-
+                           SizedBox(width: 14),
                           Expanded(
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
-
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 Text(
-                                  widget
-                                      .itemName,
-
-                                  style:
-                                      const TextStyle(
-                                    fontSize:
-                                        20,
-
-                                    fontWeight:
-                                        FontWeight.bold,
+                                  widget.itemName,
+                                  style:  TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-
-                                const SizedBox(
-                                    height:
-                                        8),
-
-                                const Text(
+                                 SizedBox(height: 8),
+                                 Text(
                                   "Preparing with love ❤️",
-
-                                  style:
-                                      TextStyle(
-                                    color:
-                                        Colors.grey,
-                                  ),
+                                  style: TextStyle(color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -501,44 +284,28 @@ class _TrackOrderPageState
                         ],
                       ),
                     ),
-
-                    const SizedBox(
-                        height: 28),
-
-                    /// TRACKING STEPS
+                     SizedBox(height: 28),
                     trackingTile(
-                      icon:
-                          Icons.check_circle,
+                      icon: Icons.check_circle,
 
-                      title:
-                          "Order Confirmed",
+                      title: "Order Confirmed",
 
-                      subtitle:
-                          "Restaurant accepted your order",
+                      subtitle: "Restaurant accepted your order",
 
                       done: true,
                     ),
-
                     trackingTile(
-                      icon:
-                          Icons.restaurant,
+                      icon: Icons.restaurant,
 
-                      title:
-                          "Food Prepared",
+                      title: "Food Prepared",
 
-                      subtitle:
-                          "Chef prepared your food",
+                      subtitle: "Chef prepared your food",
 
                       done: true,
                     ),
-
                     trackingTile(
-                      icon: Icons
-                          .delivery_dining,
-
-                      title:
-                          "On The Way",
-
+                      icon: Icons.delivery_dining,
+                      title: "On The Way",
                       subtitle:
                           delivered
                               ? "Delivered successfully"
@@ -546,21 +313,14 @@ class _TrackOrderPageState
 
                       done: true,
                     ),
-
                     trackingTile(
-                      icon:
-                          Icons.home,
-
-                      title:
-                          "Delivered",
-
+                      icon: Icons.home,
+                      title: "Delivered",
                       subtitle:
                           delivered
                               ? "Enjoy your food 🍔"
                               : "Waiting for delivery",
-
-                      done:
-                          delivered,
+                      done: delivered,
                     ),
                   ],
                 ),
@@ -571,7 +331,6 @@ class _TrackOrderPageState
       ),
     );
   }
-
   Widget trackingTile({
     required IconData icon,
     required String title,
@@ -579,78 +338,32 @@ class _TrackOrderPageState
     required bool done,
   }) {
     return Padding(
-      padding:
-          const EdgeInsets.only(
-        bottom: 24,
-      ),
-
+      padding:  EdgeInsets.only(bottom: 24),
       child: Row(
-        crossAxisAlignment:
-            CrossAxisAlignment.start,
-
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Container(
-            padding:
-                const EdgeInsets.all(
-              12,
+            padding:  EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: done ? Colors.green.shade100 : Colors.grey.shade200,
+              shape: BoxShape.circle,
             ),
-
-            decoration:
-                BoxDecoration(
-              color: done
-                  ? Colors.green
-                      .shade100
-                  : Colors.grey
-                      .shade200,
-
-              shape:
-                  BoxShape.circle,
-            ),
-
-            child: Icon(
-              icon,
-
-              color: done
-                  ? Colors.green
-                  : Colors.grey,
-            ),
+            child: Icon(icon, color: done ? Colors.green : Colors.grey),
           ),
-
-          const SizedBox(
-              width: 14),
-
+           SizedBox(width: 14),
           Expanded(
             child: Column(
-              crossAxisAlignment:
-                  CrossAxisAlignment
-                      .start,
-
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 Text(
                   title,
-
-                  style:
-                      const TextStyle(
+                  style:  TextStyle(
                     fontSize: 17,
-                    fontWeight:
-                        FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-
-                const SizedBox(
-                    height: 5),
-
-                Text(
-                  subtitle,
-
-                  style:
-                      const TextStyle(
-                    color:
-                        Colors.grey,
-                  ),
-                ),
+                SizedBox(height: 5),
+                Text(subtitle, style: TextStyle(color: Colors.grey)),
               ],
             ),
           ),

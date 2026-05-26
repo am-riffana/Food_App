@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:foodapp/screens/home_screen.dart';
+import 'package:foodapp/admin/screens/admin_mainscreen.dart';
 import 'package:foodapp/screens/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'signup_screen.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
+
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool isLoading = false;
 
   bool isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }
+
   Future<void> saveLogin(String email) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('isLoggedIn', true);
     await prefs.setString('email', email);
   }
+
   void login() async {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      showMessage("Enter email & password", const Color.fromARGB(255, 131, 31, 25));
+      showMessage("Enter email & password", Colors.red);
       return;
     }
 
@@ -40,26 +46,63 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
-    await saveLogin(email);
+    setState(() => isLoading = true);
 
-    if (!mounted) return;
+    try {
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: email,
+        password: password,
+      );
 
-    if (email == "rifanasherin80@gmail.com" && password == "1234") {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomePage()),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => MainScreen()),
-      );
+      final user = response.user;
+
+      if (user == null) {
+        showMessage("Login failed", Colors.red);
+        return;
+      }
+
+      await saveLogin(email);
+
+      final userData = await Supabase.instance.client
+          .from('users')
+          .select()
+          .eq('id', user.id)
+          .single();
+
+      if (!mounted) return;
+
+      // ✅ Check if blocked
+      if (userData['is_blocked'] == true) {
+        await Supabase.instance.client.auth.signOut();
+        showMessage("Your account has been blocked by admin!", Colors.red);
+        setState(() => isLoading = false);
+        return;
+      }
+
+      // ✅ Check if admin
+      if (userData['is_admin'] == true) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const AdminMainScreen()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const MainScreen()),
+        );
+      }
+    } catch (e) {
+      showMessage(e.toString(), Colors.red);
+    } finally {
+      setState(() => isLoading = false);
     }
   }
+
   void showMessage(String msg, Color color) {
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(msg), backgroundColor: color));
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,62 +112,68 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.fastfood, color: Colors.orange, size: 60),
-            SizedBox(height: 20),
-            Text("Welcome back!", style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
-            SizedBox(height: 20),
-            Text('Login to Continue',style: TextStyle(fontSize: 12,color: const Color.fromARGB(255, 112, 111, 111)),),
-            SizedBox(height: 10),
+            const Icon(Icons.fastfood, color: Colors.orange, size: 60),
+            const SizedBox(height: 20),
+            const Text("Welcome back!",
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            const Text(
+              'Login to Continue',
+              style: TextStyle(
+                  fontSize: 12,
+                  color: Color.fromARGB(255, 112, 111, 111)),
+            ),
+            const SizedBox(height: 10),
             TextField(
               controller: emailController,
               decoration: InputDecoration(
                 hintText: "Email",
-                prefixIcon: Icon(Icons.email),
+                prefixIcon: const Icon(Icons.email),
                 filled: true,
-                fillColor: Color(0xfff7e6d3),
+                fillColor: const Color(0xfff7e6d3),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none),
               ),
             ),
-            SizedBox(height: 15),
-
+            const SizedBox(height: 15),
             TextField(
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 hintText: "Password",
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 filled: true,
-                fillColor: Color(0xfff7e6d3),
+                fillColor: const Color(0xfff7e6d3),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none),
               ),
             ),
-            SizedBox(height: 20),
-
+            const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: login,
+                onPressed: isLoading ? null : login,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(vertical: 14),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
-                child: Text("Login", style: TextStyle(color: Colors.white)),
+                child: isLoading
+                    ? const CircularProgressIndicator(color: Colors.white)
+                    : const Text("Login",
+                        style: TextStyle(color: Colors.white)),
               ),
             ),
-            SizedBox(height: 20),
-
+            const SizedBox(height: 20),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => SignUpScreen()),
+                  MaterialPageRoute(builder: (_) => const SignUpScreen()),
                 );
               },
-              child: Text("Don't have an account? Sign Up"),
+              child: const Text("Don't have an account? Sign Up"),
             )
           ],
         ),

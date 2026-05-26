@@ -4,23 +4,17 @@ class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() =>
-      _SettingsPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState
-    extends State<SettingsPage> {
-
+class _SettingsPageState extends State<SettingsPage> {
   bool notifications = true;
-
   bool locationAccess = true;
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-          const Color(0xFFF6F6F6),
+      backgroundColor: const Color(0xFFF6F6F6),
 
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -32,38 +26,24 @@ class _SettingsPageState
         title: const Text(
           "Settings",
 
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight:
-                FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
 
-        iconTheme:
-            const IconThemeData(
-          color: Colors.black,
-        ),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
 
       body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
 
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
 
           children: [
-
             /// ACCOUNT
             const Text(
               "Account",
 
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 16),
@@ -72,66 +52,41 @@ class _SettingsPageState
               decoration: BoxDecoration(
                 color: Colors.white,
 
-                borderRadius:
-                    BorderRadius.circular(
-                  24,
-                ),
+                borderRadius: BorderRadius.circular(24),
 
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 8,
-                    offset:
-                        const Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
 
               child: Column(
                 children: [
-
                   ListTile(
                     leading: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
+                      padding: const EdgeInsets.all(10),
+
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+
+                        borderRadius: BorderRadius.circular(14),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons.person,
-                        color:
-                            Colors.orange,
-                      ),
+                      child: const Icon(Icons.person, color: Colors.orange),
                     ),
 
                     title: const Text(
                       "Edit Profile",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: const Text(
-                      "Change name and email",
-                    ),
+                    subtitle: const Text("Change name and email"),
 
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
                     onTap: () {},
                   ),
@@ -140,46 +95,26 @@ class _SettingsPageState
 
                   ListTile(
                     leading: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
+                      padding: const EdgeInsets.all(10),
+
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+
+                        borderRadius: BorderRadius.circular(14),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons.lock,
-                        color:
-                            Colors.orange,
-                      ),
+                      child: const Icon(Icons.lock, color: Colors.orange),
                     ),
 
                     title: const Text(
                       "Privacy",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: const Text(
-                      "Manage privacy settings",
-                    ),
+                    subtitle: const Text("Manage privacy settings"),
 
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
                     onTap: () {},
                   ),
@@ -188,46 +123,26 @@ class _SettingsPageState
 
                   ListTile(
                     leading: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
+                      padding: const EdgeInsets.all(10),
+
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+
+                        borderRadius: BorderRadius.circular(14),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons.language,
-                        color:
-                            Colors.orange,
-                      ),
+                      child: const Icon(Icons.language, color: Colors.orange),
                     ),
 
                     title: const Text(
                       "Language",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: const Text(
-                      "English",
-                    ),
+                    subtitle: const Text("English"),
 
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
+                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
 
                     onTap: () {},
                   ),
@@ -241,11 +156,7 @@ class _SettingsPageState
             const Text(
               "App Settings",
 
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 16),
@@ -254,74 +165,51 @@ class _SettingsPageState
               decoration: BoxDecoration(
                 color: Colors.white,
 
-                borderRadius:
-                    BorderRadius.circular(
-                  24,
-                ),
+                borderRadius: BorderRadius.circular(24),
 
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 8,
-                    offset:
-                        const Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
 
               child: Column(
                 children: [
-
                   SwitchListTile(
                     value: notifications,
 
-                    activeColor:
-                        Colors.orange,
+                    activeColor: Colors.orange,
 
                     secondary: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
-                      ),
+                      padding: const EdgeInsets.all(10),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
 
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
+                        borderRadius: BorderRadius.circular(14),
                       ),
 
                       child: const Icon(
                         Icons.notifications,
-                        color:
-                            Colors.orange,
+                        color: Colors.orange,
                       ),
                     ),
 
                     title: const Text(
                       "Notifications",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: const Text(
-                      "Enable app notifications",
-                    ),
+                    subtitle: const Text("Enable app notifications"),
 
                     onChanged: (value) {
-
                       setState(() {
-                        notifications =
-                            value;
+                        notifications = value;
                       });
-
                     },
                   ),
 
@@ -330,242 +218,128 @@ class _SettingsPageState
                   SwitchListTile(
                     value: locationAccess,
 
-                    activeColor:
-                        Colors.orange,
+                    activeColor: Colors.orange,
 
                     secondary: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
-                      ),
+                      padding: const EdgeInsets.all(10),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
 
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
+                        borderRadius: BorderRadius.circular(14),
                       ),
 
                       child: const Icon(
                         Icons.location_on,
-                        color:
-                            Colors.orange,
+                        color: Colors.orange,
                       ),
                     ),
-
-                    title: const Text(
+                    title:  Text(
                       "Location Access",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: const Text(
-                      "Allow location services",
-                    ),
-
+                    subtitle:  Text("Allow location services"),
                     onChanged: (value) {
-
                       setState(() {
-                        locationAccess =
-                            value;
+                        locationAccess = value;
                       });
-
                     },
                   ),
                 ],
               ),
             ),
-
-            const SizedBox(height: 28),
-
-            /// SUPPORT
-            const Text(
+             SizedBox(height: 28),
+             Text(
               "Support",
 
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight:
-                    FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-
-            const SizedBox(height: 16),
-
+             SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
 
-                borderRadius:
-                    BorderRadius.circular(
-                  24,
-                ),
+                borderRadius: BorderRadius.circular(24),
 
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 8,
-                    offset:
-                        const Offset(0, 3),
+                    offset:  Offset(0, 3),
                   ),
                 ],
               ),
 
               child: Column(
                 children: [
-
                   ListTile(
                     leading: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
+                      padding:  EdgeInsets.all(10),
+
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+
+                        borderRadius: BorderRadius.circular(14),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons.help,
-                        color:
-                            Colors.orange,
-                      ),
+                      child:  Icon(Icons.help, color: Colors.orange),
                     ),
 
-                    title: const Text(
+                    title:  Text(
                       "Help Center",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
 
-                    subtitle: const Text(
-                      "Get support",
-                    ),
+                    subtitle:  Text("Get support"),
 
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
+                    trailing:  Icon(Icons.arrow_forward_ios, size: 16),
 
                     onTap: () {},
                   ),
-
-                  const Divider(height: 1),
-
+                   Divider(height: 1),
                   ListTile(
                     leading: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
+                      padding:  EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+                        borderRadius: BorderRadius.circular(14),
                       ),
-
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons.info,
-                        color:
-                            Colors.orange,
-                      ),
+                      child:  Icon(Icons.info, color: Colors.orange),
                     ),
-
-                    title: const Text(
+                    title:  Text(
                       "About App",
 
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-
-                    subtitle: const Text(
-                      "Version 1.0.0",
-                    ),
-
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
-
+                    subtitle:  Text("Version 1.0.0"),
+                    trailing:  Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () {},
                   ),
-
-                  const Divider(height: 1),
-
+                   Divider(height: 1),
                   ListTile(
                     leading: Container(
-                      padding:
-                          const EdgeInsets.all(
-                        10,
+                      padding:  EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+                        borderRadius: BorderRadius.circular(14),
                       ),
-
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .shade100,
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          14,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons.star,
-                        color:
-                            Colors.orange,
-                      ),
+                      child:  Icon(Icons.star, color: Colors.orange),
                     ),
-
-                    title: const Text(
+                    title:  Text(
                       "Rate Us",
-
-                      style: TextStyle(
-                        fontWeight:
-                            FontWeight.bold,
-                      ),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-
-                    subtitle: const Text(
-                      "Give your feedback",
-                    ),
-
-                    trailing: const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 16,
-                    ),
-
+                    subtitle:  Text("Give your feedback"),
+                    trailing:  Icon(Icons.arrow_forward_ios, size: 16),
                     onTap: () {},
                   ),
                 ],
               ),
             ),
-
-            const SizedBox(height: 30),
+             SizedBox(height: 30),
           ],
         ),
       ),
