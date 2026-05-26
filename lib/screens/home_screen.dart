@@ -420,7 +420,6 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 180, child: AutoBannerSlider()),
 
             SizedBox(height: 10),
-
             Expanded(
               child: GridView.builder(
                 padding: EdgeInsets.all(12),

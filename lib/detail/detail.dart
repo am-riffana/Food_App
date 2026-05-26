@@ -5,18 +5,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 class DetailsPage extends StatefulWidget {
   final Restaurant restaurant;
 
-  const DetailsPage({
-    super.key,
-    required this.restaurant,
-  });
+  const DetailsPage({super.key, required this.restaurant});
 
   @override
-  State<DetailsPage> createState() =>
-      _DetailsPageState();
+  State<DetailsPage> createState() => _DetailsPageState();
 }
 
-class _DetailsPageState
-    extends State<DetailsPage> {
+class _DetailsPageState extends State<DetailsPage> {
   late Box ordersBox;
 
   int qty = 1;
@@ -37,17 +32,13 @@ class _DetailsPageState
       "price": widget.restaurant.price,
       "qty": qty,
       "status": "cart",
-      "addedTime":
-          DateTime.now().toIso8601String(),
+      "addedTime": DateTime.now().toIso8601String(),
     });
 
-    ScaffoldMessenger.of(context)
-        .showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.green,
-        content: Text(
-          "${widget.restaurant.name} added to cart 🛒",
-        ),
+        content: Text("${widget.restaurant.name} added to cart 🛒"),
       ),
     );
   }
@@ -63,34 +54,21 @@ class _DetailsPageState
       backgroundColor: Colors.white,
 
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
 
         decoration: BoxDecoration(
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 10,
-              color: Colors.black12,
-            ),
-          ],
+          boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black12)],
         ),
 
         child: Row(
           children: [
-            /// QUANTITY
             Container(
-              padding:
-                  const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 6,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
 
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.orange,
-                ),
-                borderRadius:
-                    BorderRadius.circular(12),
+                border: Border.all(color: Colors.orange),
+                borderRadius: BorderRadius.circular(12),
               ),
 
               child: Row(
@@ -104,23 +82,17 @@ class _DetailsPageState
                       }
                     },
 
-                    child: const Icon(
-                      Icons.remove,
-                    ),
+                    child: Icon(Icons.remove),
                   ),
 
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
 
                   Text(
                     "$qty",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
 
                   GestureDetector(
                     onTap: () {
@@ -129,34 +101,23 @@ class _DetailsPageState
                       });
                     },
 
-                    child: const Icon(
-                      Icons.add,
-                    ),
+                    child: Icon(Icons.add),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(width: 14),
+            SizedBox(width: 14),
 
             /// ADD TO CART BUTTON
             Expanded(
               child: ElevatedButton(
-                style:
-                    ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Colors.orange,
-                  padding:
-                      const EdgeInsets.symmetric(
-                    vertical: 16,
-                  ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  padding: EdgeInsets.symmetric(vertical: 16),
 
-                  shape:
-                      RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(
-                      14,
-                    ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
                   ),
                 ),
 
@@ -164,11 +125,10 @@ class _DetailsPageState
 
                 child: Text(
                   "Add Item • ₹${widget.restaurant.price * qty}",
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
-                    fontWeight:
-                        FontWeight.bold,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -179,29 +139,22 @@ class _DetailsPageState
 
       body: CustomScrollView(
         slivers: [
-          /// APP BAR IMAGE
           SliverAppBar(
             expandedHeight: 320,
             pinned: true,
             backgroundColor: Colors.white,
 
             leading: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8),
 
               child: CircleAvatar(
-                backgroundColor:
-                    Colors.white,
+                backgroundColor: Colors.white,
 
                 child: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
 
                   onPressed: () {
-                    Navigator.pop(
-                      context,
-                    );
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -211,29 +164,16 @@ class _DetailsPageState
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    image,
-                    fit: BoxFit.cover,
-                  ),
+                  Image.network(image, fit: BoxFit.cover),
 
                   Container(
-                    decoration:
-                        BoxDecoration(
-                      gradient:
-                          LinearGradient(
-                        begin:
-                            Alignment.topCenter,
-                        end: Alignment
-                            .bottomCenter,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
                         colors: [
-                          Colors.black
-                              .withOpacity(
-                            0.2,
-                          ),
-                          Colors.black
-                              .withOpacity(
-                            0.5,
-                          ),
+                          Colors.black.withOpacity(0.2),
+                          Colors.black.withOpacity(0.5),
                         ],
                       ),
                     ),
@@ -242,194 +182,126 @@ class _DetailsPageState
               ),
             ),
           ),
-
-          /// DETAILS
           SliverToBoxAdapter(
             child: Padding(
-              padding:
-                  const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
 
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   /// TITLE
                   Text(
                     widget.restaurant.name,
-                    style:
-                        const TextStyle(
-                      fontSize: 28,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(height: 12),
-
-                  /// RATING
+                  SizedBox(height: 12),
                   Row(
                     children: [
                       Container(
-                        padding:
-                            const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 10,
                           vertical: 6,
                         ),
 
-                        decoration:
-                            BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.green,
-                          borderRadius:
-                              BorderRadius.circular(
-                            10,
-                          ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
 
                         child: Row(
                           children: [
-                            const Icon(
-                              Icons.star,
-                              color:
-                                  Colors.white,
-                              size: 16,
-                            ),
+                            Icon(Icons.star, color: Colors.white, size: 16),
 
-                            const SizedBox(
-                                width: 4),
+                            SizedBox(width: 4),
 
                             Text(
-                              widget
-                                  .restaurant
-                                  .rating,
+                              widget.restaurant.rating,
 
-                              style:
-                                  const TextStyle(
-                                color:
-                                    Colors.white,
-                                fontWeight:
-                                    FontWeight
-                                        .bold,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
                       ),
 
-                      const SizedBox(
-                          width: 12),
+                      SizedBox(width: 12),
 
                       Text(
-                        widget
-                            .restaurant
-                            .distance,
+                        widget.restaurant.distance,
 
-                        style:
-                            const TextStyle(
-                          color:
-                              Colors.grey,
-                          fontWeight:
-                              FontWeight.w500,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
 
-                      const SizedBox(
-                          width: 12),
+                      SizedBox(width: 12),
 
                       Container(
-                        padding:
-                            const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                           horizontal: 10,
                           vertical: 5,
                         ),
 
-                        decoration:
-                            BoxDecoration(
-                          color: widget
-                                  .restaurant
-                                  .isOpen
-                              ? Colors.green
-                                  .shade50
-                              : Colors.red
-                                  .shade50,
+                        decoration: BoxDecoration(
+                          color:
+                              widget.restaurant.isOpen
+                                  ? Colors.green.shade50
+                                  : Colors.red.shade50,
 
-                          borderRadius:
-                              BorderRadius.circular(
-                            8,
-                          ),
+                          borderRadius: BorderRadius.circular(8),
                         ),
 
                         child: Text(
-                          widget.restaurant
-                                  .isOpen
-                              ? "OPEN"
-                              : "CLOSED",
+                          widget.restaurant.isOpen ? "OPEN" : "CLOSED",
 
                           style: TextStyle(
-                            color: widget
-                                    .restaurant
-                                    .isOpen
-                                ? Colors.green
-                                : Colors.red,
+                            color:
+                                widget.restaurant.isOpen
+                                    ? Colors.green
+                                    : Colors.red,
 
-                            fontWeight:
-                                FontWeight.bold,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ],
                   ),
 
-                  const SizedBox(height: 22),
-
-                  /// OFFER CARD
+                  SizedBox(height: 22),
                   Container(
-                    padding:
-                        const EdgeInsets.all(
-                      16,
-                    ),
+                    padding: EdgeInsets.all(16),
 
-                    decoration:
-                        BoxDecoration(
-                      color:
-                          Colors.orange.shade50,
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade50,
 
-                      borderRadius:
-                          BorderRadius.circular(
-                        18,
-                      ),
+                      borderRadius: BorderRadius.circular(18),
                     ),
 
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.local_offer,
-                          color: Colors.orange,
-                          size: 30,
-                        ),
+                        Icon(Icons.local_offer, color: Colors.orange, size: 30),
 
-                        const SizedBox(width: 14),
+                        SizedBox(width: 14),
 
                         Expanded(
                           child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 widget.restaurant.offer,
-                                style:
-                                    const TextStyle(
-                                  fontWeight:
-                                      FontWeight.bold,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 16,
                                 ),
                               ),
 
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4),
 
-                              const Text(
-                                "Limited time offer",
-                              ),
+                              Text("Limited time offer"),
                             ],
                           ),
                         ),
@@ -437,120 +309,79 @@ class _DetailsPageState
                     ),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
-                  /// ABOUT
-                  const Text(
+                  Text(
                     "About Item",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
                   Text(
                     widget.restaurant.description,
-                    style: const TextStyle(
-                      height: 1.6,
-                      color: Colors.grey,
-                    ),
+                    style: TextStyle(height: 1.6, color: Colors.grey),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
-                  /// INGREDIENTS
-                  const Text(
+                  Text(
                     "Ingredients",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(height: 14),
+                  SizedBox(height: 14),
 
                   Wrap(
                     spacing: 10,
                     runSpacing: 10,
                     children:
                         widget.restaurant.ingredients
-                            .map(
-                              (ingredient) =>
-                                  ingredientChip(
-                                ingredient,
-                              ),
-                            )
+                            .map((ingredient) => ingredientChip(ingredient))
                             .toList(),
                   ),
 
-                  const SizedBox(height: 24),
+                  SizedBox(height: 24),
 
-                  /// DELIVERY INFO
                   Container(
-                    padding:
-                        const EdgeInsets.all(
-                      16,
-                    ),
+                    padding: EdgeInsets.all(16),
 
-                    decoration:
-                        BoxDecoration(
-                      color:
-                          Colors.grey.shade100,
-                      borderRadius:
-                          BorderRadius.circular(
-                        18,
-                      ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      borderRadius: BorderRadius.circular(18),
                     ),
 
                     child: Column(
                       children: [
                         Row(
                           children: [
-                            const Icon(
-                              Icons.timer,
-                              color:
-                                  Colors.orange,
-                            ),
-
-                            const SizedBox(width: 10),
-
-                            Text(
-                              "Delivery in ${widget.restaurant.deliveryTime}",
-                              style:
-                                  const TextStyle(
-                                fontWeight:
-                                    FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 14),
-
-                        const Row(
-                          children: [
-                            Icon(
-                              Icons.delivery_dining,
-                              color:
-                                  Colors.orange,
-                            ),
+                            Icon(Icons.timer, color: Colors.orange),
 
                             SizedBox(width: 10),
 
                             Text(
-                              "Free delivery on orders above ₹199",
+                              "Delivery in ${widget.restaurant.deliveryTime}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ),
+                          ],
+                        ),
+
+                        SizedBox(height: 14),
+
+                        Row(
+                          children: [
+                            Icon(Icons.delivery_dining, color: Colors.orange),
+
+                            SizedBox(width: 10),
+
+                            Text("Free delivery on orders above ₹199"),
                           ],
                         ),
                       ],
                     ),
                   ),
 
-                  const SizedBox(height: 100),
+                  SizedBox(height: 100),
                 ],
               ),
             ),
@@ -562,23 +393,14 @@ class _DetailsPageState
 
   Widget ingredientChip(String text) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 10,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
 
       decoration: BoxDecoration(
         color: Colors.orange.shade50,
-        borderRadius:
-            BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(30),
       ),
 
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-        ),
-      ),
+      child: Text(text, style: TextStyle(fontWeight: FontWeight.w500)),
     );
   }
 }

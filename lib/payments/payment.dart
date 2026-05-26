@@ -6,17 +6,12 @@ import 'package:foodapp/payments/upi_payment.dart';
 class PaymentPage extends StatelessWidget {
   final double total;
 
-  const PaymentPage({
-    super.key,
-    required this.total,
-  });
+  const PaymentPage({super.key, required this.total});
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor:
-          const Color(0xFFF6F6F6),
+      backgroundColor: Color(0xFFF6F6F6),
 
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -24,113 +19,70 @@ class PaymentPage extends StatelessWidget {
 
         centerTitle: true,
 
-        title: const Text(
+        title: Text(
           "Payments",
 
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight:
-                FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
 
-        iconTheme:
-            const IconThemeData(
-          color: Colors.black,
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
 
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             /// TOP PAYMENT CARD
             Container(
-              margin:
-                  const EdgeInsets.all(16),
+              margin: EdgeInsets.all(16),
 
-              padding:
-                  const EdgeInsets.all(
-                20,
-              ),
+              padding: EdgeInsets.all(20),
 
               decoration: BoxDecoration(
-                gradient:
-                    const LinearGradient(
-                  colors: [
-                    Color(0xFFFF7A00),
-                    Color(0xFFFFA726),
-                  ],
+                gradient: LinearGradient(
+                  colors: [Color(0xFFFF7A00), Color(0xFFFFA726)],
                 ),
 
-                borderRadius:
-                    BorderRadius.circular(
-                  24,
-                ),
+                borderRadius: BorderRadius.circular(24),
               ),
 
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-
-                  const Text(
+                  Text(
                     "TOTAL PAYABLE",
 
-                    style: TextStyle(
-                      color:
-                          Colors.white70,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10),
 
                   Text(
                     "₹${total.toStringAsFixed(2)}",
 
-                    style:
-                        const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
                       fontSize: 36,
-                      fontWeight:
-                          FontWeight.bold,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
 
-                  const SizedBox(height: 18),
+                  SizedBox(height: 18),
 
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+
+                    decoration: BoxDecoration(
+                      color: Colors.white24,
+
+                      borderRadius: BorderRadius.circular(14),
                     ),
 
-                    decoration:
-                        BoxDecoration(
-                      color:
-                          Colors.white24,
-
-                      borderRadius:
-                          BorderRadius.circular(
-                        14,
-                      ),
-                    ),
-
-                    child: const Row(
-                      mainAxisSize:
-                          MainAxisSize.min,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
 
                       children: [
-
-                        Icon(
-                          Icons.lock,
-                          color:
-                              Colors.white,
-                          size: 18,
-                        ),
+                        Icon(Icons.lock, color: Colors.white, size: 18),
 
                         SizedBox(width: 8),
 
@@ -138,10 +90,8 @@ class PaymentPage extends StatelessWidget {
                           "100% Secure Payments",
 
                           style: TextStyle(
-                            color:
-                                Colors.white,
-                            fontWeight:
-                                FontWeight.bold,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
@@ -151,152 +101,92 @@ class PaymentPage extends StatelessWidget {
               ),
             ),
 
-            /// TITLE
-            const Padding(
-              padding:
-                  EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
 
               child: Align(
-                alignment:
-                    Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
 
                 child: Text(
                   "Choose Payment Method",
 
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight:
-                        FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
 
-            const SizedBox(height: 14),
+            SizedBox(height: 14),
 
-            /// UPI PAYMENT
             GestureDetector(
               onTap: () {
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) =>
-                        UpiPaymentPage(
-                      total: total,
-                    ),
+                    builder: (_) => UpiPaymentPage(total: total),
                   ),
                 );
-
               },
 
               child: Container(
-                margin:
-                    const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-                padding:
-                    const EdgeInsets.all(
-                  16,
-                ),
+                padding: EdgeInsets.all(16),
 
                 decoration: BoxDecoration(
                   color: Colors.white,
 
-                  borderRadius:
-                      BorderRadius.circular(
-                    22,
-                  ),
+                  borderRadius: BorderRadius.circular(22),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          Colors.black12,
-                      blurRadius: 6,
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
                 ),
 
                 child: Row(
                   children: [
-
                     Container(
-                      padding:
-                          const EdgeInsets.all(
-                        12,
+                      padding: EdgeInsets.all(12),
+
+                      decoration: BoxDecoration(
+                        color: Colors.green.withOpacity(0.1),
+
+                        borderRadius: BorderRadius.circular(16),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.green
-                            .withOpacity(
-                          0.1,
-                        ),
+                      child: Icon(
+                        Icons.account_balance_wallet,
 
-                        borderRadius:
-                            BorderRadius.circular(
-                          16,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons
-                            .account_balance_wallet,
-
-                        color:
-                            Colors.green,
+                        color: Colors.green,
                         size: 28,
                       ),
                     ),
 
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
 
-                    const Expanded(
+                    Expanded(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-
                           Text(
                             "UPI Payment",
 
-                            style:
-                                TextStyle(
+                            style: TextStyle(
                               fontSize: 17,
-                              fontWeight:
-                                  FontWeight
-                                      .bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
 
-                          SizedBox(
-                              height: 4),
+                          SizedBox(height: 4),
 
                           Text(
                             "Google Pay, PhonePe, Paytm",
 
-                            style:
-                                TextStyle(
-                              color:
-                                  Colors.grey,
-                            ),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
                     ),
 
-                    const Icon(
-                      Icons
-                          .arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
                   ],
                 ),
               ),
@@ -305,122 +195,73 @@ class PaymentPage extends StatelessWidget {
             /// CARD PAYMENT
             GestureDetector(
               onTap: () {
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) =>
-                        CardPaymentPage(
-                      total: total,
-                    ),
+                    builder: (_) => CardPaymentPage(total: total),
                   ),
                 );
-
               },
 
               child: Container(
-                margin:
-                    const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-                padding:
-                    const EdgeInsets.all(
-                  16,
-                ),
+                padding: EdgeInsets.all(16),
 
                 decoration: BoxDecoration(
                   color: Colors.white,
 
-                  borderRadius:
-                      BorderRadius.circular(
-                    22,
-                  ),
+                  borderRadius: BorderRadius.circular(22),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          Colors.black12,
-                      blurRadius: 6,
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
                 ),
 
                 child: Row(
                   children: [
-
                     Container(
-                      padding:
-                          const EdgeInsets.all(
-                        12,
+                      padding: EdgeInsets.all(12),
+
+                      decoration: BoxDecoration(
+                        color: Colors.blue.withOpacity(0.1),
+
+                        borderRadius: BorderRadius.circular(16),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.blue
-                            .withOpacity(
-                          0.1,
-                        ),
-
-                        borderRadius:
-                            BorderRadius.circular(
-                          16,
-                        ),
-                      ),
-
-                      child: const Icon(
+                      child: Icon(
                         Icons.credit_card,
-                        color:
-                            Colors.blue,
+                        color: Colors.blue,
                         size: 28,
                       ),
                     ),
 
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
 
-                    const Expanded(
+                    Expanded(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-
                           Text(
                             "Card Payment",
 
-                            style:
-                                TextStyle(
+                            style: TextStyle(
                               fontSize: 17,
-                              fontWeight:
-                                  FontWeight
-                                      .bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
 
-                          SizedBox(
-                              height: 4),
+                          SizedBox(height: 4),
 
                           Text(
                             "Visa, MasterCard, RuPay",
 
-                            style:
-                                TextStyle(
-                              color:
-                                  Colors.grey,
-                            ),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
                     ),
 
-                    const Icon(
-                      Icons
-                          .arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
                   ],
                 ),
               ),
@@ -429,124 +270,74 @@ class PaymentPage extends StatelessWidget {
             /// CASH PAYMENT
             GestureDetector(
               onTap: () {
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) =>
-                        CashPaymentPage(
-                      total: total,
-                    ),
+                    builder: (_) => CashPaymentPage(total: total),
                   ),
                 );
-
               },
 
               child: Container(
-                margin:
-                    const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-                padding:
-                    const EdgeInsets.all(
-                  16,
-                ),
+                padding: EdgeInsets.all(16),
 
                 decoration: BoxDecoration(
                   color: Colors.white,
 
-                  borderRadius:
-                      BorderRadius.circular(
-                    22,
-                  ),
+                  borderRadius: BorderRadius.circular(22),
 
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          Colors.black12,
-                      blurRadius: 6,
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 6)],
                 ),
 
                 child: Row(
                   children: [
-
                     Container(
-                      padding:
-                          const EdgeInsets.all(
-                        12,
+                      padding: EdgeInsets.all(12),
+
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.1),
+
+                        borderRadius: BorderRadius.circular(16),
                       ),
 
-                      decoration:
-                          BoxDecoration(
-                        color: Colors.orange
-                            .withOpacity(
-                          0.1,
-                        ),
+                      child: Icon(
+                        Icons.delivery_dining,
 
-                        borderRadius:
-                            BorderRadius.circular(
-                          16,
-                        ),
-                      ),
-
-                      child: const Icon(
-                        Icons
-                            .delivery_dining,
-
-                        color:
-                            Colors.orange,
+                        color: Colors.orange,
                         size: 28,
                       ),
                     ),
 
-                    const SizedBox(width: 16),
+                    SizedBox(width: 16),
 
-                    const Expanded(
+                    Expanded(
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment
-                                .start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
 
                         children: [
-
                           Text(
                             "Cash On Delivery",
 
-                            style:
-                                TextStyle(
+                            style: TextStyle(
                               fontSize: 17,
-                              fontWeight:
-                                  FontWeight
-                                      .bold,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
 
-                          SizedBox(
-                              height: 4),
+                          SizedBox(height: 4),
 
                           Text(
                             "Pay when order arrives",
 
-                            style:
-                                TextStyle(
-                              color:
-                                  Colors.grey,
-                            ),
+                            style: TextStyle(color: Colors.grey),
                           ),
                         ],
                       ),
                     ),
 
-                    const Icon(
-                      Icons
-                          .arrow_forward_ios,
-                      size: 16,
-                      color: Colors.grey,
-                    ),
+                    Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
                   ],
                 ),
               ),

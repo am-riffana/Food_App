@@ -5,10 +5,7 @@ import 'package:foodapp/screens/orders_screen.dart';
 class CardPaymentPage extends StatefulWidget {
   final double total;
 
-  const CardPaymentPage({
-    super.key,
-    required this.total,
-  });
+  const CardPaymentPage({super.key, required this.total});
 
   @override
   State<CardPaymentPage> createState() => _CardPaymentPageState();
@@ -26,28 +23,28 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F6F6),
+      backgroundColor: Color(0xFFF6F6F6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "Card Payment",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             if (!isPaid)
               Container(
                 width: double.infinity,
                 height: 210,
-                padding: const EdgeInsets.all(22),
+                padding: EdgeInsets.all(22),
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     colors: [Color(0xFFFF7A00), Color(0xFFFFA726)],
                   ),
                   borderRadius: BorderRadius.circular(28),
@@ -55,60 +52,70 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(Icons.credit_card, color: Colors.white, size: 34),
                         Icon(Icons.wifi, color: Colors.white),
                       ],
                     ),
-                    const Spacer(),
+                    Spacer(),
                     Text(
                       cardController.text.isEmpty
                           ? "**** **** **** 4589"
                           : cardController.text,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,
                         letterSpacing: 2,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("CARD HOLDER",
-                                style: TextStyle(
-                                    color: Colors.white70, fontSize: 12)),
-                            const SizedBox(height: 4),
+                            Text(
+                              "CARD HOLDER",
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                            ),
+                            SizedBox(height: 4),
                             Text(
                               nameController.text.isEmpty
                                   ? "YOUR NAME"
                                   : nameController.text,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("EXPIRES",
-                                style: TextStyle(
-                                    color: Colors.white70, fontSize: 12)),
-                            const SizedBox(height: 4),
+                            Text(
+                              "EXPIRES",
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: 12,
+                              ),
+                            ),
+                            SizedBox(height: 4),
                             Text(
                               expiryController.text.isEmpty
                                   ? "08/28"
                                   : expiryController.text,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
@@ -120,26 +127,26 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
 
             if (isPaid)
               Container(
-                padding: const EdgeInsets.all(22),
+                padding: EdgeInsets.all(22),
                 decoration: BoxDecoration(
                   color: Colors.green.shade100,
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.check_circle,
-                    size: 90, color: Colors.green),
+                child: Icon(Icons.check_circle, size: 90, color: Colors.green),
               ),
 
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
 
             if (isPaid)
-              const Column(
+              Column(
                 children: [
                   Text(
                     "Payment Successful",
                     style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text(
@@ -152,14 +159,12 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
 
             if (!isPaid)
               Container(
-                margin: const EdgeInsets.only(top: 24),
-                padding: const EdgeInsets.all(20),
+                margin: EdgeInsets.only(top: 24),
+                padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(26),
-                  boxShadow: [
-                    BoxShadow(color: Colors.black12, blurRadius: 10),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
                 ),
                 child: Column(
                   children: [
@@ -168,7 +173,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
                         hintText: "Card Number",
-                        prefixIcon: const Icon(Icons.credit_card),
+                        prefixIcon: Icon(Icons.credit_card),
                         filled: true,
                         fillColor: Colors.grey.shade100,
                         border: OutlineInputBorder(
@@ -178,7 +183,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                       ),
                       onChanged: (_) => setState(() {}),
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18),
                     Row(
                       children: [
                         Expanded(
@@ -196,7 +201,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                             onChanged: (_) => setState(() {}),
                           ),
                         ),
-                        const SizedBox(width: 14),
+                        SizedBox(width: 14),
                         Expanded(
                           child: TextField(
                             controller: cvvController,
@@ -214,12 +219,12 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 18),
+                    SizedBox(height: 18),
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
                         hintText: "Card Holder Name",
-                        prefixIcon: const Icon(Icons.person),
+                        prefixIcon: Icon(Icons.person),
                         filled: true,
                         fillColor: Colors.grey.shade100,
                         border: OutlineInputBorder(
@@ -233,7 +238,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                 ),
               ),
 
-            const SizedBox(height: 28),
+            SizedBox(height: 28),
 
             SizedBox(
               width: double.infinity,
@@ -245,37 +250,40 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                     borderRadius: BorderRadius.circular(18),
                   ),
                 ),
-                onPressed: isLoading
-                    ? null
-                    : () async {
-                        if (isPaid) {
-                          setState(() => isLoading = true);
-                          try {
-                            await saveOrderToSupabase(paymentMethod: 'Card');
-                          } catch (e) {
-                            debugPrint('Order save failed: $e');
+                onPressed:
+                    isLoading
+                        ? null
+                        : () async {
+                          if (isPaid) {
+                            setState(() => isLoading = true);
+                            try {
+                              await saveOrderToSupabase(paymentMethod: 'Card');
+                            } catch (e) {
+                              debugPrint('Order save failed: $e');
+                            }
+                            if (mounted) {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (_) => OrdersPage()),
+                              );
+                            }
+                          } else {
+                            setState(() => isPaid = true);
                           }
-                          if (mounted) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const OrdersPage()),
-                            );
-                          }
-                        } else {
-                          setState(() => isPaid = true);
-                        }
-                      },
-                child: isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : Text(
-                        isPaid ? "Done" : "Pay ₹${widget.total.toStringAsFixed(2)}",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                        },
+                child:
+                    isLoading
+                        ? CircularProgressIndicator(color: Colors.white)
+                        : Text(
+                          isPaid
+                              ? "Done"
+                              : "Pay ₹${widget.total.toStringAsFixed(2)}",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
               ),
             ),
           ],

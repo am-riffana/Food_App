@@ -9,16 +9,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
-  /// LOGOUT FUNCTION
-  /// ORDERS & CART WILL STAY SAVED
   void logout(BuildContext context) async {
     await Supabase.instance.client.auth.signOut();
 
     Navigator.pushAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (_) => const LoginScreen(),
-      ),
+      MaterialPageRoute(builder: (_) => LoginScreen()),
       (route) => false,
     );
   }
@@ -26,14 +22,11 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AuthState>(
-      stream:
-          Supabase.instance.client.auth.onAuthStateChange,
+      stream: Supabase.instance.client.auth.onAuthStateChange,
       builder: (context, snapshot) {
-        final user =
-            Supabase.instance.client.auth.currentUser;
+        final user = Supabase.instance.client.auth.currentUser;
 
-        final email =
-            user?.email ?? "user@email.com";
+        final email = user?.email ?? "user@email.com";
 
         final name =
             user?.userMetadata?['name'] ??
@@ -46,22 +39,18 @@ class ProfilePage extends StatelessWidget {
           body: SingleChildScrollView(
             child: Column(
               children: [
-                /// TOP ORANGE SECTION
                 Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.only(
+                  padding: EdgeInsets.only(
                     top: 60,
                     left: 20,
                     right: 20,
                     bottom: 30,
                   ),
 
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        Color(0xFFFF7A00),
-                        Color(0xFFFFA726),
-                      ],
+                      colors: [Color(0xFFFF7A00), Color(0xFFFFA726)],
                     ),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(34),
@@ -71,31 +60,24 @@ class ProfilePage extends StatelessWidget {
 
                   child: Column(
                     children: [
-                      /// BACK BUTTON
                       Align(
-                        alignment:
-                            Alignment.centerLeft,
+                        alignment: Alignment.centerLeft,
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
                           },
                           child: Container(
-                            padding:
-                                const EdgeInsets.all(
-                                    10),
+                            padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: Colors.orange,
-                              borderRadius:
-                                  BorderRadius
-                                      .circular(14),
+                              borderRadius: BorderRadius.circular(14),
                               border: Border.all(
                                 color: Colors.white,
                                 width: 1.5,
                               ),
                             ),
-                            child: const Icon(
-                              Icons
-                                  .arrow_back_ios_new,
+                            child: Icon(
+                              Icons.arrow_back_ios_new,
                               color: Colors.white,
                               size: 20,
                             ),
@@ -103,90 +85,68 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 25),
+                      SizedBox(height: 25),
 
-                      /// USER NAME
                       Text(
                         name,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.white,
                           fontSize: 28,
-                          fontWeight:
-                              FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
 
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6),
 
-                      /// EMAIL
                       Text(
                         email,
-                        style: const TextStyle(
-                          color: Colors.white70,
-                          fontSize: 15,
-                        ),
+                        style: TextStyle(color: Colors.white70, fontSize: 15),
                       ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24),
 
-                      /// ADDRESS CARD
                       Container(
-                        padding:
-                            const EdgeInsets.all(18),
+                        padding: EdgeInsets.all(18),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius:
-                              BorderRadius.circular(
-                                  24),
+                          borderRadius: BorderRadius.circular(24),
                         ),
 
                         child: Row(
                           children: [
                             Container(
-                              padding:
-                                  const EdgeInsets
-                                      .all(14),
-                              decoration:
-                                  BoxDecoration(
+                              padding: EdgeInsets.all(14),
+                              decoration: BoxDecoration(
                                 color: Colors.orange,
-                                borderRadius:
-                                    BorderRadius
-                                        .circular(18),
+                                borderRadius: BorderRadius.circular(18),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.location_on,
                                 color: Colors.white,
                                 size: 28,
                               ),
                             ),
 
-                            const SizedBox(
-                                width: 14),
+                            SizedBox(width: 14),
 
-                            const Expanded(
+                            Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment
-                                        .start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     "Home Address",
                                     style: TextStyle(
                                       fontSize: 17,
-                                      fontWeight:
-                                          FontWeight
-                                              .bold,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
 
-                                  SizedBox(
-                                      height: 5),
+                                  SizedBox(height: 5),
 
                                   Text(
                                     "Calicut, Kerala",
                                     style: TextStyle(
-                                      color:
-                                          Colors.grey,
+                                      color: Colors.grey,
                                       fontSize: 14,
                                     ),
                                   ),
@@ -195,17 +155,11 @@ class ProfilePage extends StatelessWidget {
                             ),
 
                             ElevatedButton(
-                              style: ElevatedButton
-                                  .styleFrom(
-                                backgroundColor:
-                                    Colors.orange,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
                                 elevation: 0,
-                                shape:
-                                    RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius
-                                          .circular(
-                                              14),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
                                 ),
                               ),
 
@@ -213,18 +167,16 @@ class ProfilePage extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) =>
-                                        const ManageAddressPage(),
+                                    builder: (_) => ManageAddressPage(),
                                   ),
                                 );
                               },
 
-                              child: const Text(
+                              child: Text(
                                 "Edit",
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight:
-                                      FontWeight.bold,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -235,51 +187,37 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
 
-                /// MENU SECTION
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(
-                    horizontal: 16,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
 
                   child: Column(
                     children: [
                       buildTile(
                         context: context,
-                        icon:
-                            Icons.shopping_bag_outlined,
+                        icon: Icons.shopping_bag_outlined,
                         title: "My Orders",
-                        subtitle:
-                            "Track your orders",
+                        subtitle: "Track your orders",
 
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  OrdersPage(),
-                            ),
+                            MaterialPageRoute(builder: (_) => OrdersPage()),
                           );
                         },
                       ),
 
                       buildTile(
                         context: context,
-                        icon:
-                            Icons.shopping_cart_outlined,
+                        icon: Icons.shopping_cart_outlined,
                         title: "Cart",
-                        subtitle:
-                            "View cart items",
+                        subtitle: "View cart items",
 
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  CartPage(),
-                            ),
+                            MaterialPageRoute(builder: (_) => CartPage()),
                           );
                         },
                       ),
@@ -288,72 +226,48 @@ class ProfilePage extends StatelessWidget {
                         context: context,
                         icon: Icons.settings,
                         title: "Settings",
-                        subtitle:
-                            "Privacy & preferences",
+                        subtitle: "Privacy & preferences",
 
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  const SettingsPage(),
-                            ),
+                            MaterialPageRoute(builder: (_) => SettingsPage()),
                           );
                         },
                       ),
                     ],
                   ),
                 ),
-
-                const SizedBox(height: 24),
-
-                /// LOGOUT BUTTON
+                SizedBox(height: 24),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(
-                    horizontal: 16,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16),
 
                   child: SizedBox(
                     width: double.infinity,
                     height: 58,
 
                     child: ElevatedButton.icon(
-                      style: ElevatedButton
-                          .styleFrom(
-                        backgroundColor:
-                            Colors.orange,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
                         elevation: 0,
-                        shape:
-                            RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(
-                                  18),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
                         ),
                       ),
-
-                      onPressed: () =>
-                          logout(context),
-
-                      icon: const Icon(
-                        Icons.logout,
-                        color: Colors.white,
-                      ),
-
-                      label: const Text(
+                      onPressed: () => logout(context),
+                      icon: Icon(Icons.logout, color: Colors.white),
+                      label: Text(
                         "Logout",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18,
-                          fontWeight:
-                              FontWeight.bold,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 30),
+                SizedBox(height: 30),
               ],
             ),
           ),
@@ -370,14 +284,11 @@ class ProfilePage extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-
+      margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius:
-            BorderRadius.circular(22),
-
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(22),
+        boxShadow: [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 10,
@@ -387,52 +298,26 @@ class ProfilePage extends StatelessWidget {
       ),
 
       child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(
-          horizontal: 18,
-          vertical: 10,
-        ),
-
+        contentPadding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         leading: Container(
-          padding: const EdgeInsets.all(12),
-
+          padding: EdgeInsets.all(12),
           decoration: BoxDecoration(
             color: Colors.orange,
-            borderRadius:
-                BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16),
           ),
 
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 28,
-          ),
+          child: Icon(icon, color: Colors.white, size: 28),
         ),
-
         title: Text(
           title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 17,
-          ),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
         ),
-
         subtitle: Padding(
-          padding:
-              const EdgeInsets.only(top: 4),
-          child: Text(
-            subtitle,
-            style: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
+          padding: EdgeInsets.only(top: 4),
+          child: Text(subtitle, style: TextStyle(color: Colors.grey)),
         ),
 
-        trailing: const Icon(
-          Icons.arrow_forward_ios,
-          size: 18,
-          color: Colors.grey,
-        ),
+        trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
 
         onTap: onTap,
       ),

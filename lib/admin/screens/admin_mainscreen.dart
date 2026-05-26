@@ -10,15 +10,13 @@ class AdminMainScreen extends StatefulWidget {
   const AdminMainScreen({super.key});
 
   @override
-  State<AdminMainScreen> createState() =>
-      _AdminMainScreenState();
+  State<AdminMainScreen> createState() => _AdminMainScreenState();
 }
 
-class _AdminMainScreenState
-    extends State<AdminMainScreen> {
+class _AdminMainScreenState extends State<AdminMainScreen> {
   int _currentIndex = 0;
 
-  final _pages = const [
+  final _pages = [
     DashboardPage(),
     FoodsPage(),
     BannersPage(),
@@ -28,49 +26,24 @@ class _AdminMainScreenState
   ];
 
   final List<Map<String, dynamic>> navItems = [
-    {
-      "icon": Icons.dashboard_rounded,
-      "label": "Dashboard",
-    },
-    {
-      "icon": Icons.fastfood_rounded,
-      "label": "Foods",
-    },
-    {
-      "icon": Icons.image_rounded,
-      "label": "Banners",
-    },
-    {
-      "icon": Icons.local_offer_rounded,
-      "label": "Coupons",
-    },
-    {
-      "icon": Icons.receipt_long_rounded,
-      "label": "Orders",
-    },
-    {
-      "icon": Icons.people_alt_rounded,
-      "label": "Users",
-    },
+    {"icon": Icons.dashboard_rounded, "label": "Dashboard"},
+    {"icon": Icons.fastfood_rounded, "label": "Foods"},
+    {"icon": Icons.image_rounded, "label": "Banners"},
+    {"icon": Icons.local_offer_rounded, "label": "Coupons"},
+    {"icon": Icons.receipt_long_rounded, "label": "Orders"},
+    {"icon": Icons.people_alt_rounded, "label": "Users"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff5f5f5),
+      backgroundColor: Color(0xfff5f5f5),
 
-      /// PAGE VIEW
-      body: SafeArea(
-        child: _pages[_currentIndex],
-      ),
+      body: SafeArea(child: _pages[_currentIndex]),
 
-      /// CUSTOM SWIGGY STYLE BOTTOM BAR
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(14),
-        padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 10,
-        ),
+        margin: EdgeInsets.all(14),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(28),
@@ -78,79 +51,67 @@ class _AdminMainScreenState
             BoxShadow(
               color: Colors.black.withOpacity(0.08),
               blurRadius: 20,
-              offset: const Offset(0, 5),
+              offset: Offset(0, 5),
             ),
           ],
         ),
 
         child: Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceAround,
-          children: List.generate(
-            navItems.length,
-            (index) {
-              final item = navItems[index];
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(navItems.length, (index) {
+            final item = navItems[index];
 
-              final isSelected =
-                  _currentIndex == index;
+            final isSelected = _currentIndex == index;
 
-              return GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
 
-                child: AnimatedContainer(
-                  duration:
-                      const Duration(milliseconds: 250),
+              child: AnimatedContainer(
+                duration: Duration(milliseconds: 250),
 
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isSelected ? 16 : 0,
-                    vertical: 10,
-                  ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSelected ? 16 : 0,
+                  vertical: 10,
+                ),
 
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? Colors.orange.withOpacity(0.15)
-                        : Colors.transparent,
+                decoration: BoxDecoration(
+                  color:
+                      isSelected
+                          ? Colors.orange.withOpacity(0.15)
+                          : Colors.transparent,
 
-                    borderRadius:
-                        BorderRadius.circular(18),
-                  ),
+                  borderRadius: BorderRadius.circular(18),
+                ),
 
-                  child: Row(
-                    children: [
-                      Icon(
-                        item['icon'],
-                        color: isSelected
-                            ? Colors.orange
-                            : Colors.grey,
-                        size: 26,
-                      ),
+                child: Row(
+                  children: [
+                    Icon(
+                      item['icon'],
+                      color: isSelected ? Colors.orange : Colors.grey,
+                      size: 26,
+                    ),
 
-                      if (isSelected)
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(
-                            left: 8,
-                          ),
-                          child: Text(
-                            item['label'],
-                            style: const TextStyle(
-                              color: Colors.orange,
-                              fontWeight:
-                                  FontWeight.bold,
-                              fontSize: 14,
-                            ),
+                    if (isSelected)
+                      Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Text(
+                          item['label'],
+                          style: TextStyle(
+                            color: Colors.orange,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
                           ),
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          }),
         ),
       ),
     );

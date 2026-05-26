@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PaymentMethodTile
-    extends StatelessWidget {
-
+class PaymentMethodTile extends StatelessWidget {
   final String title;
 
   final String subtitle;
@@ -24,27 +22,18 @@ class PaymentMethodTile
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: onTap,
 
       child: Container(
-        margin:
-            const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 8,
-        ),
+        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
 
-        padding:
-            const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
 
         decoration: BoxDecoration(
           color: Colors.white,
 
-          borderRadius:
-              BorderRadius.circular(
-            22,
-          ),
+          borderRadius: BorderRadius.circular(22),
 
           boxShadow: [
             BoxShadow(
@@ -57,73 +46,39 @@ class PaymentMethodTile
 
         child: Row(
           children: [
-
             Container(
-              padding:
-                  const EdgeInsets.all(
-                12,
+              padding: EdgeInsets.all(12),
+
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+
+                borderRadius: BorderRadius.circular(16),
               ),
 
-              decoration:
-                  BoxDecoration(
-                color:
-                    color.withOpacity(0.1),
-
-                borderRadius:
-                    BorderRadius.circular(
-                  16,
-                ),
-              ),
-
-              child: Icon(
-                icon,
-                color: color,
-                size: 28,
-              ),
+              child: Icon(icon, color: color, size: 28),
             ),
 
-            const SizedBox(width: 16),
+            SizedBox(width: 16),
 
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment
-                        .start,
+                crossAxisAlignment: CrossAxisAlignment.start,
 
                 children: [
-
                   Text(
                     title,
 
-                    style:
-                        const TextStyle(
-                      fontSize: 17,
-                      fontWeight:
-                          FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
 
-                  const SizedBox(
-                      height: 4),
+                  SizedBox(height: 4),
 
-                  Text(
-                    subtitle,
-
-                    style:
-                        const TextStyle(
-                      color:
-                          Colors.grey,
-                    ),
-                  ),
+                  Text(subtitle, style: TextStyle(color: Colors.grey)),
                 ],
               ),
             ),
 
-            const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-              color: Colors.grey,
-            ),
+            Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
           ],
         ),
       ),

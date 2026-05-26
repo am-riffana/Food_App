@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CouponsPage extends StatefulWidget {
-  const CouponsPage({super.key});
+   const  CouponsPage({super.key});
 
   @override
   State<CouponsPage> createState() => _CouponsPageState();
@@ -54,7 +54,7 @@ class _CouponsPageState extends State<CouponsPage> {
             top: 20,
             bottom: MediaQuery.of(context).viewInsets.bottom + 20,
           ),
-          decoration: const BoxDecoration(
+          decoration:  BoxDecoration(
             color: Colors.white,
             borderRadius:
                 BorderRadius.vertical(top: Radius.circular(30)),
@@ -71,20 +71,18 @@ class _CouponsPageState extends State<CouponsPage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-                const SizedBox(height: 20),
+                 SizedBox(height: 20),
                 Text(
                   coupon == null ? "Add Coupon" : "Edit Coupon",
-                  style: const TextStyle(
+                  style:  TextStyle(
                       fontSize: 22, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 20),
-
-                // CODE
+                 SizedBox(height: 20),
                 TextField(
                   controller: codeCtrl,
                   textCapitalization: TextCapitalization.characters,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.local_offer,
+                    prefixIcon:  Icon(Icons.local_offer,
                         color: Colors.orange),
                     hintText: "Coupon Code (e.g. SAVE50)",
                     filled: true,
@@ -94,11 +92,10 @@ class _CouponsPageState extends State<CouponsPage> {
                         borderSide: BorderSide.none),
                   ),
                 ),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
 
-                // DISCOUNT TYPE
                 Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding:  EdgeInsets.symmetric(
                       horizontal: 16, vertical: 4),
                   decoration: BoxDecoration(
                     color: Colors.orange.shade50,
@@ -106,15 +103,15 @@ class _CouponsPageState extends State<CouponsPage> {
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.percent, color: Colors.orange),
-                      const SizedBox(width: 12),
-                      const Text("Discount Type:",
+                       Icon(Icons.percent, color: Colors.orange),
+                       SizedBox(width: 12),
+                       Text("Discount Type:",
                           style: TextStyle(fontWeight: FontWeight.w500)),
-                      const Spacer(),
+                       Spacer(),
                       DropdownButton<String>(
                         value: discountType,
-                        underline: const SizedBox(),
-                        items: const [
+                        underline:  SizedBox(),
+                        items:  [
                           DropdownMenuItem(
                               value: 'percentage',
                               child: Text('Percentage %')),
@@ -130,14 +127,12 @@ class _CouponsPageState extends State<CouponsPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
-
-                // DISCOUNT VALUE
+                 SizedBox(height: 16),
                 TextField(
                   controller: valueCtrl,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.discount,
+                    prefixIcon:  Icon(Icons.discount,
                         color: Colors.orange),
                     hintText: discountType == 'percentage'
                         ? "Discount % (e.g. 10)"
@@ -149,14 +144,12 @@ class _CouponsPageState extends State<CouponsPage> {
                         borderSide: BorderSide.none),
                   ),
                 ),
-                const SizedBox(height: 16),
-
-                // MIN ORDER
+                 SizedBox(height: 16),
                 TextField(
                   controller: minOrderCtrl,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.shopping_cart,
+                    prefixIcon:  Icon(Icons.shopping_cart,
                         color: Colors.orange),
                     hintText: "Min Order Amount ₹ (e.g. 200)",
                     filled: true,
@@ -166,15 +159,14 @@ class _CouponsPageState extends State<CouponsPage> {
                         borderSide: BorderSide.none),
                   ),
                 ),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
 
-                // MAX DISCOUNT
                 if (discountType == 'percentage')
                   TextField(
                     controller: maxDiscountCtrl,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.money_off,
+                      prefixIcon:  Icon(Icons.money_off,
                           color: Colors.orange),
                       hintText: "Max Discount ₹ (optional)",
                       filled: true,
@@ -185,7 +177,7 @@ class _CouponsPageState extends State<CouponsPage> {
                     ),
                   ),
 
-                const SizedBox(height: 25),
+                 SizedBox(height: 25),
 
                 SizedBox(
                   width: double.infinity,
@@ -200,7 +192,7 @@ class _CouponsPageState extends State<CouponsPage> {
                       if (codeCtrl.text.trim().isEmpty ||
                           valueCtrl.text.trim().isEmpty) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                           SnackBar(
                               content:
                                   Text("Enter coupon code and value"),
                               backgroundColor: Colors.red),
@@ -256,7 +248,7 @@ class _CouponsPageState extends State<CouponsPage> {
                     },
                     child: Text(
                       coupon == null ? "Add Coupon" : "Update Coupon",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold),
@@ -291,21 +283,21 @@ class _CouponsPageState extends State<CouponsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage Coupons'),
+        title:  Text('Manage Coupons'),
         actions: [
-          IconButton(onPressed: loadCoupons, icon: const Icon(Icons.refresh)),
+          IconButton(onPressed: loadCoupons, icon:  Icon(Icons.refresh)),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
         onPressed: () => showCouponDialog(),
-        child: const Icon(Icons.add, color: Colors.white),
+        child:  Icon(Icons.add, color: Colors.white),
       ),
       body: isLoading
-          ? const Center(
+          ?  Center(
               child: CircularProgressIndicator(color: Colors.orange))
           : coupons.isEmpty
-              ? const Center(
+              ?  Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -322,7 +314,7 @@ class _CouponsPageState extends State<CouponsPage> {
                   ),
                 )
               : ListView.builder(
-                  padding: const EdgeInsets.all(14),
+                  padding:  EdgeInsets.all(14),
                   itemCount: coupons.length,
                   itemBuilder: (_, i) {
                     final coupon = coupons[i];
@@ -332,7 +324,7 @@ class _CouponsPageState extends State<CouponsPage> {
                     return Opacity(
                       opacity: isActive ? 1.0 : 0.5,
                       child: Container(
-                        margin: const EdgeInsets.only(bottom: 14),
+                        margin:  EdgeInsets.only(bottom: 14),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
@@ -340,12 +332,12 @@ class _CouponsPageState extends State<CouponsPage> {
                             BoxShadow(
                               color: Colors.black.withOpacity(0.05),
                               blurRadius: 10,
-                              offset: const Offset(0, 4),
+                              offset:  Offset(0, 4),
                             ),
                           ],
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(16),
+                          padding:  EdgeInsets.all(16),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -353,7 +345,7 @@ class _CouponsPageState extends State<CouponsPage> {
                                 children: [
                                   // CODE
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
+                                    padding:  EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 6),
                                     decoration: BoxDecoration(
                                       color: Colors.orange.shade50,
@@ -365,17 +357,17 @@ class _CouponsPageState extends State<CouponsPage> {
                                     ),
                                     child: Text(
                                       coupon['code'],
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.orange,
                                           letterSpacing: 1.5),
                                     ),
                                   ),
-                                  const Spacer(),
+                                   Spacer(),
                                   // TYPE BADGE
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
+                                    padding:  EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
                                       color: _typeColor(type)
@@ -393,10 +385,10 @@ class _CouponsPageState extends State<CouponsPage> {
                                           fontSize: 13),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
+                                   SizedBox(width: 8),
                                   // ACTIVE BADGE
                                   Container(
-                                    padding: const EdgeInsets.symmetric(
+                                    padding:  EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
                                       color: isActive
@@ -417,22 +409,21 @@ class _CouponsPageState extends State<CouponsPage> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 12),
+                               SizedBox(height: 12),
                               Text(
                                 'Min order: ₹${coupon['min_order_amount'] ?? 0}',
-                                style: const TextStyle(
+                                style:  TextStyle(
                                     color: Colors.grey, fontSize: 13),
                               ),
                               if (coupon['max_discount'] != null)
                                 Text(
                                   'Max discount: ₹${coupon['max_discount']}',
-                                  style: const TextStyle(
+                                  style:  TextStyle(
                                       color: Colors.grey, fontSize: 13),
                                 ),
-                              const SizedBox(height: 12),
+                               SizedBox(height: 12),
                               Row(
                                 children: [
-                                  // EDIT
                                   Expanded(
                                     child: ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
@@ -443,15 +434,14 @@ class _CouponsPageState extends State<CouponsPage> {
                                       ),
                                       onPressed: () =>
                                           showCouponDialog(coupon: coupon),
-                                      icon: const Icon(Icons.edit,
+                                      icon:  Icon(Icons.edit,
                                           color: Colors.white, size: 16),
-                                      label: const Text("Edit",
+                                      label:  Text("Edit",
                                           style: TextStyle(
                                               color: Colors.white)),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  // ENABLE/DISABLE
+                                   SizedBox(width: 8),
                                   Expanded(
                                     child: ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
@@ -473,13 +463,12 @@ class _CouponsPageState extends State<CouponsPage> {
                                       ),
                                       label: Text(
                                         isActive ? "Disable" : "Enable",
-                                        style: const TextStyle(
+                                        style:  TextStyle(
                                             color: Colors.white),
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(width: 8),
-                                  // DELETE
+                                   SizedBox(width: 8),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.red,
@@ -489,7 +478,7 @@ class _CouponsPageState extends State<CouponsPage> {
                                     ),
                                     onPressed: () =>
                                         deleteCoupon(coupon['id']),
-                                    child: const Icon(Icons.delete,
+                                    child:  Icon(Icons.delete,
                                         color: Colors.white, size: 16),
                                   ),
                                 ],

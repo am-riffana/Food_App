@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class OrderService {
-  static const _boxName = 'admin_orders'; // ✅ changed
+  static const _boxName = 'admin_orders'; 
   final _supabase = Supabase.instance.client;
 
   Box<OrderModel> get _box => Hive.box<OrderModel>(_boxName);

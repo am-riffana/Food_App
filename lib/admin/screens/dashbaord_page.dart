@@ -6,12 +6,10 @@ class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
 
   @override
-  State<DashboardPage> createState() =>
-      _DashboardPageState();
+  State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardPageState
-    extends State<DashboardPage> {
+class _DashboardPageState extends State<DashboardPage> {
   final _supabase = Supabase.instance.client;
 
   int totalUsers = 0;
@@ -30,22 +28,16 @@ class _DashboardPageState
 
   Future<void> loadStats() async {
     try {
-      final users =
-          await _supabase.from('users').select('id');
+      final users = await _supabase.from('users').select('id');
 
-      final foods =
-          await _supabase.from('foods').select('id');
+      final foods = await _supabase.from('foods').select('id');
 
-      final orders = await _supabase
-          .from('orders')
-          .select();
+      final orders = await _supabase.from('orders').select();
 
       double revenue = 0;
 
       for (var o in orders) {
-        revenue +=
-            (o['total_amount'] as num?)?.toDouble() ??
-                0;
+        revenue += (o['total_amount'] as num?)?.toDouble() ?? 0;
       }
 
       setState(() {
@@ -72,7 +64,7 @@ class _DashboardPageState
     }
 
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(30),
@@ -80,7 +72,7 @@ class _DashboardPageState
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             blurRadius: 15,
-            offset: const Offset(0, 6),
+            offset: Offset(0, 6),
           ),
         ],
       ),
@@ -89,25 +81,18 @@ class _DashboardPageState
         children: [
           Row(
             children: [
-              Icon(
-                icon,
-                color: color,
-                size: 24,
-              ),
+              Icon(icon, color: color, size: 24),
 
-              const SizedBox(width: 8),
+              SizedBox(width: 8),
 
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
               ),
             ],
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           SizedBox(
             height: 150,
@@ -140,20 +125,18 @@ class _DashboardPageState
                 ),
 
                 Column(
-                  mainAxisAlignment:
-                      MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "${value.toInt()}%",
                       style: TextStyle(
                         fontSize: 28,
-                        fontWeight:
-                            FontWeight.bold,
+                        fontWeight: FontWeight.bold,
                         color: color,
                       ),
                     ),
 
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
 
                     Text(
                       title,
@@ -175,191 +158,150 @@ class _DashboardPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff4f5f7),
+      backgroundColor: Color(0xfff4f5f7),
 
-      body: isLoading
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: Colors.orange,
-              ),
-            )
-          : SafeArea(
-              child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 18,
-                ),
-                child: Column(
-                  children: [
-                    /// TOP CARD
-                    Container(
-                      padding:
-                          const EdgeInsets.all(24),
-                      decoration: BoxDecoration(
-                        gradient:
-                            const LinearGradient(
-                          colors: [
-                            Colors.orange,
-                            Color(0xffff9800),
+      body:
+          isLoading
+              ? Center(child: CircularProgressIndicator(color: Colors.orange))
+              : SafeArea(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                  child: Column(
+                    children: [
+                      /// TOP CARD
+                      Container(
+                        padding: EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.orange, Color(0xffff9800)],
+                          ),
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Yumzi Admin",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 8),
+
+                                  Text(
+                                    "Restaurant Analytics Dashboard",
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 24),
+
+                                  Text(
+                                    "₹${totalRevenue.toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 34,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 6),
+
+                                  Text(
+                                    "Total Revenue",
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            Icon(
+                              Icons.storefront,
+                              color: Colors.white,
+                              size: 90,
+                            ),
                           ],
                         ),
-                        borderRadius:
-                            BorderRadius.circular(
-                                32),
                       ),
 
-                      child: Row(
+                      SizedBox(height: 24),
+
+                      Row(
                         children: [
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment
-                                      .start,
-                              children: [
-                                const Text(
-                                  "Yumzi Admin",
-                                  style: TextStyle(
-                                    color:
-                                        Colors.white,
-                                    fontSize: 28,
-                                    fontWeight:
-                                        FontWeight
-                                            .bold,
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                    height: 8),
-
-                                const Text(
-                                  "Restaurant Analytics Dashboard",
-                                  style: TextStyle(
-                                    color: Colors
-                                        .white70,
-                                    fontSize: 15,
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                    height: 24),
-
-                                Text(
-                                  "₹${totalRevenue.toStringAsFixed(2)}",
-                                  style:
-                                      const TextStyle(
-                                    color:
-                                        Colors.white,
-                                    fontSize: 34,
-                                    fontWeight:
-                                        FontWeight
-                                            .bold,
-                                  ),
-                                ),
-
-                                const SizedBox(
-                                    height: 6),
-
-                                const Text(
-                                  "Total Revenue",
-                                  style: TextStyle(
-                                    color: Colors
-                                        .white70,
-                                  ),
-                                ),
-                              ],
+                            child: analyticsCircle(
+                              title: "Users",
+                              value:
+                                  totalUsers == 0
+                                      ? 0
+                                      : (totalUsers / 100) * 100,
+                              color: Colors.blue,
+                              icon: Icons.people,
                             ),
                           ),
 
-                          const Icon(
-                            Icons.storefront,
-                            color: Colors.white,
-                            size: 90,
+                          SizedBox(width: 14),
+
+                          Expanded(
+                            child: analyticsCircle(
+                              title: "Foods",
+                              value:
+                                  totalFoods == 0
+                                      ? 0
+                                      : (totalFoods / 100) * 100,
+                              color: Colors.orange,
+                              icon: Icons.fastfood,
+                            ),
                           ),
                         ],
                       ),
-                    ),
 
-                    const SizedBox(height: 24),
+                      SizedBox(height: 14),
 
-                    /// CIRCLE ANALYTICS
-                    Row(
-                      children: [
-                        Expanded(
-                          child: analyticsCircle(
-                            title: "Users",
-                            value:
-                                totalUsers == 0
-                                    ? 0
-                                    : (totalUsers /
-                                            100) *
-                                        100,
-                            color: Colors.blue,
-                            icon: Icons.people,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: analyticsCircle(
+                              title: "Orders",
+                              value:
+                                  totalOrders == 0
+                                      ? 0
+                                      : (totalOrders / 100) * 100,
+                              color: Colors.green,
+                              icon: Icons.receipt_long,
+                            ),
                           ),
-                        ),
 
-                        const SizedBox(width: 14),
+                          SizedBox(width: 14),
 
-                        Expanded(
-                          child: analyticsCircle(
-                            title: "Foods",
-                            value:
-                                totalFoods == 0
-                                    ? 0
-                                    : (totalFoods /
-                                            100) *
-                                        100,
-                            color: Colors.orange,
-                            icon: Icons.fastfood,
+                          Expanded(
+                            child: analyticsCircle(
+                              title: "Revenue",
+                              value:
+                                  totalRevenue == 0
+                                      ? 0
+                                      : (totalRevenue / 10000) * 100,
+                              color: Colors.purple,
+                              icon: Icons.currency_rupee,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
 
-                    const SizedBox(height: 14),
-
-                    Row(
-                      children: [
-                        Expanded(
-                          child: analyticsCircle(
-                            title: "Orders",
-                            value:
-                                totalOrders == 0
-                                    ? 0
-                                    : (totalOrders /
-                                            100) *
-                                        100,
-                            color: Colors.green,
-                            icon: Icons
-                                .receipt_long,
-                          ),
-                        ),
-
-                        const SizedBox(width: 14),
-
-                        Expanded(
-                          child: analyticsCircle(
-                            title: "Revenue",
-                            value:
-                                totalRevenue == 0
-                                    ? 0
-                                    : (totalRevenue /
-                                            10000) *
-                                        100,
-                            color: Colors.purple,
-                            icon: Icons
-                                .currency_rupee,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 30),
-                  ],
+                      SizedBox(height: 30),
+                    ],
+                  ),
                 ),
               ),
-            ),
     );
   }
 }

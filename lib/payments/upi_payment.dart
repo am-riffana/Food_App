@@ -5,7 +5,7 @@ import 'package:foodapp/screens/orders_screen.dart';
 class UpiPaymentPage extends StatefulWidget {
   final double total;
 
-  const UpiPaymentPage({
+   const  UpiPaymentPage({
     super.key,
     required this.total,
   });
@@ -28,7 +28,7 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const OrdersPage()),
+        MaterialPageRoute(builder: (_) =>  OrdersPage()),
       );
     }
   }
@@ -36,23 +36,23 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F6F6),
+      backgroundColor:  Color(0xFFF6F6F6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title:  Text(
           "UPI Payment",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme:  IconThemeData(color: Colors.black),
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding:  EdgeInsets.all(16),
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(22),
+            padding:  EdgeInsets.all(22),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(28),
@@ -60,7 +60,7 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 10,
-                  offset: const Offset(0, 4),
+                  offset:  Offset(0, 4),
                 ),
               ],
             ),
@@ -69,12 +69,12 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
               children: [
                 if (isPaid)
                   Container(
-                    padding: const EdgeInsets.all(18),
+                    padding:  EdgeInsets.all(18),
                     decoration: BoxDecoration(
                       color: Colors.green.shade100,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.check_circle,
+                    child:  Icon(Icons.check_circle,
                         size: 70, color: Colors.green),
                   ),
                 if (!isPaid)
@@ -87,7 +87,7 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                const SizedBox(height: 24),
+                 SizedBox(height: 24),
                 Text(
                   isPaid
                       ? "Payment Successful"
@@ -99,15 +99,15 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
                     color: isPaid ? Colors.green : Colors.black,
                   ),
                 ),
-                const SizedBox(height: 10),
+                 SizedBox(height: 10),
                 Text(
                   isPaid
                       ? "Your order has been placed successfully"
                       : "Scan QR using any UPI app",
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.grey, fontSize: 16),
+                  style:  TextStyle(color: Colors.grey, fontSize: 16),
                 ),
-                const SizedBox(height: 30),
+                 SizedBox(height: 30),
                 SizedBox(
                   width: double.infinity,
                   height: 58,
@@ -128,10 +128,10 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
                             }
                           },
                     child: isLoading
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ?  CircularProgressIndicator(color: Colors.white)
                         : Text(
                             isPaid ? "Done" : "Pay Now",
-                            style: const TextStyle(
+                            style:  TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,

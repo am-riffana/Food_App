@@ -43,12 +43,12 @@ class NotificationPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon:  Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
+        title:  Text(
           "Notifications",
           style: TextStyle(
             color: Colors.black,
@@ -58,14 +58,14 @@ class NotificationPage extends StatelessWidget {
       ),
 
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         itemCount: notifications.length,
         itemBuilder: (context, index) {
           final item = notifications[index];
 
           return Container(
-            margin: const EdgeInsets.only(bottom: 14),
-            padding: const EdgeInsets.all(14),
+            margin:  EdgeInsets.only(bottom: 14),
+            padding:  EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(18),
@@ -74,7 +74,7 @@ class NotificationPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding:  EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: (item["color"] as Color).withOpacity(0.1),
                     borderRadius: BorderRadius.circular(14),
@@ -86,7 +86,7 @@ class NotificationPage extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(width: 14),
+                 SizedBox(width: 14),
 
                 Expanded(
                   child: Column(
@@ -94,13 +94,13 @@ class NotificationPage extends StatelessWidget {
                     children: [
                       Text(
                         item["title"] as String,
-                        style: const TextStyle(
+                        style:  TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
 
-                      const SizedBox(height: 6),
+                       SizedBox(height: 6),
 
                       Text(
                         item["subtitle"] as String,
@@ -110,7 +110,7 @@ class NotificationPage extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 8),
+                       SizedBox(height: 8),
 
                       Text(
                         item["time"] as String,
