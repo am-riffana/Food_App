@@ -4,6 +4,7 @@ import 'package:foodapp/widgets/filter.dart';
 import 'package:hive/hive.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
 
