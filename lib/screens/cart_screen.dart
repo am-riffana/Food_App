@@ -5,7 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+  const  CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -57,13 +57,40 @@ class _CartPageState extends State<CartPage> {
     setState(() => isCheckingCoupon = true);
 
     try {
-      final data =
-          await Supabase.instance.client
-              .from('coupons')
-              .select()
-              .eq('code', code)
-              .eq('is_active', true)
-              .maybeSingle();
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+
+      if (userId == null) {
+        setState(() {
+          couponMessage = 'Please log in to apply coupons';
+          couponApplied = false;
+          isCheckingCoupon = false;
+        });
+        return;
+      }
+
+      final usageCheck = await Supabase.instance.client
+          .from('coupon_usage')
+          .select()
+          .eq('coupon_code', code)
+          .eq('user_id', userId)
+          .maybeSingle();
+
+      if (usageCheck != null) {
+        setState(() {
+          couponMessage = 'You have already used this coupon';
+          couponApplied = false;
+          discountAmount = 0;
+          appliedCoupon = null;
+        });
+        return;
+      }
+
+      final data = await Supabase.instance.client
+          .from('coupons')
+          .select()
+          .eq('code', code)
+          .eq('is_active', true)
+          .maybeSingle();
 
       if (data == null) {
         setState(() {
@@ -138,23 +165,36 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
+    Future<void> recordCouponUsage() async {
+    if (!couponApplied || appliedCoupon == null) return;
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId == null) return;
+
+    try {
+      await Supabase.instance.client.from('coupon_usage').insert({
+        'coupon_code': appliedCoupon!['code'],
+        'user_id': userId,
+      });
+    } catch (_) {
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F5F5),
+      backgroundColor:  Color(0xffF5F5F5),
       appBar: AppBar(
         backgroundColor: Colors.orange,
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed:
-              () => Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => MainScreen()),
-              ),
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => MainScreen()),
+          ),
+          icon:  Icon(Icons.arrow_back, color: Colors.white),
         ),
-        title: Text(
+        title:  Text(
           "My Cart",
           style: TextStyle(
             color: Colors.white,
@@ -169,7 +209,7 @@ class _CartPageState extends State<CartPage> {
               removeCoupon();
               setState(() {});
             },
-            child: Text(
+            child:  Text(
               "Clear",
               style: TextStyle(
                 color: Colors.white,
@@ -188,19 +228,19 @@ class _CartPageState extends State<CartPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: EdgeInsets.all(24),
+                    padding:  EdgeInsets.all(24),
                     decoration: BoxDecoration(
                       color: Colors.orange.shade100,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(
+                    child:  Icon(
                       Icons.shopping_cart,
                       size: 70,
                       color: Colors.orange,
                     ),
                   ),
-                  SizedBox(height: 20),
-                  Text(
+                   SizedBox(height: 20),
+                   Text(
                     "Add delicious food 🍔",
                     style: TextStyle(color: Colors.grey, fontSize: 15),
                   ),
@@ -212,17 +252,17 @@ class _CartPageState extends State<CartPage> {
             children: [
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.all(16),
+                  padding:  EdgeInsets.all(16),
                   itemCount: box.length,
                   itemBuilder: (context, index) {
                     final item = box.getAt(index);
                     return Container(
-                      margin: EdgeInsets.only(bottom: 16),
-                      padding: EdgeInsets.all(12),
+                      margin:  EdgeInsets.only(bottom: 16),
+                      padding:  EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(24),
-                        boxShadow: [
+                        boxShadow:  [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 8,
@@ -233,7 +273,6 @@ class _CartPageState extends State<CartPage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // IMAGE
                           ClipRRect(
                             borderRadius: BorderRadius.circular(18),
                             child: Image.network(
@@ -241,29 +280,25 @@ class _CartPageState extends State<CartPage> {
                               height: 110,
                               width: 110,
                               fit: BoxFit.cover,
-                              errorBuilder:
-                                  (_, __, ___) => Container(
-                                    height: 110,
-                                    width: 110,
-                                    color: Colors.orange.shade100,
-                                    child: Icon(
-                                      Icons.fastfood,
-                                      color: Colors.orange,
-                                      size: 40,
-                                    ),
-                                  ),
+                              errorBuilder: (_, __, ___) => Container(
+                                height: 110,
+                                width: 110,
+                                color: Colors.orange.shade100,
+                                child:  Icon(Icons.fastfood,
+                                    color: Colors.orange, size: 40),
+                              ),
                               loadingBuilder: (_, child, progress) {
                                 if (progress == null) return child;
                                 return Container(
                                   height: 110,
                                   width: 110,
                                   alignment: Alignment.center,
-                                  child: CircularProgressIndicator(),
+                                  child:  CircularProgressIndicator(),
                                 );
                               },
                             ),
                           ),
-                          SizedBox(width: 14),
+                           SizedBox(width: 14),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,39 +307,34 @@ class _CartPageState extends State<CartPage> {
                                   item['name'] ?? "Food Item",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
+                                  style:  TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(height: 6),
-                                Text(
-                                  "Fast Delivery",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                SizedBox(height: 10),
+                                 SizedBox(height: 6),
+                                 Text("Fast Delivery",
+                                    style: TextStyle(color: Colors.grey)),
+                                 SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Text(
                                       "₹${item['price']}",
-                                      style: TextStyle(
+                                      style:  TextStyle(
                                         color: Colors.orange,
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Spacer(),
-                                    // QTY
+                                     Spacer(),
                                     Container(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 10,
-                                        vertical: 6,
-                                      ),
+                                      padding:  EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 6),
                                       decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.orange,
-                                        ),
-                                        borderRadius: BorderRadius.circular(14),
+                                        border:
+                                            Border.all(color: Colors.orange),
+                                        borderRadius:
+                                            BorderRadius.circular(14),
                                       ),
                                       child: Row(
                                         children: [
@@ -316,18 +346,17 @@ class _CartPageState extends State<CartPage> {
                                                 setState(() {});
                                               }
                                             },
-                                            child: Icon(Icons.remove, size: 18),
+                                            child:  Icon(Icons.remove,
+                                                size: 18),
                                           ),
                                           Padding(
-                                            padding: EdgeInsets.symmetric(
-                                              horizontal: 12,
-                                            ),
+                                            padding:  EdgeInsets.symmetric(
+                                                horizontal: 12),
                                             child: Text(
                                               item['qty'].toString(),
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                              style:  TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
                                             ),
                                           ),
                                           GestureDetector(
@@ -336,37 +365,30 @@ class _CartPageState extends State<CartPage> {
                                               box.putAt(index, item);
                                               setState(() {});
                                             },
-                                            child: Icon(
-                                              Icons.add,
-                                              size: 18,
-                                              color: Colors.orange,
-                                            ),
+                                            child:  Icon(Icons.add,
+                                                size: 18,
+                                                color: Colors.orange),
                                           ),
                                         ],
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 12),
+                                 SizedBox(height: 12),
                                 GestureDetector(
                                   onTap: () {
                                     box.deleteAt(index);
                                     setState(() {});
                                   },
                                   child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.delete_outline,
-                                        color: Colors.red,
-                                      ),
+                                    children:  [
+                                      Icon(Icons.delete_outline,
+                                          color: Colors.red),
                                       SizedBox(width: 5),
-                                      Text(
-                                        "Remove",
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
+                                      Text("Remove",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.w600)),
                                     ],
                                   ),
                                 ),
@@ -380,10 +402,11 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(20),
-                decoration: BoxDecoration(
+                padding:  EdgeInsets.all(20),
+                decoration:  BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 child: Column(
                   children: [
@@ -396,59 +419,46 @@ class _CartPageState extends State<CartPage> {
                               textCapitalization: TextCapitalization.characters,
                               decoration: InputDecoration(
                                 hintText: "Enter coupon code",
-                                prefixIcon: Icon(
-                                  Icons.local_offer_outlined,
-                                  color: Colors.orange,
-                                ),
+                                prefixIcon:  Icon(
+                                    Icons.local_offer_outlined,
+                                    color: Colors.orange),
                                 filled: true,
                                 fillColor: Colors.orange.shade50,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   borderSide: BorderSide.none,
                                 ),
-                                contentPadding: EdgeInsets.symmetric(
-                                  vertical: 12,
-                                ),
+                                contentPadding:
+                                     EdgeInsets.symmetric(vertical: 12),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
+                           SizedBox(width: 10),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange,
-                              padding: EdgeInsets.symmetric(
-                                vertical: 14,
-                                horizontal: 16,
-                              ),
+                              padding:  EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 16),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
-                              ),
+                                  borderRadius: BorderRadius.circular(14)),
                             ),
                             onPressed: isCheckingCoupon ? null : applyCoupon,
-                            child:
-                                isCheckingCoupon
-                                    ? SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                    : Text(
-                                      "Apply",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
+                            child: isCheckingCoupon
+                                ?  SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                        color: Colors.white, strokeWidth: 2),
+                                  )
+                                :  Text("Apply",
+                                    style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
-
                     if (couponApplied)
                       Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 10,
-                        ),
+                        padding:  EdgeInsets.symmetric(
+                            horizontal: 14, vertical: 10),
                         decoration: BoxDecoration(
                           color: Colors.green.shade50,
                           borderRadius: BorderRadius.circular(14),
@@ -456,24 +466,21 @@ class _CartPageState extends State<CartPage> {
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.check_circle, color: Colors.green),
-                            SizedBox(width: 8),
+                             Icon(Icons.check_circle,
+                                color: Colors.green),
+                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 couponMessage,
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style:  TextStyle(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             GestureDetector(
                               onTap: removeCoupon,
-                              child: Icon(
-                                Icons.close,
-                                color: Colors.red,
-                                size: 20,
-                              ),
+                              child:  Icon(Icons.close,
+                                  color: Colors.red, size: 20),
                             ),
                           ],
                         ),
@@ -481,32 +488,28 @@ class _CartPageState extends State<CartPage> {
 
                     if (couponMessage.isNotEmpty && !couponApplied)
                       Padding(
-                        padding: EdgeInsets.only(top: 8),
+                        padding:  EdgeInsets.only(top: 8),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.error_outline,
-                              color: Colors.red,
-                              size: 16,
-                            ),
-                            SizedBox(width: 6),
-                            Text(
-                              couponMessage,
-                              style: TextStyle(color: Colors.red, fontSize: 13),
-                            ),
+                             Icon(Icons.error_outline,
+                                color: Colors.red, size: 16),
+                             SizedBox(width: 6),
+                            Text(couponMessage,
+                                style:  TextStyle(
+                                    color: Colors.red, fontSize: 13)),
                           ],
                         ),
                       ),
 
-                    SizedBox(height: 16),
+                     SizedBox(height: 16),
                     billRow("Item Total", "₹${totalPrice.toStringAsFixed(0)}"),
-                    SizedBox(height: 12),
+                     SizedBox(height: 12),
                     billRow("Delivery Fee", "₹40"),
-                    SizedBox(height: 12),
+                     SizedBox(height: 12),
                     billRow("Taxes & Charges", "₹20"),
 
                     if (discountAmount > 0) ...[
-                      SizedBox(height: 12),
+                       SizedBox(height: 12),
                       billRow(
                         "Coupon Discount",
                         "- ₹${discountAmount.toStringAsFixed(0)}",
@@ -514,13 +517,14 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ],
 
-                    Divider(height: 30),
+                     Divider(height: 30),
                     billRow(
                       "To Pay",
                       "₹${finalTotal.toStringAsFixed(0)}",
                       isBold: true,
                     ),
-                    SizedBox(height: 20),
+                     SizedBox(height: 20),
+
                     SizedBox(
                       width: double.infinity,
                       height: 56,
@@ -528,21 +532,21 @@ class _CartPageState extends State<CartPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
+                              borderRadius: BorderRadius.circular(18)),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          await recordCouponUsage();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder:
-                                  (context) => PaymentPage(total: finalTotal),
+                              builder: (context) =>
+                                  PaymentPage(total: finalTotal),
                             ),
                           );
                         },
                         child: Text(
                           "Proceed to Pay • ₹${finalTotal.toStringAsFixed(0)}",
-                          style: TextStyle(
+                          style:  TextStyle(
                             color: Colors.white,
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
