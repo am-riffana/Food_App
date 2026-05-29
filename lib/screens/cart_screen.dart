@@ -68,12 +68,14 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      final usageCheck = await Supabase.instance.client
-          .from('coupon_usage')
-          .select()
-          .eq('coupon_code', code)
-          .eq('user_id', userId)
-          .maybeSingle();
+      // ── 1. Check if already used ──
+      final usageCheck =
+          await Supabase.instance.client
+              .from('coupon_usage')
+              .select()
+              .eq('coupon_code', code)
+              .eq('user_id', userId)
+              .maybeSingle();
 
       if (usageCheck != null) {
         setState(() {
@@ -85,12 +87,14 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      final data = await Supabase.instance.client
-          .from('coupons')
-          .select()
-          .eq('code', code)
-          .eq('is_active', true)
-          .maybeSingle();
+      // ── 2. Fetch coupon ──
+      final data =
+          await Supabase.instance.client
+              .from('coupons')
+              .select()
+              .eq('code', code)
+              .eq('is_active', true)
+              .maybeSingle();
 
       if (data == null) {
         setState(() {
@@ -102,6 +106,7 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
+      // ── 3. Check expiry ──
       if (data['expiry_date'] != null) {
         final expiry = DateTime.parse(data['expiry_date']);
         if (DateTime.now().isAfter(expiry)) {
@@ -115,6 +120,7 @@ class _CartPageState extends State<CartPage> {
         }
       }
 
+      // ── 4. Check minimum order ──
       final minOrder = (data['min_order_amount'] as num).toDouble();
       if (totalPrice < minOrder) {
         setState(() {
@@ -127,6 +133,7 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
+      // ── 5. Calculate discount ──
       double discount = 0;
       if (data['discount_type'] == 'percentage') {
         discount = totalPrice * (data['discount_value'] as num) / 100;
@@ -165,7 +172,7 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-    Future<void> recordCouponUsage() async {
+  Future<void> recordCouponUsage() async {
     if (!couponApplied || appliedCoupon == null) return;
     final userId = Supabase.instance.client.auth.currentUser?.id;
     if (userId == null) return;
@@ -176,6 +183,7 @@ class _CartPageState extends State<CartPage> {
         'user_id': userId,
       });
     } catch (_) {
+      // Unique raint prevents double-insert silently
     }
   }
 
@@ -188,10 +196,11 @@ class _CartPageState extends State<CartPage> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => MainScreen()),
-          ),
+          onPressed:
+              () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => MainScreen()),
+              ),
           icon:  Icon(Icons.arrow_back, color: Colors.white),
         ),
         title:  Text(
@@ -248,6 +257,7 @@ class _CartPageState extends State<CartPage> {
               ),
             );
           }
+
           return Column(
             children: [
               Expanded(
@@ -280,13 +290,17 @@ class _CartPageState extends State<CartPage> {
                               height: 110,
                               width: 110,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Container(
-                                height: 110,
-                                width: 110,
-                                color: Colors.orange.shade100,
-                                child:  Icon(Icons.fastfood,
-                                    color: Colors.orange, size: 40),
-                              ),
+                              errorBuilder:
+                                  (_, __, ___) => Container(
+                                    height: 110,
+                                    width: 110,
+                                    color: Colors.orange.shade100,
+                                    child:  Icon(
+                                      Icons.fastfood,
+                                      color: Colors.orange,
+                                      size: 40,
+                                    ),
+                                  ),
                               loadingBuilder: (_, child, progress) {
                                 if (progress == null) return child;
                                 return Container(
@@ -313,8 +327,10 @@ class _CartPageState extends State<CartPage> {
                                   ),
                                 ),
                                  SizedBox(height: 6),
-                                 Text("Fast Delivery",
-                                    style: TextStyle(color: Colors.grey)),
+                                 Text(
+                                  "Fast Delivery",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
                                  SizedBox(height: 10),
                                 Row(
                                   children: [
@@ -329,12 +345,14 @@ class _CartPageState extends State<CartPage> {
                                      Spacer(),
                                     Container(
                                       padding:  EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 6),
+                                        horizontal: 10,
+                                        vertical: 6,
+                                      ),
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.orange),
-                                        borderRadius:
-                                            BorderRadius.circular(14),
+                                        border: Border.all(
+                                          color: Colors.orange,
+                                        ),
+                                        borderRadius: BorderRadius.circular(14),
                                       ),
                                       child: Row(
                                         children: [
@@ -346,17 +364,21 @@ class _CartPageState extends State<CartPage> {
                                                 setState(() {});
                                               }
                                             },
-                                            child:  Icon(Icons.remove,
-                                                size: 18),
+                                            child:  Icon(
+                                              Icons.remove,
+                                              size: 18,
+                                            ),
                                           ),
                                           Padding(
                                             padding:  EdgeInsets.symmetric(
-                                                horizontal: 12),
+                                              horizontal: 12,
+                                            ),
                                             child: Text(
                                               item['qty'].toString(),
                                               style:  TextStyle(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold),
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                           GestureDetector(
@@ -365,9 +387,11 @@ class _CartPageState extends State<CartPage> {
                                               box.putAt(index, item);
                                               setState(() {});
                                             },
-                                            child:  Icon(Icons.add,
-                                                size: 18,
-                                                color: Colors.orange),
+                                            child:  Icon(
+                                              Icons.add,
+                                              size: 18,
+                                              color: Colors.orange,
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -380,15 +404,20 @@ class _CartPageState extends State<CartPage> {
                                     box.deleteAt(index);
                                     setState(() {});
                                   },
-                                  child: Row(
-                                    children:  [
-                                      Icon(Icons.delete_outline,
-                                          color: Colors.red),
+                                  child:  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.delete_outline,
+                                        color: Colors.red,
+                                      ),
                                       SizedBox(width: 5),
-                                      Text("Remove",
-                                          style: TextStyle(
-                                              color: Colors.red,
-                                              fontWeight: FontWeight.w600)),
+                                      Text(
+                                        "Remove",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -401,15 +430,17 @@ class _CartPageState extends State<CartPage> {
                   },
                 ),
               ),
+
+              // ── Bill Section ──
               Container(
                 padding:  EdgeInsets.all(20),
                 decoration:  BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(28)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 child: Column(
                   children: [
+                    // Coupon input
                     if (!couponApplied)
                       Row(
                         children: [
@@ -420,16 +451,18 @@ class _CartPageState extends State<CartPage> {
                               decoration: InputDecoration(
                                 hintText: "Enter coupon code",
                                 prefixIcon:  Icon(
-                                    Icons.local_offer_outlined,
-                                    color: Colors.orange),
+                                  Icons.local_offer_outlined,
+                                  color: Colors.orange,
+                                ),
                                 filled: true,
                                 fillColor: Colors.orange.shade50,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(14),
                                   borderSide: BorderSide.none,
                                 ),
-                                contentPadding:
-                                     EdgeInsets.symmetric(vertical: 12),
+                                contentPadding:  EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
                               ),
                             ),
                           ),
@@ -438,27 +471,39 @@ class _CartPageState extends State<CartPage> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange,
                               padding:  EdgeInsets.symmetric(
-                                  vertical: 14, horizontal: 16),
+                                vertical: 14,
+                                horizontal: 16,
+                              ),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14)),
+                                borderRadius: BorderRadius.circular(14),
+                              ),
                             ),
                             onPressed: isCheckingCoupon ? null : applyCoupon,
-                            child: isCheckingCoupon
-                                ?  SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                        color: Colors.white, strokeWidth: 2),
-                                  )
-                                :  Text("Apply",
-                                    style: TextStyle(color: Colors.white)),
+                            child:
+                                isCheckingCoupon
+                                    ?  SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                    :  Text(
+                                      "Apply",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                           ),
                         ],
                       ),
+
+                    // Applied coupon banner
                     if (couponApplied)
                       Container(
                         padding:  EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 10),
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.green.shade50,
                           borderRadius: BorderRadius.circular(14),
@@ -466,37 +511,48 @@ class _CartPageState extends State<CartPage> {
                         ),
                         child: Row(
                           children: [
-                             Icon(Icons.check_circle,
-                                color: Colors.green),
+                             Icon(Icons.check_circle, color: Colors.green),
                              SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 couponMessage,
                                 style:  TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold),
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             GestureDetector(
                               onTap: removeCoupon,
-                              child:  Icon(Icons.close,
-                                  color: Colors.red, size: 20),
+                              child:  Icon(
+                                Icons.close,
+                                color: Colors.red,
+                                size: 20,
+                              ),
                             ),
                           ],
                         ),
                       ),
 
+                    // Error message
                     if (couponMessage.isNotEmpty && !couponApplied)
                       Padding(
                         padding:  EdgeInsets.only(top: 8),
                         child: Row(
                           children: [
-                             Icon(Icons.error_outline,
-                                color: Colors.red, size: 16),
+                             Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 16,
+                            ),
                              SizedBox(width: 6),
-                            Text(couponMessage,
-                                style:  TextStyle(
-                                    color: Colors.red, fontSize: 13)),
+                            Text(
+                              couponMessage,
+                              style:  TextStyle(
+                                color: Colors.red,
+                                fontSize: 13,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -532,15 +588,45 @@ class _CartPageState extends State<CartPage> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18)),
+                            borderRadius: BorderRadius.circular(18),
+                          ),
                         ),
                         onPressed: () async {
+                          // ── Re-verify at checkout before proceeding ──
+                          if (couponApplied && appliedCoupon != null) {
+                            final userId =
+                                Supabase.instance.client.auth.currentUser?.id;
+                            if (userId != null) {
+                              final usageCheck =
+                                  await Supabase.instance.client
+                                      .from('coupon_usage')
+                                      .select()
+                                      .eq('coupon_code', appliedCoupon!['code'])
+                                      .eq('user_id', userId)
+                                      .maybeSingle();
+
+                              if (usageCheck != null) {
+                                removeCoupon();
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                   SnackBar(
+                                    content: Text(
+                                      'Coupon already used. Proceeding without discount.',
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                                return; // Stop — let user see updated total
+                              }
+                            }
+                          }
+
+                          // ── Record usage then go to payment ──
                           await recordCouponUsage();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  PaymentPage(total: finalTotal),
+                              builder:
+                                  (context) => PaymentPage(total: finalTotal),
                             ),
                           );
                         },
