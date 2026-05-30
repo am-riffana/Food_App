@@ -68,7 +68,6 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      // ── 1. Check if already used ──
       final usageCheck =
           await Supabase.instance.client
               .from('coupon_usage')
@@ -87,7 +86,6 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      // ── 2. Fetch coupon ──
       final data =
           await Supabase.instance.client
               .from('coupons')
@@ -106,7 +104,6 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      // ── 3. Check expiry ──
       if (data['expiry_date'] != null) {
         final expiry = DateTime.parse(data['expiry_date']);
         if (DateTime.now().isAfter(expiry)) {
@@ -120,7 +117,6 @@ class _CartPageState extends State<CartPage> {
         }
       }
 
-      // ── 4. Check minimum order ──
       final minOrder = (data['min_order_amount'] as num).toDouble();
       if (totalPrice < minOrder) {
         setState(() {
@@ -133,7 +129,6 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      // ── 5. Calculate discount ──
       double discount = 0;
       if (data['discount_type'] == 'percentage') {
         discount = totalPrice * (data['discount_value'] as num) / 100;
@@ -183,7 +178,6 @@ class _CartPageState extends State<CartPage> {
         'user_id': userId,
       });
     } catch (_) {
-      // Unique raint prevents double-insert silently
     }
   }
 
@@ -430,8 +424,6 @@ class _CartPageState extends State<CartPage> {
                   },
                 ),
               ),
-
-              // ── Bill Section ──
               Container(
                 padding:  EdgeInsets.all(20),
                 decoration:  BoxDecoration(
@@ -440,7 +432,6 @@ class _CartPageState extends State<CartPage> {
                 ),
                 child: Column(
                   children: [
-                    // Coupon input
                     if (!couponApplied)
                       Row(
                         children: [
@@ -497,7 +488,6 @@ class _CartPageState extends State<CartPage> {
                         ],
                       ),
 
-                    // Applied coupon banner
                     if (couponApplied)
                       Container(
                         padding:  EdgeInsets.symmetric(
@@ -534,7 +524,6 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
 
-                    // Error message
                     if (couponMessage.isNotEmpty && !couponApplied)
                       Padding(
                         padding:  EdgeInsets.only(top: 8),
@@ -615,12 +604,11 @@ class _CartPageState extends State<CartPage> {
                                     backgroundColor: Colors.red,
                                   ),
                                 );
-                                return; // Stop — let user see updated total
+                                return; 
                               }
                             }
                           }
 
-                          // ── Record usage then go to payment ──
                           await recordCouponUsage();
                           Navigator.push(
                             context,
