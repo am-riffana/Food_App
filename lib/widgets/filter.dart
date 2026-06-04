@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/widgets/responsive.dart';
 
 class FilterPage extends StatefulWidget {
   final String selectedFilter;
 
-  const FilterPage({super.key, required this.selectedFilter});
+  const FilterPage({
+    super.key,
+    required this.selectedFilter,
+  });
 
   @override
   State<FilterPage> createState() => _FilterPageState();
@@ -28,96 +32,145 @@ class _FilterPageState extends State<FilterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = Responsive.w(context);
+    final height = Responsive.h(context);
+    final isTablet = Responsive.isTablet(context);
+
     return Scaffold(
-      backgroundColor: Color(0xffF5F5F5),
+      backgroundColor: const Color(0xffF5F5F5),
 
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+
         title: Text(
           "Filters",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: isTablet ? 24 : width * 0.055,
+          ),
         ),
 
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
+
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(width * 0.05),
+
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+
           children: [
             Text(
               "Sort & Filter",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: isTablet ? 28 : width * 0.065,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            SizedBox(height: 25),
+
+            SizedBox(height: height * 0.03),
+
             Wrap(
-              spacing: 12,
-              runSpacing: 12,
-              children:
-                  filters.map((filter) {
-                    final isSelected = currentFilter == filter;
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          currentFilter = filter;
-                        });
-                      },
-                      child: AnimatedContainer(
-                        duration: Duration(milliseconds: 200),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected ? Colors.orange : Colors.white,
+              spacing: width * 0.03,
+              runSpacing: width * 0.03,
 
-                          borderRadius: BorderRadius.circular(30),
+              children: filters.map((filter) {
+                final isSelected = currentFilter == filter;
 
-                          border: Border.all(
-                            color:
-                                isSelected
-                                    ? Colors.orange
-                                    : Colors.grey.shade300,
-                          ),
-                        ),
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentFilter = filter;
+                    });
+                  },
 
-                        child: Text(
-                          filter,
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
+                  child: AnimatedContainer(
+                    duration: const Duration(
+                      milliseconds: 200,
+                    ),
 
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.05,
+                      vertical: height * 0.015,
+                    ),
+
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? Colors.orange
+                          : Colors.white,
+
+                      borderRadius: BorderRadius.circular(
+                        isTablet ? 35 : 30,
                       ),
-                    );
-                  }).toList(),
+
+                      border: Border.all(
+                        color: isSelected
+                            ? Colors.orange
+                            : Colors.grey.shade300,
+                      ),
+                    ),
+
+                    child: Text(
+                      filter,
+                      style: TextStyle(
+                        color: isSelected
+                            ? Colors.white
+                            : Colors.black,
+
+                        fontWeight: FontWeight.bold,
+
+                        fontSize: isTablet
+                            ? 16
+                            : width * 0.038,
+                      ),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
-            Spacer(),
+
+            const Spacer(),
+
             SizedBox(
               width: double.infinity,
-              height: 58,
+              height: isTablet ? 65 : height * 0.07,
+
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
+
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(
+                      isTablet ? 22 : 18,
+                    ),
                   ),
                 ),
+
                 onPressed: () {
-                  Navigator.pop(context, currentFilter);
+                  Navigator.pop(
+                    context,
+                    currentFilter,
+                  );
                 },
+
                 child: Text(
                   "Apply Filter",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: isTablet
+                        ? 20
+                        : width * 0.045,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ),
+
+            SizedBox(height: height * 0.02),
           ],
         ),
       ),

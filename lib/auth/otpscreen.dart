@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/main_screen.dart';
+import 'package:foodapp/widgets/responsive.dart';
 import 'package:pinput/pinput.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -27,7 +27,6 @@ class _OtpscreenState extends State<Otpscreen> {
   final pinController = TextEditingController();
 
   Timer? timer;
-
   int secondsRemaining = 60;
   bool canResend = false;
   bool isLoading = false;
@@ -47,22 +46,16 @@ class _OtpscreenState extends State<Otpscreen> {
 
   void startTimer() {
     timer?.cancel();
-
     setState(() {
       secondsRemaining = 60;
       canResend = false;
     });
-
-    timer = Timer.periodic(Duration(seconds: 1), (t) {
+    timer = Timer.periodic(const Duration(seconds: 1), (t) {
       if (secondsRemaining == 0) {
-        setState(() {
-          canResend = true;
-        });
+        setState(() => canResend = true);
         t.cancel();
       } else {
-        setState(() {
-          secondsRemaining--;
-        });
+        setState(() => secondsRemaining--);
       }
     });
   }
@@ -70,11 +63,9 @@ class _OtpscreenState extends State<Otpscreen> {
   Future<void> sendOtp() async {
     try {
       await Supabase.instance.client.auth.signInWithOtp(email: widget.email);
-
       startTimer();
-
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("OTP Sent Successfully"),
           backgroundColor: Colors.green,
         ),
@@ -91,14 +82,13 @@ class _OtpscreenState extends State<Otpscreen> {
 
     if (otp.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Enter OTP"), backgroundColor: Colors.red),
+        const SnackBar(
+            content: Text("Enter OTP"), backgroundColor: Colors.red),
       );
       return;
     }
 
-    setState(() {
-      isLoading = true;
-    });
+    setState(() => isLoading = true);
 
     try {
       final response = await Supabase.instance.client.auth.verifyOTP(
@@ -131,7 +121,7 @@ class _OtpscreenState extends State<Otpscreen> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Signup Successful"),
           backgroundColor: Colors.green,
         ),
@@ -146,72 +136,219 @@ class _OtpscreenState extends State<Otpscreen> {
         SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
       );
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool isTablet = Responsive.isTablet(context);
+    final bool isDesktop = Responsive.isDesktop(context);
+    final double screenWidth = Responsive.w(context);
+
+    // Card/content max width
+    final double contentWidth = isDesktop
+        ? 460.0
+        : isTablet
+            ? 420.0
+            : double.infinity;
+
+    // Outer padding
+    final double outerPad = isDesktop
+        ? 40.0
+        : isTablet
+            ? 32.0
+            : 20.0;
+
+    // Email icon size
+    final double iconSize = isDesktop
+        ? 100.0
+        : isTablet
+            ? 90.0
+            : 80.0;
+
+    // Font sizes
+    final double emailTextSize = isDesktop
+        ? 18.0
+        : isTablet
+            ? 17.0
+            : 16.0;
+
+    final double btnFontSize = isDesktop
+        ? 18.0
+        : isTablet
+            ? 17.0
+            : 16.0;
+
+    final double resendFontSize = isDesktop
+        ? 16.0
+        : isTablet
+            ? 15.0
+            : 14.0;
+
+    // Button vertical padding
+    final double btnVertPad = isDesktop
+        ? 18.0
+        : isTablet
+            ? 16.0
+            : 14.0;
+
+    // PIN box size
+    final double pinBoxSize = isDesktop
+        ? 58.0
+        : isTablet
+            ? 54.0
+            : 48.0;
+
+    // AppBar font
+    final double appBarFontSize = isDesktop
+        ? 22.0
+        : isTablet
+            ? 20.0
+            : 18.0;
+
+    // PIN box decoration
+    final defaultPinTheme = PinTheme(
+      width: pinBoxSize,
+      height: pinBoxSize,
+      textStyle: TextStyle(
+        fontSize: isDesktop ? 22 : isTablet ? 20 : 18,
+        fontWeight: FontWeight.bold,
+      ),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.orange),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.orange.shade50,
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyWith(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.orange, width: 2),
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.orange.shade100,
+      ),
+    );
+
+    Widget content = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        // ── Email icon ────────────────────────────────────────────────
+        Container(
+          padding: EdgeInsets.all(isTablet || isDesktop ? 24 : 18),
+          decoration: BoxDecoration(
+            color: Colors.orange.shade50,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(Icons.email, size: iconSize, color: Colors.orange),
+        ),
+
+        SizedBox(height: isTablet || isDesktop ? 28 : 20),
+
+        // ── Email label ───────────────────────────────────────────────
+        Text(
+          "OTP sent to\n${widget.email}",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: emailTextSize,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
+        SizedBox(height: isTablet || isDesktop ? 48 : 40),
+
+        // ── PIN input ─────────────────────────────────────────────────
+        Pinput(
+          length: 6,
+          controller: pinController,
+          defaultPinTheme: defaultPinTheme,
+          focusedPinTheme: focusedPinTheme,
+        ),
+
+        SizedBox(height: isTablet || isDesktop ? 36 : 30),
+
+        // ── Verify button ─────────────────────────────────────────────
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: isLoading ? null : verifyOtp,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              padding: EdgeInsets.symmetric(vertical: btnVertPad),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: isLoading
+                ? const CircularProgressIndicator(color: Colors.white)
+                : Text(
+                    "Verify OTP",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: btnFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+          ),
+        ),
+
+        SizedBox(height: isTablet || isDesktop ? 24 : 20),
+
+        // ── Resend button ─────────────────────────────────────────────
+        TextButton(
+          onPressed: canResend ? sendOtp : null,
+          child: Text(
+            canResend
+                ? "Resend OTP"
+                : "Resend OTP in $secondsRemaining sec",
+            style: TextStyle(
+              color: canResend ? Colors.orange : Colors.grey,
+              fontSize: resendFontSize,
+            ),
+          ),
+        ),
+      ],
+    );
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("OTP Verification"),
+        title: Text(
+          "OTP Verification",
+          style: TextStyle(fontSize: appBarFontSize),
+        ),
         backgroundColor: Colors.orange,
+        iconTheme: const IconThemeData(color: Colors.white),
+        foregroundColor: Colors.white,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.email, size: 80, color: Colors.orange),
-
-            SizedBox(height: 20),
-
-            Text(
-              "OTP sent to\n${widget.email}",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-
-            SizedBox(height: 40),
-
-            Pinput(length: 6, controller: pinController),
-
-            SizedBox(height: 30),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: isLoading ? null : verifyOtp,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                ),
-                child:
-                    isLoading
-                        ? CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                          "Verify OTP",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+      backgroundColor: const Color(0xFFF8F8F8),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(outerPad),
+          child: Center(
+            child: (isTablet || isDesktop)
+                // ── Tablet/Desktop: centered card ──────────────────────
+                ? Container(
+                    width: contentWidth,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isDesktop ? 40 : 32,
+                      vertical: isDesktop ? 48 : 40,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(28),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 20,
+                          offset: Offset(0, 8),
                         ),
-              ),
-            ),
-
-            SizedBox(height: 20),
-
-            TextButton(
-              onPressed: canResend ? sendOtp : null,
-              child: Text(
-                canResend
-                    ? "Resend OTP"
-                    : "Resend OTP in $secondsRemaining sec",
-                style: TextStyle(
-                  color: canResend ? Colors.orange : Colors.grey,
-                ),
-              ),
-            ),
-          ],
+                      ],
+                    ),
+                    child: content,
+                  )
+                // ── Mobile: plain centered column ──────────────────────
+                : content,
+          ),
         ),
       ),
     );

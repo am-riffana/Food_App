@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/widgets/responsive.dart';
 import 'package:foodapp/widgets/track_order.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -91,20 +92,94 @@ class _OrdersPageState extends State<OrdersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isTablet = Responsive.isTablet(context);
+    final bool isDesktop = Responsive.isDesktop(context);
+    final double screenWidth = Responsive.w(context);
+
+    final double hPad =
+        isDesktop
+            ? screenWidth * 0.18
+            : isTablet
+            ? screenWidth * 0.06
+            : 14.0;
+
+    final double imgSize =
+        isDesktop
+            ? 110.0
+            : isTablet
+            ? 95.0
+            : 80.0;
+
+    final double itemNameSize =
+        isDesktop
+            ? 18.0
+            : isTablet
+            ? 17.0
+            : 15.0;
+
+    final double priceFontSize =
+        isDesktop
+            ? 20.0
+            : isTablet
+            ? 18.0
+            : 16.0;
+
+    final double totalLabelSize =
+        isDesktop
+            ? 14.0
+            : isTablet
+            ? 13.0
+            : 12.0;
+
+    final double totalAmountSize =
+        isDesktop
+            ? 22.0
+            : isTablet
+            ? 20.0
+            : 18.0;
+
+    final double statusFontSize =
+        isDesktop
+            ? 15.0
+            : isTablet
+            ? 14.0
+            : 13.0;
+
+    final double badgeFontSize =
+        isDesktop
+            ? 12.0
+            : isTablet
+            ? 11.5
+            : 11.0;
+
+    final double cardRadius = isTablet || isDesktop ? 26.0 : 22.0;
+
+    final double cardPadding = isTablet || isDesktop ? 18.0 : 14.0;
+
+    final double cardMarginBottom = isTablet || isDesktop ? 20.0 : 16.0;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF2F2F2),
+      backgroundColor: Color(0xFFF2F2F2),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
         title: Text(
           "Your Orders",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: isTablet || isDesktop ? 20 : 17,
+          ),
         ),
         actions: [
           IconButton(
             onPressed: fetchOrders,
-            icon: Icon(Icons.refresh, color: Colors.orange),
+            icon: Icon(
+              Icons.refresh,
+              color: Colors.orange,
+              size: isTablet || isDesktop ? 28 : 24,
+            ),
           ),
         ],
       ),
@@ -119,27 +194,32 @@ class _OrdersPageState extends State<OrdersPage> {
                         ? ListView(
                           children: [
                             SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.7,
+                              height: Responsive.h(context) * 0.7,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
                                     Icons.shopping_bag_outlined,
-                                    size: 90,
+                                    size: isTablet || isDesktop ? 120 : 90,
                                     color: Colors.orange,
                                   ),
-                                  SizedBox(height: 15),
+                                  SizedBox(
+                                    height: isTablet || isDesktop ? 20 : 15,
+                                  ),
                                   Text(
                                     "No Orders Yet",
                                     style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: isTablet || isDesktop ? 26 : 22,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                   SizedBox(height: 6),
                                   Text(
                                     "Order something tasty 🍔",
-                                    style: TextStyle(color: Colors.grey),
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: isTablet || isDesktop ? 16 : 14,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -147,7 +227,10 @@ class _OrdersPageState extends State<OrdersPage> {
                           ],
                         )
                         : ListView.builder(
-                          padding: EdgeInsets.all(14),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: hPad,
+                            vertical: 14,
+                          ),
                           itemCount: orders.length,
                           itemBuilder: (context, index) {
                             final order = orders[index];
@@ -159,10 +242,10 @@ class _OrdersPageState extends State<OrdersPage> {
                                 items.isNotEmpty ? items[0] : null;
 
                             return Container(
-                              margin: EdgeInsets.only(bottom: 16),
+                              margin: EdgeInsets.only(bottom: cardMarginBottom),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(22),
+                                borderRadius: BorderRadius.circular(cardRadius),
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black12,
@@ -175,15 +258,15 @@ class _OrdersPageState extends State<OrdersPage> {
                                 children: [
                                   Container(
                                     padding: EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 12,
+                                      horizontal: cardPadding,
+                                      vertical: isTablet || isDesktop ? 14 : 12,
                                     ),
                                     decoration: BoxDecoration(
                                       color: statusColor(
                                         status,
                                       ).withOpacity(0.1),
                                       borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(22),
+                                        top: Radius.circular(cardRadius),
                                       ),
                                     ),
                                     child: Row(
@@ -191,6 +274,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                         Icon(
                                           statusIcon(status),
                                           color: statusColor(status),
+                                          size: isTablet || isDesktop ? 24 : 20,
                                         ),
                                         SizedBox(width: 10),
                                         Expanded(
@@ -199,13 +283,16 @@ class _OrdersPageState extends State<OrdersPage> {
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               color: statusColor(status),
+                                              fontSize: statusFontSize,
                                             ),
                                           ),
                                         ),
                                         Container(
                                           padding: EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 5,
+                                            horizontal:
+                                                isTablet || isDesktop ? 12 : 10,
+                                            vertical:
+                                                isTablet || isDesktop ? 6 : 5,
                                           ),
                                           decoration: BoxDecoration(
                                             color: statusColor(
@@ -220,7 +307,7 @@ class _OrdersPageState extends State<OrdersPage> {
                                             style: TextStyle(
                                               color: statusColor(status),
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 11,
+                                              fontSize: badgeFontSize,
                                             ),
                                           ),
                                         ),
@@ -228,30 +315,32 @@ class _OrdersPageState extends State<OrdersPage> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsets.all(14),
+                                    padding: EdgeInsets.all(cardPadding),
                                     child: Column(
                                       children: [
                                         ...items.map(
                                           (item) => Padding(
                                             padding: EdgeInsets.only(
-                                              bottom: 10,
+                                              bottom:
+                                                  isTablet || isDesktop
+                                                      ? 14
+                                                      : 10,
                                             ),
                                             child: Row(
                                               children: [
-                                                // IMAGE
                                                 ClipRRect(
                                                   borderRadius:
                                                       BorderRadius.circular(14),
                                                   child: Image.network(
                                                     item['image'] ?? '',
-                                                    height: 80,
-                                                    width: 80,
+                                                    height: imgSize,
+                                                    width: imgSize,
                                                     fit: BoxFit.cover,
                                                     errorBuilder:
                                                         (_, __, ___) =>
                                                             Container(
-                                                              height: 80,
-                                                              width: 80,
+                                                              height: imgSize,
+                                                              width: imgSize,
                                                               color:
                                                                   Colors
                                                                       .orange
@@ -265,7 +354,12 @@ class _OrdersPageState extends State<OrdersPage> {
                                                             ),
                                                   ),
                                                 ),
-                                                SizedBox(width: 14),
+                                                SizedBox(
+                                                  width:
+                                                      isTablet || isDesktop
+                                                          ? 18
+                                                          : 14,
+                                                ),
                                                 Expanded(
                                                   child: Column(
                                                     crossAxisAlignment:
@@ -279,20 +373,24 @@ class _OrdersPageState extends State<OrdersPage> {
                                                             TextOverflow
                                                                 .ellipsis,
                                                         style: TextStyle(
-                                                          fontSize: 16,
+                                                          fontSize:
+                                                              itemNameSize,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                         ),
                                                       ),
-                                                      SizedBox(height: 4),
+                                                      SizedBox(height: 6),
                                                       Row(
                                                         children: [
                                                           Container(
-                                                            padding:
-                                                                EdgeInsets.symmetric(
-                                                                  horizontal: 8,
-                                                                  vertical: 3,
-                                                                ),
+                                                            padding: EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  isTablet ||
+                                                                          isDesktop
+                                                                      ? 10
+                                                                      : 8,
+                                                              vertical: 3,
+                                                            ),
                                                             decoration: BoxDecoration(
                                                               color:
                                                                   Colors
@@ -312,7 +410,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .bold,
-                                                                fontSize: 12,
+                                                                fontSize:
+                                                                    badgeFontSize,
                                                               ),
                                                             ),
                                                           ),
@@ -320,7 +419,8 @@ class _OrdersPageState extends State<OrdersPage> {
                                                           Text(
                                                             "₹${((item['price'] as num) * (item['qty'] as num)).toStringAsFixed(0)}",
                                                             style: TextStyle(
-                                                              fontSize: 16,
+                                                              fontSize:
+                                                                  priceFontSize,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -336,6 +436,9 @@ class _OrdersPageState extends State<OrdersPage> {
                                           ),
                                         ),
                                         Divider(),
+                                        SizedBox(
+                                          height: isTablet || isDesktop ? 6 : 4,
+                                        ),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -348,13 +451,14 @@ class _OrdersPageState extends State<OrdersPage> {
                                                   "Total Paid",
                                                   style: TextStyle(
                                                     color: Colors.grey,
-                                                    fontSize: 12,
+                                                    fontSize: totalLabelSize,
                                                   ),
                                                 ),
+                                                SizedBox(height: 2),
                                                 Text(
                                                   "₹${(order['total_amount'] as num).toStringAsFixed(0)}",
                                                   style: TextStyle(
-                                                    fontSize: 18,
+                                                    fontSize: totalAmountSize,
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
@@ -366,6 +470,16 @@ class _OrdersPageState extends State<OrdersPage> {
                                                 style: ElevatedButton.styleFrom(
                                                   backgroundColor:
                                                       Colors.orange,
+                                                  padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        isTablet || isDesktop
+                                                            ? 20
+                                                            : 14,
+                                                    vertical:
+                                                        isTablet || isDesktop
+                                                            ? 12
+                                                            : 10,
+                                                  ),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
@@ -399,12 +513,19 @@ class _OrdersPageState extends State<OrdersPage> {
                                                 icon: Icon(
                                                   Icons.delivery_dining,
                                                   color: Colors.white,
-                                                  size: 18,
+                                                  size:
+                                                      isTablet || isDesktop
+                                                          ? 22
+                                                          : 18,
                                                 ),
                                                 label: Text(
                                                   "Track Order",
                                                   style: TextStyle(
                                                     color: Colors.white,
+                                                    fontSize:
+                                                        isTablet || isDesktop
+                                                            ? 15
+                                                            : 13,
                                                   ),
                                                 ),
                                               ),

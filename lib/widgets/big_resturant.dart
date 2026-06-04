@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/detail/detail.dart';
 import 'package:foodapp/widgets/resturant_model.dart';
+import 'package:foodapp/widgets/responsive.dart';
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
 
-  const RestaurantCard({super.key, required this.restaurant});
+  const RestaurantCard({
+    super.key,
+    required this.restaurant,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final width = Responsive.w(context);
+    final isTablet = Responsive.isTablet(context);
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(
+          isTablet ? 24 : width * 0.04,
+        ),
       ),
 
       child: Column(
@@ -23,9 +32,18 @@ class RestaurantCard extends StatelessWidget {
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(18)),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(
+                      isTablet ? 24 : width * 0.04,
+                    ),
+                  ),
+
                   child: restaurant.images.isEmpty
-                      ? Center(child: Icon(Icons.image_not_supported))
+                      ? const Center(
+                          child: Icon(
+                            Icons.image_not_supported,
+                          ),
+                        )
                       : PageView.builder(
                           itemCount: restaurant.images.length,
                           itemBuilder: (context, index) {
@@ -34,17 +52,26 @@ class RestaurantCard extends StatelessWidget {
                               width: double.infinity,
                               fit: BoxFit.cover,
 
-                              loadingBuilder: (context, child, progress) {
-                                if (progress == null) return child;
-                                return Center(
+                              loadingBuilder:
+                                  (context, child, progress) {
+                                if (progress == null) {
+                                  return child;
+                                }
+
+                                return const Center(
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                   ),
                                 );
                               },
 
-                              errorBuilder: (context, error, stackTrace) {
-                                return Center(child: Icon(Icons.broken_image));
+                              errorBuilder:
+                                  (context, error, stackTrace) {
+                                return const Center(
+                                  child: Icon(
+                                    Icons.broken_image,
+                                  ),
+                                );
                               },
                             );
                           },
@@ -52,19 +79,35 @@ class RestaurantCard extends StatelessWidget {
                 ),
 
                 Positioned(
-                  top: 8,
-                  right: 8,
+                  top: width * 0.02,
+                  right: width * 0.02,
+
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: restaurant.isOpen ? Colors.green : Colors.red,
-                      borderRadius: BorderRadius.circular(12),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: width * 0.02,
+                      vertical: width * 0.01,
                     ),
+
+                    decoration: BoxDecoration(
+                      color: restaurant.isOpen
+                          ? Colors.green
+                          : Colors.red,
+
+                      borderRadius: BorderRadius.circular(
+                        isTablet ? 16 : 12,
+                      ),
+                    ),
+
                     child: Text(
-                      restaurant.isOpen ? "Open" : "Closed",
+                      restaurant.isOpen
+                          ? "Open"
+                          : "Closed",
+
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 10,
+                        fontSize: isTablet
+                            ? 12
+                            : width * 0.025,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -73,68 +116,132 @@ class RestaurantCard extends StatelessWidget {
               ],
             ),
           ),
+
           Expanded(
             flex: 4,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding: EdgeInsets.symmetric(
+                horizontal: width * 0.02,
+                vertical: width * 0.015,
+              ),
+
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+
                 children: [
                   Text(
                     restaurant.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTablet
+                          ? 18
+                          : width * 0.035,
+                    ),
                   ),
 
-                  SizedBox(height: 4),
+                  SizedBox(height: width * 0.01),
 
                   Row(
                     children: [
-                      Icon(Icons.star, size: 14, color: Colors.orange),
-                      SizedBox(width: 3),
-                      Text(restaurant.rating, style: TextStyle(fontSize: 12)),
-                      SizedBox(width: 6),
-                      Icon(Icons.location_on, size: 14, color: Colors.red),
-                      SizedBox(width: 3),
-                      Text(restaurant.distance, style: TextStyle(fontSize: 12)),
+                      Icon(
+                        Icons.star,
+                        size: isTablet
+                            ? 18
+                            : width * 0.035,
+                        color: Colors.orange,
+                      ),
+
+                      SizedBox(width: width * 0.008),
+
+                      Text(
+                        restaurant.rating,
+                        style: TextStyle(
+                          fontSize: isTablet
+                              ? 14
+                              : width * 0.03,
+                        ),
+                      ),
+
+                      SizedBox(width: width * 0.02),
+
+                      Icon(
+                        Icons.location_on,
+                        size: isTablet
+                            ? 18
+                            : width * 0.035,
+                        color: Colors.red,
+                      ),
+
+                      SizedBox(width: width * 0.008),
+
+                      Text(
+                        restaurant.distance,
+                        style: TextStyle(
+                          fontSize: isTablet
+                              ? 14
+                              : width * 0.03,
+                        ),
+                      ),
                     ],
                   ),
 
-                  SizedBox(height: 4),
+                  SizedBox(height: width * 0.01),
 
                   Text(
                     "₹${restaurant.price}",
                     style: TextStyle(
                       color: Colors.orange,
                       fontWeight: FontWeight.bold,
+                      fontSize: isTablet
+                          ? 16
+                          : width * 0.032,
                     ),
                   ),
 
-                  Spacer(),
+                  const Spacer(),
 
                   SizedBox(
                     width: double.infinity,
-                    height: 32,
+                    height: isTablet
+                        ? 42
+                        : width * 0.08,
+
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
                         padding: EdgeInsets.zero,
+
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius:
+                              BorderRadius.circular(
+                            isTablet ? 12 : 10,
+                          ),
                         ),
                       ),
+
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => DetailsPage(restaurant: restaurant),
+                            builder: (_) => DetailsPage(
+                              restaurant: restaurant,
+                            ),
                           ),
                         );
                       },
+
                       child: Text(
                         "View",
-                        style: TextStyle(color: Colors.white, fontSize: 13),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: isTablet
+                              ? 15
+                              : width * 0.03,
+                        ),
                       ),
                     ),
                   ),

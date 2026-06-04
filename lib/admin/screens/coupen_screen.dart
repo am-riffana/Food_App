@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class CouponsPage extends StatefulWidget {
-   const  CouponsPage({super.key});
+  const CouponsPage({super.key});
 
   @override
   State<CouponsPage> createState() => _CouponsPageState();
@@ -10,6 +10,7 @@ class CouponsPage extends StatefulWidget {
 
 class _CouponsPageState extends State<CouponsPage> {
   final _supabase = Supabase.instance.client;
+
   List coupons = [];
   bool isLoading = true;
 
@@ -21,10 +22,12 @@ class _CouponsPageState extends State<CouponsPage> {
 
   Future<void> loadCoupons() async {
     setState(() => isLoading = true);
+
     final data = await _supabase
         .from('coupons')
         .select()
         .order('created_at', ascending: false);
+
     setState(() {
       coupons = data;
       isLoading = false;
@@ -32,14 +35,17 @@ class _CouponsPageState extends State<CouponsPage> {
   }
 
   void showCouponDialog({Map? coupon}) {
-    final codeCtrl =
-        TextEditingController(text: coupon?['code']);
+    final codeCtrl = TextEditingController(text: coupon?['code']);
     final valueCtrl = TextEditingController(
-        text: coupon?['discount_value']?.toString());
+      text: coupon?['discount_value']?.toString(),
+    );
     final minOrderCtrl = TextEditingController(
-        text: coupon?['min_order_amount']?.toString() ?? '0');
+      text: coupon?['min_order_amount']?.toString() ?? '0',
+    );
     final maxDiscountCtrl = TextEditingController(
-        text: coupon?['max_discount']?.toString() ?? '');
+      text: coupon?['max_discount']?.toString() ?? '',
+    );
+
     String discountType = coupon?['discount_type'] ?? 'percentage';
 
     showModalBottomSheet(
@@ -47,76 +53,62 @@ class _CouponsPageState extends State<CouponsPage> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => StatefulBuilder(
-        builder: (context, setModalState) => Container(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
-          decoration:  BoxDecoration(
-            color: Colors.white,
-            borderRadius:
-                BorderRadius.vertical(top: Radius.circular(30)),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 60,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                 SizedBox(height: 20),
-                Text(
-                  coupon == null ? "Add Coupon" : "Edit Coupon",
-                  style:  TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.bold),
-                ),
-                 SizedBox(height: 20),
-                TextField(
-                  controller: codeCtrl,
-                  textCapitalization: TextCapitalization.characters,
-                  decoration: InputDecoration(
-                    prefixIcon:  Icon(Icons.local_offer,
-                        color: Colors.orange),
-                    hintText: "Coupon Code (e.g. SAVE50)",
-                    filled: true,
-                    fillColor: Colors.orange.shade50,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none),
-                  ),
-                ),
-                 SizedBox(height: 16),
+        builder: (context, setModalState) {
+          final w = MediaQuery.of(context).size.width;
 
-                Container(
-                  padding:  EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: Colors.orange.shade50,
-                    borderRadius: BorderRadius.circular(18),
+          return Container(
+            padding: EdgeInsets.only(
+              left: w * 0.05,
+              right: w * 0.05,
+              top: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            ),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 60,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                   ),
-                  child: Row(
+                  const SizedBox(height: 20),
+
+                  Text(
+                    coupon == null ? "Add Coupon" : "Edit Coupon",
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  _field(codeCtrl, "Coupon Code", Icons.local_offer),
+
+                  const SizedBox(height: 16),
+
+                  Row(
                     children: [
-                       Icon(Icons.percent, color: Colors.orange),
-                       SizedBox(width: 12),
-                       Text("Discount Type:",
-                          style: TextStyle(fontWeight: FontWeight.w500)),
-                       Spacer(),
+                      const Icon(Icons.percent, color: Colors.orange),
+                      const SizedBox(width: 10),
+                      const Text("Type:"),
+                      const Spacer(),
                       DropdownButton<String>(
                         value: discountType,
-                        underline:  SizedBox(),
-                        items:  [
+                        items: const [
                           DropdownMenuItem(
                               value: 'percentage',
-                              child: Text('Percentage %')),
+                              child: Text('Percentage')),
                           DropdownMenuItem(
-                              value: 'fixed', child: Text('Fixed ₹')),
+                              value: 'fixed', child: Text('Fixed')),
                         ],
                         onChanged: (val) {
                           if (val != null) {
@@ -126,101 +118,52 @@ class _CouponsPageState extends State<CouponsPage> {
                       ),
                     ],
                   ),
-                ),
-                 SizedBox(height: 16),
-                TextField(
-                  controller: valueCtrl,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon:  Icon(Icons.discount,
-                        color: Colors.orange),
-                    hintText: discountType == 'percentage'
-                        ? "Discount % (e.g. 10)"
-                        : "Discount Amount ₹ (e.g. 50)",
-                    filled: true,
-                    fillColor: Colors.orange.shade50,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none),
-                  ),
-                ),
-                 SizedBox(height: 16),
-                TextField(
-                  controller: minOrderCtrl,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixIcon:  Icon(Icons.shopping_cart,
-                        color: Colors.orange),
-                    hintText: "Min Order Amount ₹ (e.g. 200)",
-                    filled: true,
-                    fillColor: Colors.orange.shade50,
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none),
-                  ),
-                ),
-                 SizedBox(height: 16),
 
-                if (discountType == 'percentage')
-                  TextField(
-                    controller: maxDiscountCtrl,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      prefixIcon:  Icon(Icons.money_off,
-                          color: Colors.orange),
-                      hintText: "Max Discount ₹ (optional)",
-                      filled: true,
-                      fillColor: Colors.orange.shade50,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(18),
-                          borderSide: BorderSide.none),
-                    ),
-                  ),
+                  const SizedBox(height: 16),
 
-                 SizedBox(height: 25),
+                  _field(valueCtrl, "Discount Value", Icons.discount,
+                      type: TextInputType.number),
 
-                SizedBox(
-                  width: double.infinity,
-                  height: 55,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18)),
-                    ),
-                    onPressed: () async {
-                      if (codeCtrl.text.trim().isEmpty ||
-                          valueCtrl.text.trim().isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                           SnackBar(
-                              content:
-                                  Text("Enter coupon code and value"),
-                              backgroundColor: Colors.red),
-                        );
-                        return;
-                      }
-                      try {
+                  const SizedBox(height: 16),
+
+                  _field(minOrderCtrl, "Min Order", Icons.shopping_cart,
+                      type: TextInputType.number),
+
+                  const SizedBox(height: 16),
+
+                  if (discountType == 'percentage')
+                    _field(maxDiscountCtrl, "Max Discount (optional)",
+                        Icons.money_off,
+                        type: TextInputType.number),
+
+                  const SizedBox(height: 20),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      onPressed: () async {
                         final data = {
-                          'code': codeCtrl.text
-                              .trim()
-                              .toUpperCase(),
+                          'code': codeCtrl.text.trim().toUpperCase(),
                           'discount_type': discountType,
                           'discount_value':
                               double.tryParse(valueCtrl.text) ?? 0,
                           'min_order_amount':
                               double.tryParse(minOrderCtrl.text) ?? 0,
-                          'max_discount':
-                              maxDiscountCtrl.text.trim().isEmpty
-                                  ? null
-                                  : double.tryParse(
-                                      maxDiscountCtrl.text),
+                          'max_discount': maxDiscountCtrl.text.isEmpty
+                              ? null
+                              : double.tryParse(maxDiscountCtrl.text),
                           'is_active': true,
                         };
 
                         if (coupon == null) {
-                          await _supabase
-                              .from('coupons')
-                              .insert(data);
+                          await _supabase.from('coupons').insert(data);
                         } else {
                           await _supabase
                               .from('coupons')
@@ -230,34 +173,39 @@ class _CouponsPageState extends State<CouponsPage> {
 
                         Navigator.pop(context);
                         loadCoupons();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(coupon == null
-                                ? "Coupon added!"
-                                : "Coupon updated!"),
-                            backgroundColor: Colors.green,
-                          ),
-                        );
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text("Error: $e"),
-                              backgroundColor: Colors.red),
-                        );
-                      }
-                    },
-                    child: Text(
-                      coupon == null ? "Add Coupon" : "Update Coupon",
-                      style:  TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                      },
+                      child: Text(
+                        coupon == null ? "Add Coupon" : "Update Coupon",
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _field(
+    TextEditingController c,
+    String hint,
+    IconData icon, {
+    TextInputType type = TextInputType.text,
+  }) {
+    return TextField(
+      controller: c,
+      keyboardType: type,
+      decoration: InputDecoration(
+        prefixIcon: Icon(icon, color: Colors.orange),
+        hintText: hint,
+        filled: true,
+        fillColor: Colors.orange.shade50,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
         ),
       ),
     );
@@ -281,214 +229,128 @@ class _CouponsPageState extends State<CouponsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final w = MediaQuery.of(context).size.width;
+
+    int crossAxis() {
+      if (w > 1000) return 3;
+      if (w > 700) return 2;
+      return 1;
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Manage Coupons'),
+        title: const Text("Manage Coupons"),
         actions: [
-          IconButton(onPressed: loadCoupons, icon:  Icon(Icons.refresh)),
+          IconButton(onPressed: loadCoupons, icon: const Icon(Icons.refresh))
         ],
       ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.orange,
         onPressed: () => showCouponDialog(),
-        child:  Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: Colors.white),
       ),
-      body: isLoading
-          ?  Center(
-              child: CircularProgressIndicator(color: Colors.orange))
-          : coupons.isEmpty
-              ?  Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.local_offer,
-                          size: 80, color: Colors.orange),
-                      SizedBox(height: 16),
-                      Text("No coupons yet",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 8),
-                      Text("Tap + to create a coupon",
-                          style: TextStyle(color: Colors.grey)),
-                    ],
-                  ),
-                )
-              : ListView.builder(
-                  padding:  EdgeInsets.all(14),
-                  itemCount: coupons.length,
-                  itemBuilder: (_, i) {
-                    final coupon = coupons[i];
-                    final isActive = coupon['is_active'] ?? true;
-                    final type = coupon['discount_type'] ?? 'percentage';
 
-                    return Opacity(
-                      opacity: isActive ? 1.0 : 0.5,
-                      child: Container(
-                        margin:  EdgeInsets.only(bottom: 14),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator(color: Colors.orange))
+          : coupons.isEmpty
+              ? const Center(child: Text("No coupons"))
+              : Padding(
+                  padding: EdgeInsets.all(w * 0.03),
+                  child: GridView.builder(
+                    itemCount: coupons.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxis(),
+                      childAspectRatio: 2.5,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                    ),
+                    itemBuilder: (_, i) {
+                      final coupon = coupons[i];
+                      final isActive = coupon['is_active'] ?? true;
+                      final type = coupon['discount_type'] ?? 'percentage';
+
+                      return Container(
+                        padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(18),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.05),
                               blurRadius: 10,
-                              offset:  Offset(0, 4),
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  coupon['code'],
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const Spacer(),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: _typeColor(type).withOpacity(0.1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    type == 'percentage'
+                                        ? "${coupon['discount_value']}%"
+                                        : "₹${coupon['discount_value']}",
+                                    style:
+                                        TextStyle(color: _typeColor(type)),
+                                  ),
+                                )
+                              ],
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            Text("Min: ₹${coupon['min_order_amount']}"),
+
+                            const Spacer(),
+
+                            Wrap(
+                              spacing: 8,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () =>
+                                      showCouponDialog(coupon: coupon),
+                                  child: const Text("Edit"),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor:
+                                        isActive ? Colors.red : Colors.green,
+                                  ),
+                                  onPressed: () =>
+                                      toggleCoupon(coupon['id'], isActive),
+                                  child: Text(
+                                      isActive ? "Disable" : "Enable"),
+                                ),
+                                ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red),
+                                  onPressed: () =>
+                                      deleteCoupon(coupon['id']),
+                                  child: const Icon(Icons.delete,
+                                      color: Colors.white),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        child: Padding(
-                          padding:  EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  // CODE
-                                  Container(
-                                    padding:  EdgeInsets.symmetric(
-                                        horizontal: 12, vertical: 6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.orange.shade50,
-                                      borderRadius:
-                                          BorderRadius.circular(10),
-                                      border: Border.all(
-                                          color: Colors.orange.shade200,
-                                          style: BorderStyle.solid),
-                                    ),
-                                    child: Text(
-                                      coupon['code'],
-                                      style:  TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.orange,
-                                          letterSpacing: 1.5),
-                                    ),
-                                  ),
-                                   Spacer(),
-                                  // TYPE BADGE
-                                  Container(
-                                    padding:  EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: _typeColor(type)
-                                          .withOpacity(0.1),
-                                      borderRadius:
-                                          BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      type == 'percentage'
-                                          ? '${coupon['discount_value']}% OFF'
-                                          : '₹${coupon['discount_value']} OFF',
-                                      style: TextStyle(
-                                          color: _typeColor(type),
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 13),
-                                    ),
-                                  ),
-                                   SizedBox(width: 8),
-                                  // ACTIVE BADGE
-                                  Container(
-                                    padding:  EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    decoration: BoxDecoration(
-                                      color: isActive
-                                          ? Colors.green.shade50
-                                          : Colors.red.shade50,
-                                      borderRadius:
-                                          BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      isActive ? 'Active' : 'Inactive',
-                                      style: TextStyle(
-                                          color: isActive
-                                              ? Colors.green
-                                              : Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 11),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                               SizedBox(height: 12),
-                              Text(
-                                'Min order: ₹${coupon['min_order_amount'] ?? 0}',
-                                style:  TextStyle(
-                                    color: Colors.grey, fontSize: 13),
-                              ),
-                              if (coupon['max_discount'] != null)
-                                Text(
-                                  'Max discount: ₹${coupon['max_discount']}',
-                                  style:  TextStyle(
-                                      color: Colors.grey, fontSize: 13),
-                                ),
-                               SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton.icon(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blue,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                      ),
-                                      onPressed: () =>
-                                          showCouponDialog(coupon: coupon),
-                                      icon:  Icon(Icons.edit,
-                                          color: Colors.white, size: 16),
-                                      label:  Text("Edit",
-                                          style: TextStyle(
-                                              color: Colors.white)),
-                                    ),
-                                  ),
-                                   SizedBox(width: 8),
-                                  Expanded(
-                                    child: ElevatedButton.icon(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: isActive
-                                            ? Colors.red
-                                            : Colors.green,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(12)),
-                                      ),
-                                      onPressed: () => toggleCoupon(
-                                          coupon['id'], isActive),
-                                      icon: Icon(
-                                        isActive
-                                            ? Icons.block
-                                            : Icons.check_circle,
-                                        color: Colors.white,
-                                        size: 16,
-                                      ),
-                                      label: Text(
-                                        isActive ? "Disable" : "Enable",
-                                        style:  TextStyle(
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ),
-                                   SizedBox(width: 8),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                    ),
-                                    onPressed: () =>
-                                        deleteCoupon(coupon['id']),
-                                    child:  Icon(Icons.delete,
-                                        color: Colors.white, size: 16),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
     );
   }

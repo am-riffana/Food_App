@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/payments/order_helper.dart';
 import 'package:foodapp/screens/orders_screen.dart';
+import 'package:foodapp/widgets/responsive.dart';
 
 class UpiPaymentPage extends StatefulWidget {
   final double total;
 
-   const  UpiPaymentPage({
+  const UpiPaymentPage({
     super.key,
     required this.total,
   });
@@ -28,118 +29,213 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
     if (mounted) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) =>  OrdersPage()),
+        MaterialPageRoute(builder: (_) => OrdersPage()),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool isTablet = Responsive.isTablet(context);
+    final bool isDesktop = Responsive.isDesktop(context);
+    final double screenWidth = Responsive.w(context);
+
+    // Card max width — constrained on tablet/desktop
+    final double cardWidth = isDesktop
+        ? 480.0
+        : isTablet
+            ? 440.0
+            : double.infinity;
+
+    // Card padding
+    final double cardPadding = isDesktop
+        ? 36.0
+        : isTablet
+            ? 28.0
+            : 22.0;
+
+    // QR / success icon size
+    final double qrSize = isDesktop
+        ? 280.0
+        : isTablet
+            ? 250.0
+            : 220.0;
+
+    final double successIconSize = isDesktop
+        ? 90.0
+        : isTablet
+            ? 80.0
+            : 70.0;
+
+    final double successIconPad = isDesktop
+        ? 26.0
+        : isTablet
+            ? 22.0
+            : 18.0;
+
+    // Font sizes
+    final double titleFontSize = isDesktop
+        ? 32.0
+        : isTablet
+            ? 30.0
+            : 28.0;
+
+    final double subtitleFontSize = isDesktop
+        ? 18.0
+        : isTablet
+            ? 17.0
+            : 16.0;
+
+    final double btnFontSize = isDesktop
+        ? 20.0
+        : isTablet
+            ? 19.0
+            : 18.0;
+
+    // Button height
+    final double btnHeight = isDesktop
+        ? 64.0
+        : isTablet
+            ? 62.0
+            : 58.0;
+
+    // AppBar title font
+    final double appBarFontSize = isDesktop
+        ? 22.0
+        : isTablet
+            ? 20.0
+            : 18.0;
+
     return Scaffold(
-      backgroundColor:  Color(0xFFF6F6F6),
+      backgroundColor: const Color(0xFFF6F6F6),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title:  Text(
+        title: Text(
           "UPI Payment",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: appBarFontSize,
+          ),
         ),
-        iconTheme:  IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Center(
-        child: Padding(
-          padding:  EdgeInsets.all(16),
-          child: Container(
-            width: double.infinity,
-            padding:  EdgeInsets.all(22),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(28),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  offset:  Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                if (isPaid)
-                  Container(
-                    padding:  EdgeInsets.all(18),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                      shape: BoxShape.circle,
-                    ),
-                    child:  Icon(Icons.check_circle,
-                        size: 70, color: Colors.green),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(isDesktop ? 32 : isTablet ? 24 : 16),
+          child: Center(
+            child: Container(
+              width: cardWidth,
+              padding: EdgeInsets.all(cardPadding),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 10,
+                    offset: Offset(0, 4),
                   ),
-                if (!isPaid)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.asset(
-                      "assets/qr.png",
-                      height: 220,
-                      width: 220,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                 SizedBox(height: 24),
-                Text(
-                  isPaid
-                      ? "Payment Successful"
-                      : "Pay ₹${widget.total.toStringAsFixed(2)}",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: isPaid ? Colors.green : Colors.black,
-                  ),
-                ),
-                 SizedBox(height: 10),
-                Text(
-                  isPaid
-                      ? "Your order has been placed successfully"
-                      : "Scan QR using any UPI app",
-                  textAlign: TextAlign.center,
-                  style:  TextStyle(color: Colors.grey, fontSize: 16),
-                ),
-                 SizedBox(height: 30),
-                SizedBox(
-                  width: double.infinity,
-                  height: 58,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isPaid ? Colors.green : Colors.orange,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // ── Success icon or QR ──────────────────────────────
+                  if (isPaid)
+                    Container(
+                      padding: EdgeInsets.all(successIconPad),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade100,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.check_circle,
+                        size: successIconSize,
+                        color: Colors.green,
                       ),
                     ),
-                    onPressed: isLoading
-                        ? null
-                        : () async {
-                            if (isPaid) {
-                              await saveOrderAndNavigate();
-                            } else {
-                              setState(() => isPaid = true);
-                            }
-                          },
-                    child: isLoading
-                        ?  CircularProgressIndicator(color: Colors.white)
-                        : Text(
-                            isPaid ? "Done" : "Pay Now",
-                            style:  TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
+
+                  if (!isPaid)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        "assets/qr.png",
+                        height: qrSize,
+                        width: qrSize,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+
+                  SizedBox(height: isTablet || isDesktop ? 28 : 24),
+
+                  // ── Title ───────────────────────────────────────────
+                  Text(
+                    isPaid
+                        ? "Payment Successful"
+                        : "Pay ₹${widget.total.toStringAsFixed(2)}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: titleFontSize,
+                      fontWeight: FontWeight.bold,
+                      color: isPaid ? Colors.green : Colors.black,
+                    ),
                   ),
-                ),
-              ],
+
+                  SizedBox(height: isTablet || isDesktop ? 12 : 10),
+
+                  // ── Subtitle ────────────────────────────────────────
+                  Text(
+                    isPaid
+                        ? "Your order has been placed successfully"
+                        : "Scan QR using any UPI app",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: subtitleFontSize,
+                    ),
+                  ),
+
+                  SizedBox(height: isTablet || isDesktop ? 36 : 30),
+
+                  // ── Action Button ───────────────────────────────────
+                  SizedBox(
+                    width: double.infinity,
+                    height: btnHeight,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            isPaid ? Colors.green : Colors.orange,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      onPressed: isLoading
+                          ? null
+                          : () async {
+                              if (isPaid) {
+                                await saveOrderAndNavigate();
+                              } else {
+                                setState(() => isPaid = true);
+                              }
+                            },
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              color: Colors.white)
+                          : Text(
+                              isPaid ? "Done" : "Pay Now",
+                              style: TextStyle(
+                                fontSize: btnFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/widgets/responsive.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -13,27 +14,34 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final width = Responsive.w(context);
+    final height = Responsive.h(context);
+    final isTablet = Responsive.isTablet(context);
+
     return Scaffold(
       backgroundColor: const Color(0xFFF6F6F6),
 
       appBar: AppBar(
         backgroundColor: Colors.white,
-
         elevation: 0,
-
         centerTitle: true,
 
         title: Text(
           "Settings",
-
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: isTablet ? 24 : width * 0.055,
+          ),
         ),
 
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
 
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: EdgeInsets.all(width * 0.04),
 
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,300 +49,249 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Text(
               "Account",
-
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-
-            SizedBox(height: 16),
-
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-
-                borderRadius: BorderRadius.circular(24),
-
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-
-                      child: Icon(Icons.person, color: Colors.orange),
-                    ),
-
-                    title: Text(
-                      "Edit Profile",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    subtitle: Text("Change name and email"),
-
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-
-                    onTap: () {},
-                  ),
-
-                  Divider(height: 1),
-
-                  ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-
-                      child: Icon(Icons.lock, color: Colors.orange),
-                    ),
-
-                    title: Text(
-                      "Privacy",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    subtitle: Text("Manage privacy settings"),
-
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-
-                    onTap: () {},
-                  ),
-
-                  Divider(height: 1),
-
-                  ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-
-                      child: Icon(Icons.language, color: Colors.orange),
-                    ),
-
-                    title: Text(
-                      "Language",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    subtitle: Text("English"),
-
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-
-                    onTap: () {},
-                  ),
-                ],
+              style: TextStyle(
+                fontSize: isTablet ? 26 : width * 0.06,
+                fontWeight: FontWeight.bold,
               ),
             ),
 
-            SizedBox(height: 28),
+            SizedBox(height: height * 0.02),
+
+            _buildCard(
+              context,
+              children: [
+                _buildTile(
+                  context,
+                  icon: Icons.person,
+                  title: "Edit Profile",
+                  subtitle: "Change name and email",
+                  onTap: () {},
+                ),
+
+                const Divider(height: 1),
+
+                _buildTile(
+                  context,
+                  icon: Icons.lock,
+                  title: "Privacy",
+                  subtitle: "Manage privacy settings",
+                  onTap: () {},
+                ),
+
+                const Divider(height: 1),
+
+                _buildTile(
+                  context,
+                  icon: Icons.language,
+                  title: "Language",
+                  subtitle: "English",
+                  onTap: () {},
+                ),
+              ],
+            ),
+
+            SizedBox(height: height * 0.03),
 
             Text(
               "App Settings",
-
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-
-            SizedBox(height: 16),
-
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-
-                borderRadius: BorderRadius.circular(24),
-
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-
-              child: Column(
-                children: [
-                  SwitchListTile(
-                    value: notifications,
-
-                    activeColor: Colors.orange,
-
-                    secondary: Container(
-                      padding: EdgeInsets.all(10),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-
-                      child: Icon(Icons.notifications, color: Colors.orange),
-                    ),
-
-                    title: Text(
-                      "Notifications",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    subtitle: Text("Enable app notifications"),
-
-                    onChanged: (value) {
-                      setState(() {
-                        notifications = value;
-                      });
-                    },
-                  ),
-
-                  Divider(height: 1),
-
-                  SwitchListTile(
-                    value: locationAccess,
-
-                    activeColor: Colors.orange,
-
-                    secondary: Container(
-                      padding: EdgeInsets.all(10),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-
-                      child: Icon(Icons.location_on, color: Colors.orange),
-                    ),
-                    title: Text(
-                      "Location Access",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    subtitle: Text("Allow location services"),
-                    onChanged: (value) {
-                      setState(() {
-                        locationAccess = value;
-                      });
-                    },
-                  ),
-                ],
+              style: TextStyle(
+                fontSize: isTablet ? 26 : width * 0.06,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 28),
+
+            SizedBox(height: height * 0.02),
+
+            _buildCard(
+              context,
+              children: [
+                SwitchListTile(
+                  value: notifications,
+                  activeColor: Colors.orange,
+
+                  secondary: _buildIconBox(
+                    Icons.notifications,
+                  ),
+
+                  title: Text(
+                    "Notifications",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTablet ? 17 : width * 0.042,
+                    ),
+                  ),
+
+                  subtitle: Text(
+                    "Enable app notifications",
+                    style: TextStyle(
+                      fontSize: isTablet ? 14 : width * 0.035,
+                    ),
+                  ),
+
+                  onChanged: (value) {
+                    setState(() {
+                      notifications = value;
+                    });
+                  },
+                ),
+
+                const Divider(height: 1),
+
+                SwitchListTile(
+                  value: locationAccess,
+                  activeColor: Colors.orange,
+
+                  secondary: _buildIconBox(
+                    Icons.location_on,
+                  ),
+
+                  title: Text(
+                    "Location Access",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: isTablet ? 17 : width * 0.042,
+                    ),
+                  ),
+
+                  subtitle: Text(
+                    "Allow location services",
+                    style: TextStyle(
+                      fontSize: isTablet ? 14 : width * 0.035,
+                    ),
+                  ),
+
+                  onChanged: (value) {
+                    setState(() {
+                      locationAccess = value;
+                    });
+                  },
+                ),
+              ],
+            ),
+
+            SizedBox(height: height * 0.03),
+
             Text(
               "Support",
-
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-
-                borderRadius: BorderRadius.circular(24),
-
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 8,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-
-                      child: Icon(Icons.help, color: Colors.orange),
-                    ),
-
-                    title: Text(
-                      "Help Center",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-
-                    subtitle: Text("Get support"),
-
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-
-                    onTap: () {},
-                  ),
-                  Divider(height: 1),
-                  ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Icon(Icons.info, color: Colors.orange),
-                    ),
-                    title: Text(
-                      "About App",
-
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Version 1.0.0"),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {},
-                  ),
-                  Divider(height: 1),
-                  ListTile(
-                    leading: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.shade100,
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: Icon(Icons.star, color: Colors.orange),
-                    ),
-                    title: Text(
-                      "Rate Us",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Text("Give your feedback"),
-                    trailing: Icon(Icons.arrow_forward_ios, size: 16),
-                    onTap: () {},
-                  ),
-                ],
+              style: TextStyle(
+                fontSize: isTablet ? 26 : width * 0.06,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 30),
+
+            SizedBox(height: height * 0.02),
+
+            _buildCard(
+              context,
+              children: [
+                _buildTile(
+                  context,
+                  icon: Icons.help,
+                  title: "Help Center",
+                  subtitle: "Get support",
+                  onTap: () {},
+                ),
+
+                const Divider(height: 1),
+
+                _buildTile(
+                  context,
+                  icon: Icons.info,
+                  title: "About App",
+                  subtitle: "Version 1.0.0",
+                  onTap: () {},
+                ),
+
+                const Divider(height: 1),
+
+                _buildTile(
+                  context,
+                  icon: Icons.star,
+                  title: "Rate Us",
+                  subtitle: "Give your feedback",
+                  onTap: () {},
+                ),
+              ],
+            ),
+
+            SizedBox(height: height * 0.04),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCard(
+    BuildContext context, {
+    required List<Widget> children,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 8,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(children: children),
+    );
+  }
+
+  Widget _buildIconBox(IconData icon) {
+    return Container(
+      padding: const EdgeInsets.all(10),
+
+      decoration: BoxDecoration(
+        color: Colors.orange.shade100,
+        borderRadius: BorderRadius.circular(14),
+      ),
+
+      child: Icon(
+        icon,
+        color: Colors.orange,
+      ),
+    );
+  }
+
+  Widget _buildTile(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    final width = Responsive.w(context);
+    final isTablet = Responsive.isTablet(context);
+
+    return ListTile(
+      leading: _buildIconBox(icon),
+
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: isTablet ? 17 : width * 0.042,
+        ),
+      ),
+
+      subtitle: Text(
+        subtitle,
+        style: TextStyle(
+          fontSize: isTablet ? 14 : width * 0.035,
+        ),
+      ),
+
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        size: isTablet ? 18 : width * 0.04,
+      ),
+
+      onTap: onTap,
     );
   }
 }

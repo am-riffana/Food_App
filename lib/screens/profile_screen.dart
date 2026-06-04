@@ -3,6 +3,7 @@ import 'package:foodapp/screens/cart_screen.dart';
 import 'package:foodapp/screens/login_screen.dart';
 import 'package:foodapp/screens/orders_screen.dart';
 import 'package:foodapp/widgets/address.dart';
+import 'package:foodapp/widgets/responsive.dart';
 import 'package:foodapp/widgets/settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,7 +12,6 @@ class ProfilePage extends StatelessWidget {
 
   void logout(BuildContext context) async {
     await Supabase.instance.client.auth.signOut();
-
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (_) => LoginScreen()),
@@ -21,33 +21,94 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = Responsive.w(context);
+    final bool isTablet = Responsive.isTablet(context);
+    final bool isDesktop = Responsive.isDesktop(context);
+    
+    final double hPad =
+        isDesktop
+            ? screenWidth * 0.2
+            : isTablet
+            ? screenWidth * 0.08
+            : 16.0;
+
+    final double avatarSize =
+        isDesktop
+            ? 110.0
+            : isTablet
+            ? 90.0
+            : 72.0;
+
+    final double nameFontSize =
+        isDesktop
+            ? 34.0
+            : isTablet
+            ? 30.0
+            : 24.0;
+
+    final double emailFontSize =
+        isDesktop
+            ? 18.0
+            : isTablet
+            ? 16.0
+            : 14.0;
+
+    final double headerTopPad =
+        isDesktop
+            ? 70.0
+            : isTablet
+            ? 65.0
+            : 55.0;
+
+    final double iconSize =
+        isDesktop
+            ? 32.0
+            : isTablet
+            ? 30.0
+            : 26.0;
+
+    final double tileFontSize =
+        isDesktop
+            ? 18.0
+            : isTablet
+            ? 17.0
+            : 15.0;
+
+    final double logoutHeight =
+        isDesktop
+            ? 64.0
+            : isTablet
+            ? 60.0
+            : 54.0;
+
+    final double logoutFontSize =
+        isDesktop
+            ? 20.0
+            : isTablet
+            ? 18.0
+            : 16.0;
     return StreamBuilder<AuthState>(
       stream: Supabase.instance.client.auth.onAuthStateChange,
       builder: (context, snapshot) {
         final user = Supabase.instance.client.auth.currentUser;
-
         final email = user?.email ?? "user@email.com";
-
         final name =
             user?.userMetadata?['name'] ??
             user?.userMetadata?['full_name'] ??
             email.split("@")[0];
-
         return Scaffold(
           backgroundColor: const Color(0xFFF6F6F6),
-
           body: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(
-                    top: 60,
-                    left: 20,
-                    right: 20,
-                    bottom: 30,
+                    top: headerTopPad,
+                    left: hPad,
+                    right: hPad,
+                    bottom: 28,
                   ),
-
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [Color(0xFFFF7A00), Color(0xFFFFA726)],
@@ -57,65 +118,77 @@ class ProfilePage extends StatelessWidget {
                       bottomRight: Radius.circular(34),
                     ),
                   ),
-
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              borderRadius: BorderRadius.circular(14),
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.arrow_back_ios_new,
-                              color: Colors.white,
-                              size: 20,
-                            ),
+                      // Back button
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.circular(14),
+                            border: Border.all(color: Colors.white, width: 1.5),
+                          ),
+                          child: Icon(
+                            Icons.arrow_back_ios_new,
+                            color: Colors.white,
+                            size: 20,
                           ),
                         ),
                       ),
-
-                      SizedBox(height: 25),
-
-                      Text(
-                        name,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                      SizedBox(height: isTablet || isDesktop ? 28 : 20),
+                      Center(
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              radius: avatarSize / 2,
+                              backgroundColor: Colors.white,
+                              child: Text(
+                                name.isNotEmpty ? name[0].toUpperCase() : "U",
+                                style: TextStyle(
+                                  fontSize: avatarSize * 0.42,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: isTablet || isDesktop ? 14 : 10),
+                            Text(
+                              name,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: nameFontSize,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              email,
+                              style: TextStyle(
+                                color: Colors.white70,
+                                fontSize: emailFontSize,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-
-                      SizedBox(height: 6),
-
-                      Text(
-                        email,
-                        style: TextStyle(color: Colors.white70, fontSize: 15),
-                      ),
-
-                      SizedBox(height: 24),
-
+                      SizedBox(height: isTablet || isDesktop ? 28 : 20),
                       Container(
-                        padding: EdgeInsets.all(18),
+                        padding: EdgeInsets.all(
+                          isTablet || isDesktop ? 20 : 16,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(24),
                         ),
-
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.all(14),
+                              padding: EdgeInsets.all(
+                                isTablet || isDesktop ? 16 : 12,
+                              ),
                               decoration: BoxDecoration(
                                 color: Colors.orange,
                                 borderRadius: BorderRadius.circular(18),
@@ -123,12 +196,10 @@ class ProfilePage extends StatelessWidget {
                               child: Icon(
                                 Icons.location_on,
                                 color: Colors.white,
-                                size: 28,
+                                size: iconSize,
                               ),
                             ),
-
-                            SizedBox(width: 14),
-
+                            SizedBox(width: isTablet || isDesktop ? 16 : 12),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,33 +207,33 @@ class ProfilePage extends StatelessWidget {
                                   Text(
                                     "Home Address",
                                     style: TextStyle(
-                                      fontSize: 17,
+                                      fontSize: tileFontSize,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-
-                                  SizedBox(height: 5),
-
+                                  SizedBox(height: 4),
                                   Text(
                                     "Calicut, Kerala",
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 14,
+                                      fontSize: emailFontSize,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.orange,
                                 elevation: 0,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: isTablet || isDesktop ? 20 : 14,
+                                  vertical: isTablet || isDesktop ? 12 : 8,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                               ),
-
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -171,12 +242,12 @@ class ProfilePage extends StatelessWidget {
                                   ),
                                 );
                               },
-
                               child: Text(
                                 "Edit",
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: emailFontSize,
                                 ),
                               ),
                             ),
@@ -186,66 +257,59 @@ class ProfilePage extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                SizedBox(height: 24),
-
+                SizedBox(height: isTablet || isDesktop ? 30 : 22),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-
+                  padding: EdgeInsets.symmetric(horizontal: hPad),
                   child: Column(
                     children: [
-                      buildTile(
+                      _buildTile(
                         context: context,
                         icon: Icons.shopping_bag_outlined,
                         title: "My Orders",
                         subtitle: "Track your orders",
-
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => OrdersPage()),
-                          );
-                        },
+                        iconSize: iconSize,
+                        titleFontSize: tileFontSize,
+                        onTap:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => OrdersPage()),
+                            ),
                       ),
-
-                      buildTile(
+                      _buildTile(
                         context: context,
                         icon: Icons.shopping_cart_outlined,
                         title: "Cart",
                         subtitle: "View cart items",
-
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => CartPage()),
-                          );
-                        },
+                        iconSize: iconSize,
+                        titleFontSize: tileFontSize,
+                        onTap:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => CartPage()),
+                            ),
                       ),
-
-                      buildTile(
+                      _buildTile(
                         context: context,
                         icon: Icons.settings,
                         title: "Settings",
                         subtitle: "Privacy & preferences",
-
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => SettingsPage()),
-                          );
-                        },
+                        iconSize: iconSize,
+                        titleFontSize: tileFontSize,
+                        onTap:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => SettingsPage()),
+                            ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 24),
+                SizedBox(height: isTablet || isDesktop ? 30 : 22),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-
+                  padding: EdgeInsets.symmetric(horizontal: hPad),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 58,
-
+                    height: logoutHeight,
                     child: ElevatedButton.icon(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
@@ -255,19 +319,24 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                       onPressed: () => logout(context),
-                      icon: Icon(Icons.logout, color: Colors.white),
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.white,
+                        size: iconSize,
+                      ),
                       label: Text(
                         "Logout",
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18,
+                          fontSize: logoutFontSize,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+
+                SizedBox(height: isTablet || isDesktop ? 40 : 30),
               ],
             ),
           ),
@@ -276,15 +345,20 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget buildTile({
+  Widget _buildTile({
     required BuildContext context,
     required IconData icon,
     required String title,
     required String subtitle,
+    required double iconSize,
+    required double titleFontSize,
     required VoidCallback onTap,
   }) {
+    final bool isTablet = Responsive.isTablet(context);
+    final bool isDesktop = Responsive.isDesktop(context);
+
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: isTablet || isDesktop ? 20 : 14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(22),
@@ -296,29 +370,34 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
-
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: isTablet || isDesktop ? 22 : 16,
+          vertical: isTablet || isDesktop ? 14 : 8,
+        ),
         leading: Container(
-          padding: EdgeInsets.all(12),
+          padding: EdgeInsets.all(isTablet || isDesktop ? 14 : 11),
           decoration: BoxDecoration(
             color: Colors.orange,
             borderRadius: BorderRadius.circular(16),
           ),
-
-          child: Icon(icon, color: Colors.white, size: 28),
+          child: Icon(icon, color: Colors.white, size: iconSize),
         ),
         title: Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: titleFontSize,
+          ),
         ),
         subtitle: Padding(
           padding: EdgeInsets.only(top: 4),
-          child: Text(subtitle, style: TextStyle(color: Colors.grey)),
+          child: Text(
+            subtitle,
+            style: TextStyle(color: Colors.grey, fontSize: titleFontSize - 2),
+          ),
         ),
-
         trailing: Icon(Icons.arrow_forward_ios, size: 18, color: Colors.grey),
-
         onTap: onTap,
       ),
     );

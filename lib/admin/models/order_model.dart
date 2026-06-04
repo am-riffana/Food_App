@@ -5,19 +5,19 @@ part 'order_model.g.dart';
 @HiveType(typeId: 1)
 class OrderModel extends HiveObject {
   @HiveField(0)
-  String id;
+  final String id;
 
   @HiveField(1)
-  String userId;
+  final String userId;
 
   @HiveField(2)
-  double totalAmount;
+  final double totalAmount;
 
   @HiveField(3)
   String status;
 
   @HiveField(4)
-  String createdAt;
+  final String createdAt;
 
   OrderModel({
     required this.id,
@@ -27,19 +27,23 @@ class OrderModel extends HiveObject {
     required this.createdAt,
   });
 
-  factory OrderModel.fromMap(Map<String, dynamic> map) => OrderModel(
-        id: map['id'],
-        userId: map['user_id'] ?? '',
-        totalAmount: (map['total_amount'] as num).toDouble(),
-        status: map['status'] ?? 'pending',
-        createdAt: map['created_at'] ?? '',
-      );
+  factory OrderModel.fromMap(Map<String, dynamic> map) {
+    return OrderModel(
+      id: (map['id'] ?? '').toString(),
+      userId: (map['user_id'] ?? '').toString(),
+      totalAmount: (map['total_amount'] ?? 0).toDouble(),
+      status: (map['status'] ?? 'pending').toString(),
+      createdAt: (map['created_at'] ?? '').toString(),
+    );
+  }
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'user_id': userId,
-        'total_amount': totalAmount,
-        'status': status,
-        'created_at': createdAt,
-      };
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'user_id': userId,
+      'total_amount': totalAmount,
+      'status': status,
+      'created_at': createdAt,
+    };
+  }
 }

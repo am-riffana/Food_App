@@ -41,30 +41,18 @@ class Restaurant {
     };
   }
 
-  factory Restaurant.fromMap(
-    Map<String, dynamic> map,
-  ) {
+  factory Restaurant.fromMap(Map<String, dynamic> map) {
     return Restaurant(
       name: map['name'] ?? '',
       rating: map['rating'] ?? '0.0',
       distance: map['distance'] ?? '',
       isOpen: map['isOpen'] ?? false,
-      images: List<String>.from(
-        map['images'] ?? [],
-      ),
+      images: List<String>.from(map['images'] ?? []),
       price: map['price'] ?? 0,
       category: map['category'] ?? '',
-
-      ingredients: List<String>.from(
-        map['ingredients'] ?? [],
-      ),
-
-      description:
-          map['description'] ?? '',
-
-      deliveryTime:
-          map['deliveryTime'] ?? '',
-
+      ingredients: List<String>.from(map['ingredients'] ?? []),
+      description: map['description'] ?? '',
+      deliveryTime: map['deliveryTime'] ?? '',
       offer: map['offer'] ?? '',
     );
   }
