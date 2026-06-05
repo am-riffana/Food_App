@@ -55,7 +55,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
 
   void autoSlide() async {
     while (mounted) {
-      await Future.delayed(const Duration(seconds: 3));
+      await Future.delayed(Duration(seconds: 3));
 
       if (!mounted) return;
       if (imageList.isEmpty) continue;
@@ -64,7 +64,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
 
       _controller.animateToPage(
         _currentPage,
-        duration: const Duration(milliseconds: 400),
+        duration: Duration(milliseconds: 400),
         curve: Curves.easeInOut,
       );
     }
@@ -85,11 +85,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
     if (isLoading) {
       return SizedBox(
         height: isTablet ? 260 : height * 0.22,
-        child: const Center(
-          child: CircularProgressIndicator(
-            color: Colors.orange,
-          ),
-        ),
+        child: Center(child: CircularProgressIndicator(color: Colors.orange)),
       );
     }
 
@@ -107,9 +103,7 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
             },
             itemBuilder: (_, i) {
               return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: width * 0.02,
-                ),
+                margin: EdgeInsets.symmetric(horizontal: width * 0.02),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
                     isTablet ? 22 : width * 0.04,
@@ -119,35 +113,31 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: banners.isNotEmpty &&
-                        banners[i]['title'] != null
-                    ? Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          margin: EdgeInsets.all(width * 0.03),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: width * 0.03,
-                            vertical: height * 0.008,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.black54,
-                            borderRadius: BorderRadius.circular(
-                              width * 0.02,
+                child:
+                    banners.isNotEmpty && banners[i]['title'] != null
+                        ? Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Container(
+                            margin: EdgeInsets.all(width * 0.03),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.03,
+                              vertical: height * 0.008,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.black54,
+                              borderRadius: BorderRadius.circular(width * 0.02),
+                            ),
+                            child: Text(
+                              banners[i]['title'],
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: isTablet ? 18 : width * 0.04,
+                              ),
                             ),
                           ),
-                          child: Text(
-                            banners[i]['title'],
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: isTablet
-                                  ? 18
-                                  : width * 0.04,
-                            ),
-                          ),
-                        ),
-                      )
-                    : null,
+                        )
+                        : null,
               );
             },
           ),
@@ -161,21 +151,13 @@ class _AutoBannerSliderState extends State<AutoBannerSlider> {
               children: List.generate(
                 imageList.length,
                 (i) => AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: width * 0.008,
-                  ),
-                  width: _currentPage == i
-                      ? width * 0.05
-                      : width * 0.02,
+                  duration: Duration(milliseconds: 300),
+                  margin: EdgeInsets.symmetric(horizontal: width * 0.008),
+                  width: _currentPage == i ? width * 0.05 : width * 0.02,
                   height: width * 0.02,
                   decoration: BoxDecoration(
-                    color: _currentPage == i
-                        ? Colors.orange
-                        : Colors.white,
-                    borderRadius: BorderRadius.circular(
-                      width * 0.02,
-                    ),
+                    color: _currentPage == i ? Colors.orange : Colors.white,
+                    borderRadius: BorderRadius.circular(width * 0.02),
                   ),
                 ),
               ),

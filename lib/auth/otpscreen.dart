@@ -50,7 +50,7 @@ class _OtpscreenState extends State<Otpscreen> {
       secondsRemaining = 60;
       canResend = false;
     });
-    timer = Timer.periodic(const Duration(seconds: 1), (t) {
+    timer = Timer.periodic(Duration(seconds: 1), (t) {
       if (secondsRemaining == 0) {
         setState(() => canResend = true);
         t.cancel();
@@ -65,7 +65,7 @@ class _OtpscreenState extends State<Otpscreen> {
       await Supabase.instance.client.auth.signInWithOtp(email: widget.email);
       startTimer();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text("OTP Sent Successfully"),
           backgroundColor: Colors.green,
         ),
@@ -82,8 +82,7 @@ class _OtpscreenState extends State<Otpscreen> {
 
     if (otp.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text("Enter OTP"), backgroundColor: Colors.red),
+        SnackBar(content: Text("Enter OTP"), backgroundColor: Colors.red),
       );
       return;
     }
@@ -121,7 +120,7 @@ class _OtpscreenState extends State<Otpscreen> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
+        SnackBar(
           content: Text("Signup Successful"),
           backgroundColor: Colors.green,
         ),
@@ -146,73 +145,79 @@ class _OtpscreenState extends State<Otpscreen> {
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    // Card/content max width
-    final double contentWidth = isDesktop
-        ? 460.0
-        : isTablet
+    final double contentWidth =
+        isDesktop
+            ? 460.0
+            : isTablet
             ? 420.0
             : double.infinity;
 
-    // Outer padding
-    final double outerPad = isDesktop
-        ? 40.0
-        : isTablet
+    final double outerPad =
+        isDesktop
+            ? 40.0
+            : isTablet
             ? 32.0
             : 20.0;
 
-    // Email icon size
-    final double iconSize = isDesktop
-        ? 100.0
-        : isTablet
+    final double iconSize =
+        isDesktop
+            ? 100.0
+            : isTablet
             ? 90.0
             : 80.0;
 
-    // Font sizes
-    final double emailTextSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double emailTextSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    final double btnFontSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double btnFontSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    final double resendFontSize = isDesktop
-        ? 16.0
-        : isTablet
+    final double resendFontSize =
+        isDesktop
+            ? 16.0
+            : isTablet
             ? 15.0
             : 14.0;
 
-    // Button vertical padding
-    final double btnVertPad = isDesktop
-        ? 18.0
-        : isTablet
+    final double btnVertPad =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 16.0
             : 14.0;
 
-    // PIN box size
-    final double pinBoxSize = isDesktop
-        ? 58.0
-        : isTablet
+    final double pinBoxSize =
+        isDesktop
+            ? 58.0
+            : isTablet
             ? 54.0
             : 48.0;
 
-    // AppBar font
-    final double appBarFontSize = isDesktop
-        ? 22.0
-        : isTablet
+    final double appBarFontSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 20.0
             : 18.0;
 
-    // PIN box decoration
     final defaultPinTheme = PinTheme(
       width: pinBoxSize,
       height: pinBoxSize,
       textStyle: TextStyle(
-        fontSize: isDesktop ? 22 : isTablet ? 20 : 18,
+        fontSize:
+            isDesktop
+                ? 22
+                : isTablet
+                ? 20
+                : 18,
         fontWeight: FontWeight.bold,
       ),
       decoration: BoxDecoration(
@@ -233,7 +238,6 @@ class _OtpscreenState extends State<Otpscreen> {
     Widget content = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // ── Email icon ────────────────────────────────────────────────
         Container(
           padding: EdgeInsets.all(isTablet || isDesktop ? 24 : 18),
           decoration: BoxDecoration(
@@ -245,7 +249,6 @@ class _OtpscreenState extends State<Otpscreen> {
 
         SizedBox(height: isTablet || isDesktop ? 28 : 20),
 
-        // ── Email label ───────────────────────────────────────────────
         Text(
           "OTP sent to\n${widget.email}",
           textAlign: TextAlign.center,
@@ -257,7 +260,6 @@ class _OtpscreenState extends State<Otpscreen> {
 
         SizedBox(height: isTablet || isDesktop ? 48 : 40),
 
-        // ── PIN input ─────────────────────────────────────────────────
         Pinput(
           length: 6,
           controller: pinController,
@@ -266,8 +268,6 @@ class _OtpscreenState extends State<Otpscreen> {
         ),
 
         SizedBox(height: isTablet || isDesktop ? 36 : 30),
-
-        // ── Verify button ─────────────────────────────────────────────
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -279,28 +279,26 @@ class _OtpscreenState extends State<Otpscreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: isLoading
-                ? const CircularProgressIndicator(color: Colors.white)
-                : Text(
-                    "Verify OTP",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: btnFontSize,
-                      fontWeight: FontWeight.bold,
+            child:
+                isLoading
+                    ? CircularProgressIndicator(color: Colors.white)
+                    : Text(
+                      "Verify OTP",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: btnFontSize,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
           ),
         ),
 
         SizedBox(height: isTablet || isDesktop ? 24 : 20),
 
-        // ── Resend button ─────────────────────────────────────────────
         TextButton(
           onPressed: canResend ? sendOtp : null,
           child: Text(
-            canResend
-                ? "Resend OTP"
-                : "Resend OTP in $secondsRemaining sec",
+            canResend ? "Resend OTP" : "Resend OTP in $secondsRemaining sec",
             style: TextStyle(
               color: canResend ? Colors.orange : Colors.grey,
               fontSize: resendFontSize,
@@ -317,37 +315,36 @@ class _OtpscreenState extends State<Otpscreen> {
           style: TextStyle(fontSize: appBarFontSize),
         ),
         backgroundColor: Colors.orange,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: Colors.white),
         foregroundColor: Colors.white,
       ),
-      backgroundColor: const Color(0xFFF8F8F8),
+      backgroundColor: Color(0xFFF8F8F8),
       body: Center(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(outerPad),
           child: Center(
-            child: (isTablet || isDesktop)
-                // ── Tablet/Desktop: centered card ──────────────────────
-                ? Container(
-                    width: contentWidth,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: isDesktop ? 40 : 32,
-                      vertical: isDesktop ? 48 : 40,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 20,
-                          offset: Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: content,
-                  )
-                // ── Mobile: plain centered column ──────────────────────
-                : content,
+            child:
+                (isTablet || isDesktop)
+                    ? Container(
+                      width: contentWidth,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: isDesktop ? 40 : 32,
+                        vertical: isDesktop ? 48 : 40,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(28),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 20,
+                            offset: Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: content,
+                    )
+                    : content,
           ),
         ),
       ),

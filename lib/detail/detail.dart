@@ -21,13 +21,13 @@ class _DetailsPageState extends State<DetailsPage> {
     super.initState();
     ordersBox = Hive.box('orders');
   }
-
   void addToCart() {
     ordersBox.add({
       "name": widget.restaurant.name,
-      "image": widget.restaurant.images.isNotEmpty
-          ? widget.restaurant.images.first
-          : '',
+      "image":
+          widget.restaurant.images.isNotEmpty
+              ? widget.restaurant.images.first
+              : '',
       "price": widget.restaurant.price,
       "qty": qty,
       "status": "cart",
@@ -41,98 +41,98 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
     );
   }
-
   @override
   Widget build(BuildContext context) {
     final bool isTablet = Responsive.isTablet(context);
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    final String image = widget.restaurant.images.isNotEmpty
-        ? widget.restaurant.images.first
-        : 'https://via.placeholder.com/300';
+    final String image =
+        widget.restaurant.images.isNotEmpty
+            ? widget.restaurant.images.first
+            : 'https://via.placeholder.com/300';
 
-    // Horizontal content padding
-    final double hPad = isDesktop
-        ? screenWidth * 0.15
-        : isTablet
+    final double hPad =
+        isDesktop
+            ? screenWidth * 0.15
+            : isTablet
             ? screenWidth * 0.06
             : 16.0;
 
-    // Hero image height
-    final double heroHeight = isDesktop
-        ? 420.0
-        : isTablet
+    final double heroHeight =
+        isDesktop
+            ? 420.0
+            : isTablet
             ? 370.0
             : 320.0;
 
-    // Font sizes
-    final double titleSize = isDesktop
-        ? 34.0
-        : isTablet
+    final double titleSize =
+        isDesktop
+            ? 34.0
+            : isTablet
             ? 31.0
             : 28.0;
 
-    final double sectionTitleSize = isDesktop
-        ? 24.0
-        : isTablet
+    final double sectionTitleSize =
+        isDesktop
+            ? 24.0
+            : isTablet
             ? 22.0
             : 20.0;
 
-    final double bodyTextSize = isDesktop
-        ? 16.0
-        : isTablet
+    final double bodyTextSize =
+        isDesktop
+            ? 16.0
+            : isTablet
             ? 15.0
             : 14.0;
 
-    final double offerTitleSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double offerTitleSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    // Bottom bar
-    final double bottomBarPad = isDesktop
-        ? 20.0
-        : isTablet
+    final double bottomBarPad =
+        isDesktop
+            ? 20.0
+            : isTablet
             ? 18.0
             : 16.0;
 
-    final double btnFontSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double btnFontSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    final double btnVertPad = isDesktop
-        ? 20.0
-        : isTablet
+    final double btnVertPad =
+        isDesktop
+            ? 20.0
+            : isTablet
             ? 18.0
             : 16.0;
 
-    // Qty control icon & font
-    final double qtyFontSize = isDesktop
-        ? 20.0
-        : isTablet
+    final double qtyFontSize =
+        isDesktop
+            ? 20.0
+            : isTablet
             ? 19.0
             : 18.0;
 
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // ── Bottom Bar ────────────────────────────────────────────────────
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: hPad,
-          vertical: bottomBarPad,
-        ),
-        decoration: const BoxDecoration(
+        padding: EdgeInsets.symmetric(horizontal: hPad, vertical: bottomBarPad),
+        decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black12)],
         ),
         child: Row(
           children: [
-            // Qty counter
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: isTablet || isDesktop ? 16 : 12,
@@ -175,7 +175,6 @@ class _DetailsPageState extends State<DetailsPage> {
 
             SizedBox(width: isTablet || isDesktop ? 18 : 14),
 
-            // Add to cart button
             Expanded(
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -199,8 +198,6 @@ class _DetailsPageState extends State<DetailsPage> {
           ],
         ),
       ),
-
-      // ── Body ──────────────────────────────────────────────────────────
       body: CustomScrollView(
         slivers: [
           // Hero image
@@ -209,11 +206,11 @@ class _DetailsPageState extends State<DetailsPage> {
             pinned: true,
             backgroundColor: Colors.white,
             leading: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: EdgeInsets.all(8),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
+                  icon: Icon(Icons.arrow_back, color: Colors.black),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
@@ -246,7 +243,6 @@ class _DetailsPageState extends State<DetailsPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ── Name ───────────────────────────────────────────────
                   Text(
                     widget.restaurant.name,
                     style: TextStyle(
@@ -256,8 +252,6 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
 
                   SizedBox(height: isTablet || isDesktop ? 16 : 12),
-
-                  // ── Rating / Distance / Status ─────────────────────────
                   Wrap(
                     spacing: 12,
                     runSpacing: 8,
@@ -275,10 +269,12 @@ class _DetailsPageState extends State<DetailsPage> {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.star,
-                                color: Colors.white,
-                                size: isTablet || isDesktop ? 18 : 16),
-                            const SizedBox(width: 4),
+                            Icon(
+                              Icons.star,
+                              color: Colors.white,
+                              size: isTablet || isDesktop ? 18 : 16,
+                            ),
+                            SizedBox(width: 4),
                             Text(
                               widget.restaurant.rating,
                               style: TextStyle(
@@ -304,17 +300,19 @@ class _DetailsPageState extends State<DetailsPage> {
                           vertical: isTablet || isDesktop ? 7 : 5,
                         ),
                         decoration: BoxDecoration(
-                          color: widget.restaurant.isOpen
-                              ? Colors.green.shade50
-                              : Colors.red.shade50,
+                          color:
+                              widget.restaurant.isOpen
+                                  ? Colors.green.shade50
+                                  : Colors.red.shade50,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
                           widget.restaurant.isOpen ? "OPEN" : "CLOSED",
                           style: TextStyle(
-                            color: widget.restaurant.isOpen
-                                ? Colors.green
-                                : Colors.red,
+                            color:
+                                widget.restaurant.isOpen
+                                    ? Colors.green
+                                    : Colors.red,
                             fontWeight: FontWeight.bold,
                             fontSize: bodyTextSize,
                           ),
@@ -324,8 +322,6 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
 
                   SizedBox(height: isTablet || isDesktop ? 28 : 22),
-
-                  // ── Offer Banner ───────────────────────────────────────
                   Container(
                     padding: EdgeInsets.all(isTablet || isDesktop ? 20 : 16),
                     decoration: BoxDecoration(
@@ -351,7 +347,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                   fontSize: offerTitleSize,
                                 ),
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4),
                               Text(
                                 "Limited time offer",
                                 style: TextStyle(fontSize: bodyTextSize),
@@ -364,8 +360,6 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
 
                   SizedBox(height: isTablet || isDesktop ? 30 : 24),
-
-                  // ── About ──────────────────────────────────────────────
                   Text(
                     "About Item",
                     style: TextStyle(
@@ -385,7 +379,6 @@ class _DetailsPageState extends State<DetailsPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 30 : 24),
 
-                  // ── Ingredients ────────────────────────────────────────
                   Text(
                     "Ingredients",
                     style: TextStyle(
@@ -397,14 +390,14 @@ class _DetailsPageState extends State<DetailsPage> {
                   Wrap(
                     spacing: isTablet || isDesktop ? 12 : 10,
                     runSpacing: isTablet || isDesktop ? 12 : 10,
-                    children: widget.restaurant.ingredients
-                        .map((i) => _ingredientChip(i, isTablet, isDesktop))
-                        .toList(),
+                    children:
+                        widget.restaurant.ingredients
+                            .map((i) => _ingredientChip(i, isTablet, isDesktop))
+                            .toList(),
                   ),
 
                   SizedBox(height: isTablet || isDesktop ? 30 : 24),
 
-                  // ── Delivery Info ──────────────────────────────────────
                   Container(
                     padding: EdgeInsets.all(isTablet || isDesktop ? 20 : 16),
                     decoration: BoxDecoration(
@@ -449,7 +442,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                   ),
 
-                  const SizedBox(height: 100),
+                  SizedBox(height: 100),
                 ],
               ),
             ),
@@ -473,7 +466,12 @@ class _DetailsPageState extends State<DetailsPage> {
         text,
         style: TextStyle(
           fontWeight: FontWeight.w500,
-          fontSize: isDesktop ? 15 : isTablet ? 14 : 13,
+          fontSize:
+              isDesktop
+                  ? 15
+                  : isTablet
+                  ? 14
+                  : 13,
         ),
       ),
     );

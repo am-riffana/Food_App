@@ -17,188 +17,345 @@ class _CategoriesPageState extends State<CategoriesPage> {
 
   List<Map<String, dynamic>> allFoods = [];
   List<Map<String, dynamic>> dbCategories = []; // ← added
-
-  List<Map<String, dynamic>> localFoods = [
-    {
-      "name": "Chicken Biryani",
-      "category": "Indian",
-      "description":
-          "Aromatic basmati rice cooked with tender chicken and spices",
-      "price": 220,
-      "rating": 4.8,
-      "time": "30 min",
-      "distance": "1.2 km",
-      "delivery": "Fast Delivery",
-      "image_url":
-          "https://images.unsplash.com/photo-1701579231349-d7459c40919d",
-    },
-    {
-      "name": "Butter Chicken",
-      "category": "Indian",
-      "description": "Creamy tomato based curry with tender chicken pieces",
-      "price": 260,
-      "rating": 4.7,
-      "time": "25 min",
-      "distance": "0.8 km",
-      "delivery": "Fast Delivery",
-      "image_url":
-          "https://images.unsplash.com/photo-1603894584373-5ac82b2ae398",
-    },
-    {
-      "name": "Margherita Pizza",
-      "category": "International",
-      "description": "Classic Italian pizza with fresh tomato and mozzarella",
-      "price": 299,
-      "rating": 4.6,
-      "time": "25 min",
-      "distance": "1.8 km",
-      "delivery": "Fast Delivery",
-      "image_url":
-          "https://images.unsplash.com/photo-1513104890138-7c749659a591",
-    },
-    {
-      "name": "Shawarma",
-      "category": "Arabic",
-      "description": "Middle Eastern wrap with grilled meat and garlic sauce",
-      "price": 140,
-      "rating": 4.5,
-      "time": "15 min",
-      "distance": "0.7 km",
-      "delivery": "Fast Delivery",
-      "image_url":
-          "https://images.unsplash.com/photo-1529006557810-274b9b2fc783",
-    },
-    {
-      "name": "Chicken Noodles",
-      "category": "Chinese",
-      "description": "Stir fried noodles with chicken and vegetables",
-      "price": 160,
-      "rating": 4.4,
-      "time": "20 min",
-      "distance": "1.4 km",
-      "delivery": "Fast Delivery",
-      "image_url":
-          "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841",
-    },
-  ];
+List<Map<String, dynamic>> localFoods = [
+  {
+    "name": "Chicken Biryani",
+    "category": "Biryani",
+    "description": "Aromatic chicken biryani",
+    "price": 220,
+    "rating": 4.8,
+    "time": "30 min",
+    "distance": "1.2 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://paragonrestaurant.in/wp-content/uploads/2022/10/Chicken-Biriyani.webp",
+  },
+  {
+    "name": "Beef Biryani",
+    "category": "Biryani",
+    "description": "Spicy beef biryani",
+    "price": 240,
+    "rating": 4.7,
+    "time": "35 min",
+    "distance": "1.5 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://paragonrestaurant.in/wp-content/uploads/2022/10/mutton-biriyani-1.webp",
+  },
+  {
+    "name": "Al Faham Chicken",
+    "category": "Arabic",
+    "description": "Grilled Arabic chicken",
+    "price": 280,
+    "rating": 4.9,
+    "time": "25 min",
+    "distance": "0.9 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Al-faham%2C_Ceylon_Bake_house%2C_Marine_drive_Kochi%2C_Kerala.jpg/1280px-Al-faham%2C_Ceylon_Bake_house%2C_Marine_drive_Kochi%2C_Kerala.jpg?_=20210401060525",
+  },
+  {
+    "name": "Shawarma Roll",
+    "category": "Arabic",
+    "description": "Chicken shawarma with garlic sauce",
+    "price": 140,
+    "rating": 4.6,
+    "time": "15 min",
+    "distance": "0.7 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.preciouscore.com/wp-content/uploads/2024/05/Beef-Shawarma-Wrap.jpg",
+  },
+  {
+    "name": "Zinger Burger",
+    "category": "Burger",
+    "description": "Crispy chicken burger",
+    "price": 180,
+    "rating": 4.8,
+    "time": "20 min",
+    "distance": "1.1 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://5.imimg.com/data5/FX/TE/GLADMIN-40426501/chicken-zinger-1000x1000.png",
+  },
+  {
+    "name": "Beef Burger",
+    "category": "Burger",
+    "description": "Juicy beef burger",
+    "price": 210,
+    "rating": 4.7,
+    "time": "20 min",
+    "distance": "1.4 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.puregoldpineapples.com.au/wp-content/uploads/2020/10/aussie-beef-burger.jpg",
+  },
+ 
+  {
+    "name": "Chicken Fried Rice",
+    "category": "Chinese",
+    "description": "Fried rice with chicken",
+    "price": 170,
+    "rating": 4.5,
+    "time": "20 min",
+    "distance": "1.3 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.averiecooks.com/wp-content/uploads/2025/03/chickenfriedrice-9.jpg",
+  },
+  {
+    "name": "Chicken Noodles",
+    "category": "Chinese",
+    "description": "Chinese style noodles",
+    "price": 160,
+    "rating": 4.4,
+    "time": "20 min",
+    "distance": "1.4 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://simplehomeedit.com/wp-content/uploads/2025/02/Three-Cup-Chicken-Noodles-4.webp",
+  },
+  {
+    "name": "Masala Dosa",
+    "category": "South Indian",
+    "description": "Crispy dosa with potato filling",
+    "price": 90,
+    "rating": 4.8,
+    "time": "15 min",
+    "distance": "0.8 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh3AVwip9rW-sRVS6ZzcoDu-pcF8Oe7pQL91hXuzB3iVDeuQpYGGQ02UDAx4s3-obYGDVZ_MtHkfnF6VMNe1SRl8GZqFIni4uUdb8ce-B2lHzxI4NflOHufuIUUXhNS6VA_Jgik-Tq5ZH2okHZ49dQ7CsPSveWRE92zo2xQsyqPuAU5mGNOTaQSQv4MEx_c/s320/1000446904.png",
+  },
+  {
+    "name": "Idli Sambar",
+    "category": "South Indian",
+    "description": "Soft idli with sambar",
+    "price": 70,
+    "rating": 4.7,
+    "time": "10 min",
+    "distance": "0.5 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://vaya.in/recipes/wp-content/uploads/2018/02/Idli-and-Sambar-1.jpg",
+  },
+  {
+    "name": "Chocolate Cake",
+    "category": "Desserts",
+    "description": "Rich chocolate cake",
+    "price": 120,
+    "rating": 4.9,
+    "time": "10 min",
+    "distance": "0.6 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.crazyforcrust.com/wp-content/uploads/2025/07/chocolate-poke-cake-3.jpg",
+  },
+  {
+    "name": "Brownie",
+    "category": "Desserts",
+    "description": "Chocolate brownie",
+    "price": 80,
+    "rating": 4.8,
+    "time": "8 min",
+    "distance": "0.4 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://icecreambakery.in/wp-content/uploads/2024/12/Brownie-Recipe-with-Cocoa-Powder.jpg",
+  },
+  {
+    "name": "Vanilla Ice Cream",
+    "category": "Ice Cream",
+    "description": "Creamy vanilla ice cream",
+    "price": 60,
+    "rating": 4.7,
+    "time": "5 min",
+    "distance": "0.3 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.katysfoodfinds.com/wp-content/uploads/2023/01/vanilla-bean-ice-cream-21.jpg",
+  },
+  {
+    "name": "Mango Shake",
+    "category": "Shakes",
+    "description": "Fresh mango shake",
+    "price": 90,
+    "rating": 4.6,
+    "time": "5 min",
+    "distance": "0.5 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.sharmispassions.com/wp-content/uploads/2022/05/mango-milkshake1.jpg",
+  },
+  {
+    "name": "Club Sandwich",
+    "category": "Sandwich",
+    "description": "Chicken club sandwich",
+    "price": 130,
+    "rating": 4.5,
+    "time": "15 min",
+    "distance": "0.8 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/club_sandwich_16496_16x9.jpg",
+  },
+  {
+    "name": "Grilled Chicken",
+    "category": "BBQ",
+    "description": "Smoky grilled chicken",
+    "price": 260,
+    "rating": 4.8,
+    "time": "30 min",
+    "distance": "1.7 km",
+    "delivery": "Fast Delivery",
+    "image_url": "https://www.budgetbytes.com/wp-content/uploads/2024/06/Grilled-Chicken-V1.jpeg",
+  },
+];
 
   // ── Hardcoded fallback categories ─────────────────────────────────────
-  List<String> categories = [
-    'All',
-    'Indian',
-    'International',
-    'Arabic',
-    'Chinese',
-  ];
+List<String> categories = [
+  'All',
+  'Biryani',
+  'Arabic',
+  'Burger',
+  'Pizza',
+  'Chinese',
+  'South Indian',
+  'Desserts',
+  'Ice Cream',
+  'Shakes',
+  'Sandwich',
+  'BBQ',
+];
 
-  String selectedCategory = 'All';
-  String selectedFilter = 'All';
-  bool isLoading = true;
+String selectedCategory = 'All';
+String selectedFilter = 'All';
+bool isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    ordersBox = Hive.box('orders');
-    loadCategories(); // ← added
-    loadFoods();
+@override
+void initState() {
+  super.initState();
+  ordersBox = Hive.box('orders');
+  initData();
+}
+
+Future<void> initData() async {
+  await loadCategories();
+  await loadFoods();
+}
+
+// ── Load categories from Supabase ─────────────────────────
+Future<void> loadCategories() async {
+  try {
+    final data = await Supabase.instance.client
+        .from('categories')
+        .select()
+        .eq('is_active', true)
+        .order('created_at', ascending: true);
+
+    print("Categories from DB:");
+    print(data);
+
+    final List<String> fromDB = (data as List)
+        .map((c) => c['name'].toString())
+        .toList();
+
+    setState(() {
+      dbCategories = List<Map<String, dynamic>>.from(data);
+
+      for (var category in fromDB) {
+        if (!categories.contains(category)) {
+          categories.add(category);
+        }
+      }
+    });
+
+    print("Categories shown in app:");
+    print(categories);
+  } catch (e) {
+    debugPrint('Load categories error: $e');
   }
+}
 
-  // ── Load categories from Supabase ─────────────────────────────────────
-  Future<void> loadCategories() async {
-    try {
-      final data = await Supabase.instance.client
-          .from('categories')
-          .select()
-          .eq('is_active', true)
-          .order('created_at', ascending: true);
+// ── Load foods from Supabase ─────────────────────────────
+Future<void> loadFoods() async {
+  setState(() => isLoading = true);
 
-      final List<String> fromDB = (data as List)
-          .map((c) => c['name'].toString())
-          .toList();
+  try {
+    final data = await Supabase.instance.client
+        .from('foods')
+        .select()
+        .eq('is_available', true);
 
-      setState(() {
-        dbCategories = List<Map<String, dynamic>>.from(data);
-        // ── Replace chips with DB categories ────────────────────────
-        categories = ['All', ...fromDB];
-      });
-    } catch (e) {
-      // ── Fallback to hardcoded list if DB fails ───────────────────
-      debugPrint('Load categories error: $e');
-    }
-  }
+    final supabaseFoods =
+        List<Map<String, dynamic>>.from(data);
 
-  Future<void> loadFoods() async {
-    setState(() => isLoading = true);
-    try {
-      final data = await Supabase.instance.client
-          .from('foods')
-          .select()
-          .eq('is_available', true);
-
-      final supabaseFoods = List<Map<String, dynamic>>.from(data);
-
-      // ── Only add category if not already in list ─────────────────
+    setState(() {
       for (var food in supabaseFoods) {
-        if (food['category'] != null &&
-            !categories.contains(food['category'])) {
-          categories.add(food['category']);
+        final category = food['category'];
+
+        if (category != null &&
+            !categories.contains(category.toString())) {
+          categories.add(category.toString());
         }
       }
 
-      setState(() {
-        allFoods = [...localFoods, ...supabaseFoods];
-        isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        allFoods = localFoods;
-        isLoading = false;
-      });
-    }
+      allFoods = [...localFoods, ...supabaseFoods];
+      isLoading = false;
+    });
+  } catch (e) {
+    debugPrint('Food load error: $e');
+
+    setState(() {
+      allFoods = localFoods;
+      isLoading = false;
+    });
+  }
+}
+
+// ── Filter Foods ─────────────────────────────────────────
+List<Map<String, dynamic>> get filteredFoods {
+  List<Map<String, dynamic>> list = List.from(allFoods);
+
+  if (selectedCategory != 'All') {
+    list = list
+        .where((f) => f['category'] == selectedCategory)
+        .toList();
   }
 
-  List<Map<String, dynamic>> get filteredFoods {
-    List<Map<String, dynamic>> list = List.from(allFoods);
+  switch (selectedFilter) {
+    case 'Low Price':
+      list.sort(
+        (a, b) =>
+            (a['price'] as num).compareTo(b['price'] as num),
+      );
+      break;
 
-    if (selectedCategory != 'All') {
+    case 'High Rating':
+      list.sort(
+        (a, b) =>
+            (b['rating'] as num).compareTo(a['rating'] as num),
+      );
+      break;
+
+    case 'Fast Delivery':
       list = list
-          .where((f) => f['category'] == selectedCategory)
+          .where(
+            (f) => f['delivery'] == 'Fast Delivery',
+          )
           .toList();
-    }
+      break;
 
-    switch (selectedFilter) {
-      case 'Low Price':
-        list.sort(
-            (a, b) => (a['price'] as num).compareTo(b['price'] as num));
-        break;
-      case 'High Rating':
-        list.sort(
-            (a, b) => (b['rating'] as num).compareTo(a['rating'] as num));
-        break;
-      case 'Fast Delivery':
-        list = list
-            .where((f) => f['delivery'] == 'Fast Delivery')
-            .toList();
-        break;
-      case 'Nearest':
-        list.sort((a, b) {
-          final aD = double.tryParse(a['distance']
+    case 'Nearest':
+      list.sort((a, b) {
+        final aD = double.tryParse(
+              a['distance']
                       ?.toString()
                       .replaceAll(' km', '') ??
-                  '99') ??
-              99;
-          final bD = double.tryParse(b['distance']
+                  '99',
+            ) ??
+            99;
+
+        final bD = double.tryParse(
+              b['distance']
                       ?.toString()
                       .replaceAll(' km', '') ??
-                  '99') ??
-              99;
-          return aD.compareTo(bD);
-        });
-        break;
-    }
+                  '99',
+            ) ??
+            99;
 
-    return list;
+        return aD.compareTo(bD);
+      });
+      break;
   }
+
+  return list;
+}
 
   void addToCart(Map<String, dynamic> item) {
     final data = {

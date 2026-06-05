@@ -7,14 +7,12 @@ class NotificationService {
   static final _localNotifications = FlutterLocalNotificationsPlugin();
 
   static Future<void> init() async {
-    // Request permission
     await _messaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
 
-    // Init local notifications
     const androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings();
@@ -24,14 +22,11 @@ class NotificationService {
     );
     await _localNotifications.initialize(initSettings);
 
-    // Save FCM token to Supabase
     final token = await _messaging.getToken();
     if (token != null) await saveToken(token);
 
-    // Listen for token refresh
     _messaging.onTokenRefresh.listen(saveToken);
 
-    // Foreground messages
     FirebaseMessaging.onMessage.listen((message) {
       showLocalNotification(message);
       saveNotificationToSupabase(message);

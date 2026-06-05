@@ -6,10 +6,7 @@ import 'package:foodapp/widgets/responsive.dart';
 class UpiPaymentPage extends StatefulWidget {
   final double total;
 
-  const UpiPaymentPage({
-    super.key,
-    required this.total,
-  });
+  const UpiPaymentPage({super.key, required this.total});
 
   @override
   State<UpiPaymentPage> createState() => _UpiPaymentPageState();
@@ -40,69 +37,73 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    // Card max width — constrained on tablet/desktop
-    final double cardWidth = isDesktop
-        ? 480.0
-        : isTablet
+    final double cardWidth =
+        isDesktop
+            ? 480.0
+            : isTablet
             ? 440.0
             : double.infinity;
 
-    // Card padding
-    final double cardPadding = isDesktop
-        ? 36.0
-        : isTablet
+    final double cardPadding =
+        isDesktop
+            ? 36.0
+            : isTablet
             ? 28.0
             : 22.0;
 
-    // QR / success icon size
-    final double qrSize = isDesktop
-        ? 280.0
-        : isTablet
+    final double qrSize =
+        isDesktop
+            ? 280.0
+            : isTablet
             ? 250.0
             : 220.0;
 
-    final double successIconSize = isDesktop
-        ? 90.0
-        : isTablet
+    final double successIconSize =
+        isDesktop
+            ? 90.0
+            : isTablet
             ? 80.0
             : 70.0;
 
-    final double successIconPad = isDesktop
-        ? 26.0
-        : isTablet
+    final double successIconPad =
+        isDesktop
+            ? 26.0
+            : isTablet
             ? 22.0
             : 18.0;
 
-    // Font sizes
-    final double titleFontSize = isDesktop
-        ? 32.0
-        : isTablet
+    final double titleFontSize =
+        isDesktop
+            ? 32.0
+            : isTablet
             ? 30.0
             : 28.0;
 
-    final double subtitleFontSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double subtitleFontSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    final double btnFontSize = isDesktop
-        ? 20.0
-        : isTablet
+    final double btnFontSize =
+        isDesktop
+            ? 20.0
+            : isTablet
             ? 19.0
             : 18.0;
 
-    // Button height
-    final double btnHeight = isDesktop
-        ? 64.0
-        : isTablet
+    final double btnHeight =
+        isDesktop
+            ? 64.0
+            : isTablet
             ? 62.0
             : 58.0;
 
-    // AppBar title font
-    final double appBarFontSize = isDesktop
-        ? 22.0
-        : isTablet
+    final double appBarFontSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 20.0
             : 18.0;
 
@@ -120,11 +121,17 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
             fontSize: appBarFontSize,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(isDesktop ? 32 : isTablet ? 24 : 16),
+          padding: EdgeInsets.all(
+            isDesktop
+                ? 32
+                : isTablet
+                ? 24
+                : 16,
+          ),
           child: Center(
             child: Container(
               width: cardWidth,
@@ -132,7 +139,7 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(28),
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 10,
@@ -143,7 +150,6 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ── Success icon or QR ──────────────────────────────
                   if (isPaid)
                     Container(
                       padding: EdgeInsets.all(successIconPad),
@@ -170,8 +176,6 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
                     ),
 
                   SizedBox(height: isTablet || isDesktop ? 28 : 24),
-
-                  // ── Title ───────────────────────────────────────────
                   Text(
                     isPaid
                         ? "Payment Successful"
@@ -186,7 +190,6 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 12 : 10),
 
-                  // ── Subtitle ────────────────────────────────────────
                   Text(
                     isPaid
                         ? "Your order has been placed successfully"
@@ -200,38 +203,37 @@ class _UpiPaymentPageState extends State<UpiPaymentPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 36 : 30),
 
-                  // ── Action Button ───────────────────────────────────
                   SizedBox(
                     width: double.infinity,
                     height: btnHeight,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            isPaid ? Colors.green : Colors.orange,
+                        backgroundColor: isPaid ? Colors.green : Colors.orange,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18),
                         ),
                       ),
-                      onPressed: isLoading
-                          ? null
-                          : () async {
-                              if (isPaid) {
-                                await saveOrderAndNavigate();
-                              } else {
-                                setState(() => isPaid = true);
-                              }
-                            },
-                      child: isLoading
-                          ? const CircularProgressIndicator(
-                              color: Colors.white)
-                          : Text(
-                              isPaid ? "Done" : "Pay Now",
-                              style: TextStyle(
-                                fontSize: btnFontSize,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                      onPressed:
+                          isLoading
+                              ? null
+                              : () async {
+                                if (isPaid) {
+                                  await saveOrderAndNavigate();
+                                } else {
+                                  setState(() => isPaid = true);
+                                }
+                              },
+                      child:
+                          isLoading
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(
+                                isPaid ? "Done" : "Pay Now",
+                                style: TextStyle(
+                                  fontSize: btnFontSize,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
                     ),
                   ),
                 ],

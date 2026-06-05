@@ -20,7 +20,7 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
   final _pages = [
     DashboardPage(),
     FoodsPage(),
-    AdminCategoriesPage(),
+    AdminCategoriesViewPage(),  
     BannersPage(),
     CouponsPage(),
     OrdersPage(),

@@ -31,12 +31,12 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
   void initState() {
     super.initState();
     updateTime();
-    timer = Timer.periodic(const Duration(seconds: 1), (_) => updateTime());
+    timer = Timer.periodic(Duration(seconds: 1), (_) => updateTime());
   }
 
   void updateTime() {
     final ordered = DateTime.parse(widget.orderedTime);
-    final delivery = ordered.add(const Duration(minutes: 25));
+    final delivery = ordered.add(Duration(minutes: 25));
     final diff = delivery.difference(DateTime.now());
     setState(() => remainingMinutes = diff.inMinutes);
   }
@@ -55,62 +55,64 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
 
     final bool delivered = remainingMinutes <= 0;
 
-    // On desktop, use side-by-side layout (map left, details right)
     final bool useSideBySide = isDesktop;
 
-    // Horizontal padding for detail panel
-    final double hPad = isDesktop
-        ? 28.0
-        : isTablet
+    final double hPad =
+        isDesktop
+            ? 28.0
+            : isTablet
             ? 24.0
             : 20.0;
 
-    // Food image size
-    final double imgSize = isDesktop
-        ? 110.0
-        : isTablet
+    final double imgSize =
+        isDesktop
+            ? 110.0
+            : isTablet
             ? 100.0
             : 90.0;
 
-    // Font sizes
-    final double etaFontSize = isDesktop
-        ? 34.0
-        : isTablet
+    final double etaFontSize =
+        isDesktop
+            ? 34.0
+            : isTablet
             ? 32.0
             : 30.0;
 
-    final double etaSubSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double etaSubSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    final double itemNameSize = isDesktop
-        ? 22.0
-        : isTablet
+    final double itemNameSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 21.0
             : 20.0;
 
-    final double trackTitleSize = isDesktop
-        ? 19.0
-        : isTablet
+    final double trackTitleSize =
+        isDesktop
+            ? 19.0
+            : isTablet
             ? 18.0
             : 17.0;
 
-    final double trackSubSize = isDesktop
-        ? 15.0
-        : isTablet
+    final double trackSubSize =
+        isDesktop
+            ? 15.0
+            : isTablet
             ? 14.0
             : 13.0;
 
-    // Delivery icon in map overlay
-    final double deliveryIconSize = isDesktop
-        ? 60.0
-        : isTablet
+    final double deliveryIconSize =
+        isDesktop
+            ? 60.0
+            : isTablet
             ? 55.0
             : 50.0;
 
-    // Map panel
     Widget mapPanel = Stack(
       children: [
         FlutterMap(
@@ -138,28 +140,19 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
                   point: restaurantLocation,
                   width: 80,
                   height: 80,
-                  child: const Icon(
-                    Icons.restaurant,
-                    color: Colors.red,
-                    size: 40,
-                  ),
+                  child: Icon(Icons.restaurant, color: Colors.red, size: 40),
                 ),
                 Marker(
                   point: userLocation,
                   width: 80,
                   height: 80,
-                  child: const Icon(
-                    Icons.location_on,
-                    color: Colors.blue,
-                    size: 40,
-                  ),
+                  child: Icon(Icons.location_on, color: Colors.blue, size: 40),
                 ),
               ],
             ),
           ],
         ),
 
-        // Gradient overlay
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -173,7 +166,6 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
           ),
         ),
 
-        // Back + LIVE badge
         SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(
@@ -187,11 +179,11 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
                   radius: isTablet || isDesktop ? 24 : 20,
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back, color: Colors.black),
+                    icon: Icon(Icons.arrow_back, color: Colors.black),
                     iconSize: isTablet || isDesktop ? 22 : 20,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: isTablet || isDesktop ? 16 : 14,
@@ -203,11 +195,8 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
                   ),
                   child: Row(
                     children: [
-                      const CircleAvatar(
-                        radius: 4,
-                        backgroundColor: Colors.white,
-                      ),
-                      const SizedBox(width: 8),
+                      CircleAvatar(radius: 4, backgroundColor: Colors.white),
+                      SizedBox(width: 8),
                       Text(
                         "LIVE",
                         style: TextStyle(
@@ -224,29 +213,28 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
           ),
         ),
 
-        // Delivery partner badge in map center
         Positioned(
           top: isTablet || isDesktop ? 200 : 180,
-          left: isDesktop
-              ? screenWidth * 0.04
-              : isTablet
+          left:
+              isDesktop
+                  ? screenWidth * 0.04
+                  : isTablet
                   ? 80
                   : 120,
-          right: isDesktop
-              ? screenWidth * 0.04
-              : isTablet
+          right:
+              isDesktop
+                  ? screenWidth * 0.04
+                  : isTablet
                   ? 80
                   : 120,
           child: Column(
             children: [
               Container(
                 padding: EdgeInsets.all(isTablet || isDesktop ? 22 : 20),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(color: Colors.black26, blurRadius: 10),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
                 ),
                 child: Icon(
                   Icons.delivery_dining,
@@ -254,7 +242,7 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
                   color: Colors.orange,
                 ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12),
               Text(
                 "Delivery Partner Nearby",
                 style: TextStyle(
@@ -268,19 +256,18 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
         ),
       ],
     );
-
-    // Detail panel
     Widget detailPanel = Container(
       width: double.infinity,
       padding: EdgeInsets.all(hPad),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: useSideBySide
-            ? BorderRadius.zero
-            : const BorderRadius.only(
-                topLeft: Radius.circular(34),
-                topRight: Radius.circular(34),
-              ),
+        borderRadius:
+            useSideBySide
+                ? BorderRadius.zero
+                : BorderRadius.only(
+                  topLeft: Radius.circular(34),
+                  topRight: Radius.circular(34),
+                ),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -302,11 +289,10 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
 
             SizedBox(height: isTablet || isDesktop ? 28 : 24),
 
-            // Food item card
             Container(
               padding: EdgeInsets.all(isTablet || isDesktop ? 16 : 14),
               decoration: BoxDecoration(
-                color: const Color(0xFFF8F8F8),
+                color: Color(0xFFF8F8F8),
                 borderRadius: BorderRadius.circular(22),
               ),
               child: Row(
@@ -349,7 +335,6 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
 
             SizedBox(height: isTablet || isDesktop ? 32 : 28),
 
-            // Tracking steps
             _trackingTile(
               icon: Icons.check_circle,
               title: "Order Confirmed",
@@ -371,9 +356,10 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
             _trackingTile(
               icon: Icons.delivery_dining,
               title: "On The Way",
-              subtitle: delivered
-                  ? "Delivered successfully"
-                  : "Rider is heading to you",
+              subtitle:
+                  delivered
+                      ? "Delivered successfully"
+                      : "Rider is heading to you",
               done: true,
               titleSize: trackTitleSize,
               subSize: trackSubSize,
@@ -382,7 +368,8 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
             _trackingTile(
               icon: Icons.home,
               title: "Delivered",
-              subtitle: delivered ? "Enjoy your food 🍔" : "Waiting for delivery",
+              subtitle:
+                  delivered ? "Enjoy your food 🍔" : "Waiting for delivery",
               done: delivered,
               titleSize: trackTitleSize,
               subSize: trackSubSize,
@@ -394,26 +381,22 @@ class _TrackOrderPageState extends State<TrackOrderPage> {
     );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F5),
-      body: useSideBySide
-          // ── Desktop: map left | details right ──────────────────────
-          ? Row(
-              children: [
-                Expanded(flex: 5, child: mapPanel),
-                Container(width: 1, color: Colors.grey.shade200),
-                SizedBox(
-                  width: 420,
-                  child: detailPanel,
-                ),
-              ],
-            )
-          // ── Mobile & Tablet: map top | details bottom ───────────────
-          : Column(
-              children: [
-                Expanded(flex: 5, child: mapPanel),
-                Expanded(flex: 6, child: detailPanel),
-              ],
-            ),
+      backgroundColor: Color(0xFFF5F5F5),
+      body:
+          useSideBySide
+              ? Row(
+                children: [
+                  Expanded(flex: 5, child: mapPanel),
+                  Container(width: 1, color: Colors.grey.shade200),
+                  SizedBox(width: 420, child: detailPanel),
+                ],
+              )
+              : Column(
+                children: [
+                  Expanded(flex: 5, child: mapPanel),
+                  Expanded(flex: 6, child: detailPanel),
+                ],
+              ),
     );
   }
 

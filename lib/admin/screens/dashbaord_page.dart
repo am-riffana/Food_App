@@ -51,7 +51,6 @@ class _DashboardPageState extends State<DashboardPage> {
     }
   }
 
-  // ── Logout ────────────────────────────────────────────────────────────
   Future<void> logout() async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -59,15 +58,15 @@ class _DashboardPageState extends State<DashboardPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        title: const Text(
+        title:  Text(
           "Logout",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        content: const Text("Are you sure you want to logout?"),
+        content:  Text("Are you sure you want to logout?"),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("Cancel"),
+            child:  Text("Cancel"),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -77,7 +76,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
+            child:  Text(
               "Logout",
               style: TextStyle(color: Colors.white),
             ),
@@ -111,7 +110,7 @@ class _DashboardPageState extends State<DashboardPage> {
     final percentValue = value.clamp(0, 100).toDouble();
 
     return Container(
-      padding: const EdgeInsets.all(18),
+      padding:  EdgeInsets.all(18),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(25),
@@ -127,14 +126,14 @@ class _DashboardPageState extends State<DashboardPage> {
           Row(
             children: [
               Icon(icon, color: color),
-              const SizedBox(width: 8),
+               SizedBox(width: 8),
               Text(
                 title,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                style:  TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          const SizedBox(height: 15),
+           SizedBox(height: 15),
           SizedBox(
             height: 120,
             width: 120,
@@ -160,7 +159,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
           Text(
             "${percentValue.toInt()}%",
             style: TextStyle(
@@ -181,18 +180,17 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       backgroundColor: const Color(0xfff4f5f7),
       body: isLoading
-          ? const Center(
+          ?  Center(
               child: CircularProgressIndicator(color: Colors.orange))
           : SafeArea(
               child: SingleChildScrollView(
                 padding: EdgeInsets.all(width * 0.04),
                 child: Column(
                   children: [
-                    // ── Header card with logout ───────────────────────
                     Container(
                       padding: EdgeInsets.all(width * 0.06),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
+                        gradient:  LinearGradient(
                           colors: [Colors.orange, Color(0xffff9800)],
                         ),
                         borderRadius: BorderRadius.circular(28),
@@ -206,7 +204,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
+                                     Text(
                                       "Yumzi Admin",
                                       style: TextStyle(
                                         color: Colors.white,
@@ -214,17 +212,17 @@ class _DashboardPageState extends State<DashboardPage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                     SizedBox(height: 10),
                                     Text(
                                       "₹${totalRevenue.toStringAsFixed(2)}",
-                                      style: const TextStyle(
+                                      style:  TextStyle(
                                         color: Colors.white,
                                         fontSize: 28,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
-                                    const Text(
+                                     SizedBox(height: 4),
+                                     Text(
                                       "Total Revenue",
                                       style: TextStyle(
                                         color: Colors.white70,
@@ -234,7 +232,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                   ],
                                 ),
                               ),
-                              const Icon(
+                               Icon(
                                 Icons.storefront,
                                 color: Colors.white,
                                 size: 60,
@@ -242,30 +240,28 @@ class _DashboardPageState extends State<DashboardPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 16),
-
-                          // ── Logout button ─────────────────────────
+                           SizedBox(height: 16),
                           SizedBox(
                             width: double.infinity,
                             child: OutlinedButton.icon(
                               style: OutlinedButton.styleFrom(
-                                side: const BorderSide(
+                                side:  BorderSide(
                                   color: Colors.white,
                                   width: 1.5,
                                 ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
-                                padding: const EdgeInsets.symmetric(
+                                padding:  EdgeInsets.symmetric(
                                   vertical: 12,
                                 ),
                               ),
                               onPressed: logout,
-                              icon: const Icon(
+                              icon:  Icon(
                                 Icons.logout,
                                 color: Colors.white,
                               ),
-                              label: const Text(
+                              label:  Text(
                                 "Logout",
                                 style: TextStyle(
                                   color: Colors.white,
@@ -279,9 +275,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ),
                     ),
 
-                    const SizedBox(height: 20),
-
-                    // ── Stats row ─────────────────────────────────────
+                     SizedBox(height: 20),
                     Row(
                       children: [
                         _statCard(
@@ -290,14 +284,14 @@ class _DashboardPageState extends State<DashboardPage> {
                           Icons.people,
                           Colors.blue,
                         ),
-                        const SizedBox(width: 12),
+                         SizedBox(width: 12),
                         _statCard(
                           "Foods",
                           totalFoods.toString(),
                           Icons.fastfood,
                           Colors.orange,
                         ),
-                        const SizedBox(width: 12),
+                         SizedBox(width: 12),
                         _statCard(
                           "Orders",
                           totalOrders.toString(),
@@ -307,9 +301,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       ],
                     ),
 
-                    const SizedBox(height: 20),
-
-                    // ── Analytics circles ─────────────────────────────
+                     SizedBox(height: 20),
                     Wrap(
                       spacing: 12,
                       runSpacing: 12,
@@ -346,13 +338,11 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
     );
   }
-
-  // ── Small stat card ───────────────────────────────────────────────────
   Widget _statCard(
       String title, String value, IconData icon, Color color) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        padding:  EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18),
@@ -366,7 +356,7 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           children: [
             Icon(icon, color: color, size: 28),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             Text(
               value,
               style: TextStyle(
@@ -375,7 +365,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 color: color,
               ),
             ),
-            const SizedBox(height: 4),
+             SizedBox(height: 4),
             Text(
               title,
               style: TextStyle(

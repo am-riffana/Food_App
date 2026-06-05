@@ -4,10 +4,7 @@ import 'package:foodapp/widgets/responsive.dart';
 class FilterPage extends StatefulWidget {
   final String selectedFilter;
 
-  const FilterPage({
-    super.key,
-    required this.selectedFilter,
-  });
+  const FilterPage({super.key, required this.selectedFilter});
 
   @override
   State<FilterPage> createState() => _FilterPageState();
@@ -52,9 +49,7 @@ class _FilterPageState extends State<FilterPage> {
           ),
         ),
 
-        iconTheme: const IconThemeData(
-          color: Colors.black,
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
 
       body: Padding(
@@ -78,62 +73,56 @@ class _FilterPageState extends State<FilterPage> {
               spacing: width * 0.03,
               runSpacing: width * 0.03,
 
-              children: filters.map((filter) {
-                final isSelected = currentFilter == filter;
+              children:
+                  filters.map((filter) {
+                    final isSelected = currentFilter == filter;
 
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      currentFilter = filter;
-                    });
-                  },
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          currentFilter = filter;
+                        });
+                      },
 
-                  child: AnimatedContainer(
-                    duration: const Duration(
-                      milliseconds: 200,
-                    ),
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 200),
 
-                    padding: EdgeInsets.symmetric(
-                      horizontal: width * 0.05,
-                      vertical: height * 0.015,
-                    ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: width * 0.05,
+                          vertical: height * 0.015,
+                        ),
 
-                    decoration: BoxDecoration(
-                      color: isSelected
-                          ? Colors.orange
-                          : Colors.white,
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.orange : Colors.white,
 
-                      borderRadius: BorderRadius.circular(
-                        isTablet ? 35 : 30,
+                          borderRadius: BorderRadius.circular(
+                            isTablet ? 35 : 30,
+                          ),
+
+                          border: Border.all(
+                            color:
+                                isSelected
+                                    ? Colors.orange
+                                    : Colors.grey.shade300,
+                          ),
+                        ),
+
+                        child: Text(
+                          filter,
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black,
+
+                            fontWeight: FontWeight.bold,
+
+                            fontSize: isTablet ? 16 : width * 0.038,
+                          ),
+                        ),
                       ),
-
-                      border: Border.all(
-                        color: isSelected
-                            ? Colors.orange
-                            : Colors.grey.shade300,
-                      ),
-                    ),
-
-                    child: Text(
-                      filter,
-                      style: TextStyle(
-                        color: isSelected
-                            ? Colors.white
-                            : Colors.black,
-
-                        fontWeight: FontWeight.bold,
-
-                        fontSize: isTablet
-                            ? 16
-                            : width * 0.038,
-                      ),
-                    ),
-                  ),
-                );
-              }).toList(),
+                    );
+                  }).toList(),
             ),
 
-            const Spacer(),
+            Spacer(),
 
             SizedBox(
               width: double.infinity,
@@ -144,26 +133,19 @@ class _FilterPageState extends State<FilterPage> {
                   backgroundColor: Colors.orange,
 
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      isTablet ? 22 : 18,
-                    ),
+                    borderRadius: BorderRadius.circular(isTablet ? 22 : 18),
                   ),
                 ),
 
                 onPressed: () {
-                  Navigator.pop(
-                    context,
-                    currentFilter,
-                  );
+                  Navigator.pop(context, currentFilter);
                 },
 
                 child: Text(
                   "Apply Filter",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: isTablet
-                        ? 20
-                        : width * 0.045,
+                    fontSize: isTablet ? 20 : width * 0.045,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

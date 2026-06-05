@@ -15,25 +15,56 @@ class FoodsPage extends StatefulWidget {
 class _FoodsPageState extends State<FoodsPage> {
   final _service = FoodService();
   final _supabase = Supabase.instance.client;
+
   List<FoodModel> foods = [];
+
+  Map<String, String> categoryImages = {};
+  List<String> categories = [];
+
   bool isLoading = true;
+@override
+void initState() {
+  super.initState();
+  loadCategories();
+  loadFoods();
+}
+Future<void> loadCategories() async {
+  try {
+    final data = await _supabase
+        .from('categories')
+        .select()
+        .eq('is_active', true);
 
-  @override
-  void initState() {
-    super.initState();
-    loadFoods();
+    categoryImages.clear();
+    categories.clear();
+
+    for (final item in data) {
+      categoryImages[item['name']] =
+          item['image_url'] ?? '';
+
+      categories.add(item['name']);
+    }
+
+    setState(() {});
+  } catch (e) {
+    debugPrint('Category Error: $e');
   }
+}
+Future<void> loadFoods() async {
+  setState(() => isLoading = true);
 
-  Future<void> loadFoods() async {
-    setState(() => isLoading = true);
+  try {
     final data = await _service.getFoods();
+
     setState(() {
       foods = data;
       isLoading = false;
     });
+  } catch (e) {
+    setState(() => isLoading = false);
   }
+}
 
-  // ── Every word capitalized ────────────────────────────────────────────
   String capitalize(String text) {
     if (text.isEmpty) return text;
     return text
@@ -45,7 +76,6 @@ class _FoodsPageState extends State<FoodsPage> {
         .join(' ');
   }
 
-  // ── Send notification to all users ───────────────────────────────────
   Future<void> sendNotificationToAllUsers(String itemName) async {
     try {
       final users = await _supabase.from('users').select('id');
@@ -66,7 +96,6 @@ class _FoodsPageState extends State<FoodsPage> {
     }
   }
 
-  // ── Local duplicate check ─────────────────────────────────────────────
   bool isDuplicateName(String name, {String? excludeId}) {
     return foods.any(
       (f) =>
@@ -75,7 +104,6 @@ class _FoodsPageState extends State<FoodsPage> {
     );
   }
 
-  // ── DB duplicate check ────────────────────────────────────────────────
   Future<bool> isDuplicateInDB(String name, {String? excludeId}) async {
     try {
       final result = await _supabase
@@ -94,7 +122,6 @@ class _FoodsPageState extends State<FoodsPage> {
     }
   }
 
-  // ── Dialog ────────────────────────────────────────────────────────────
   void showFoodDialog({FoodModel? food}) {
     final nameCtrl = TextEditingController(text: food?.name);
     final descCtrl = TextEditingController(text: food?.description);
@@ -122,7 +149,7 @@ class _FoodsPageState extends State<FoodsPage> {
                 top: 20,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 24,
               ),
-              decoration: const BoxDecoration(
+              decoration:  BoxDecoration(
                 color: Colors.white,
                 borderRadius:
                     BorderRadius.vertical(top: Radius.circular(30)),
@@ -131,7 +158,6 @@ class _FoodsPageState extends State<FoodsPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Handle bar
                     Container(
                       width: 60,
                       height: 5,
@@ -140,9 +166,8 @@ class _FoodsPageState extends State<FoodsPage> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                     SizedBox(height: 20),
 
-                    // Title
                     Text(
                       food == null ? "Add New Food" : "Edit Food",
                       style: TextStyle(
@@ -150,9 +175,7 @@ class _FoodsPageState extends State<FoodsPage> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 25),
-
-                    // Image preview
+                     SizedBox(height: 25),
                     ValueListenableBuilder(
                       valueListenable: imgCtrl,
                       builder: (_, __, ___) {
@@ -171,7 +194,7 @@ class _FoodsPageState extends State<FoodsPage> {
                                       Container(
                                     height: 160,
                                     color: Colors.orange.shade50,
-                                    child: const Icon(
+                                    child:  Icon(
                                       Icons.broken_image,
                                       color: Colors.orange,
                                       size: 48,
@@ -179,51 +202,47 @@ class _FoodsPageState extends State<FoodsPage> {
                                   ),
                                 ),
                               ),
-                              const SizedBox(height: 14),
+                               SizedBox(height: 14),
                             ],
                           );
                         }
-                        return const SizedBox.shrink();
+                        return  SizedBox.shrink();
                       },
                     ),
-
-                    // ── Fields ──────────────────────────────────────
                     _customField(
                       nameCtrl,
                       "Food Name",
                       Icons.fastfood,
                       capitalization: TextCapitalization.words,
                     ),
-                    const SizedBox(height: 14),
+                     SizedBox(height: 14),
                     _customField(
                       descCtrl,
                       "Description",
                       Icons.description,
                       capitalization: TextCapitalization.sentences,
                     ),
-                    const SizedBox(height: 14),
+                     SizedBox(height: 14),
                     _customField(
                       priceCtrl,
                       "Price",
                       Icons.currency_rupee,
                       keyboard: TextInputType.number,
                     ),
-                    const SizedBox(height: 14),
+                     SizedBox(height: 14),
                     _customField(
                       catCtrl,
                       "Category",
                       Icons.category,
                       capitalization: TextCapitalization.words,
                     ),
-                    const SizedBox(height: 14),
+                     SizedBox(height: 14),
                     _customField(
                       imgCtrl,
                       "Image URL",
                       Icons.image,
                     ),
-                    const SizedBox(height: 25),
-
-                    // Save button
+                     SizedBox(height: 25),
                     SizedBox(
                       width: double.infinity,
                       height: 55,
@@ -239,12 +258,10 @@ class _FoodsPageState extends State<FoodsPage> {
                             : () async {
                                 final name = capitalize(
                                     nameCtrl.text.trim());
-
-                                // ── Empty check ──────────────────────
                                 if (name.isEmpty) {
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(
-                                    const SnackBar(
+                                     SnackBar(
                                       content: Text(
                                           "Food name is required"),
                                       backgroundColor: Colors.red,
@@ -252,8 +269,6 @@ class _FoodsPageState extends State<FoodsPage> {
                                   );
                                   return;
                                 }
-
-                                // ── Local duplicate check ────────────
                                 if (isDuplicateName(name,
                                     excludeId: food?.id)) {
                                   ScaffoldMessenger.of(context)
@@ -266,7 +281,7 @@ class _FoodsPageState extends State<FoodsPage> {
                                       ),
                                       backgroundColor: Colors.red,
                                       duration:
-                                          const Duration(seconds: 3),
+                                           Duration(seconds: 3),
                                     ),
                                   );
                                   return;
@@ -275,7 +290,6 @@ class _FoodsPageState extends State<FoodsPage> {
                                 setSheetState(
                                     () => isSaving = true);
 
-                                // ── DB duplicate check ───────────────
                                 final existsInDB =
                                     await isDuplicateInDB(name,
                                         excludeId: food?.id);
@@ -294,7 +308,7 @@ class _FoodsPageState extends State<FoodsPage> {
                                         ),
                                         backgroundColor: Colors.red,
                                         duration:
-                                            const Duration(seconds: 3),
+                                             Duration(seconds: 3),
                                       ),
                                     );
                                   }
@@ -302,7 +316,7 @@ class _FoodsPageState extends State<FoodsPage> {
                                 }
 
                                 final newFood = FoodModel(
-                                  id: food?.id ?? const Uuid().v4(),
+                                  id: food?.id ??  Uuid().v4(),
                                   name: name,
                                   description: capitalize(
                                       descCtrl.text.trim()),
@@ -330,13 +344,13 @@ class _FoodsPageState extends State<FoodsPage> {
                                 loadFoods();
                               },
                         child: isSaving
-                            ? const CircularProgressIndicator(
+                            ?  CircularProgressIndicator(
                                 color: Colors.white)
                             : Text(
                                 food == null
                                     ? "Add Food"
                                     : "Update Food",
-                                style: const TextStyle(
+                                style:  TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
@@ -353,8 +367,6 @@ class _FoodsPageState extends State<FoodsPage> {
       },
     );
   }
-
-  // ── Toggle availability ───────────────────────────────────────────────
   Future<void> toggleAvailability(FoodModel food) async {
     final updated = FoodModel(
       id: food.id,
@@ -368,8 +380,6 @@ class _FoodsPageState extends State<FoodsPage> {
     await _service.updateFood(updated);
     loadFoods();
   }
-
-  // ── Delete with confirmation ──────────────────────────────────────────
   Future<void> deleteFood(FoodModel food) async {
     final confirm = await showDialog<bool>(
       context: context,
@@ -377,13 +387,13 @@ class _FoodsPageState extends State<FoodsPage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        title: const Text("Delete Food"),
+        title:  Text("Delete Food"),
         content: Text(
             'Are you sure you want to delete "${food.name}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text("Cancel"),
+            child:  Text("Cancel"),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -393,7 +403,7 @@ class _FoodsPageState extends State<FoodsPage> {
               ),
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text(
+            child:  Text(
               "Delete",
               style: TextStyle(color: Colors.white),
             ),
@@ -407,8 +417,6 @@ class _FoodsPageState extends State<FoodsPage> {
       loadFoods();
     }
   }
-
-  // ── Custom text field ─────────────────────────────────────────────────
   Widget _customField(
     TextEditingController controller,
     String hint,
@@ -432,8 +440,6 @@ class _FoodsPageState extends State<FoodsPage> {
       ),
     );
   }
-
-  // ── Build ─────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
     final bool isTablet = Responsive.isTablet(context);
@@ -479,15 +485,15 @@ class _FoodsPageState extends State<FoodsPage> {
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.orange,
         onPressed: () => showFoodDialog(),
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text(
+        icon:  Icon(Icons.add, color: Colors.white),
+        label:  Text(
           "Add Food",
           style: TextStyle(
               color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
       body: isLoading
-          ? const Center(
+          ?  Center(
               child: CircularProgressIndicator(color: Colors.orange))
           : foods.isEmpty
               ? Center(
@@ -499,7 +505,7 @@ class _FoodsPageState extends State<FoodsPage> {
                         size: isTablet || isDesktop ? 100 : 80,
                         color: Colors.grey.shade300,
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       Text(
                         "No foods added yet",
                         style: TextStyle(
@@ -550,7 +556,7 @@ class _FoodsPageState extends State<FoodsPage> {
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset:  Offset(0, 4),
           ),
         ],
       ),
@@ -558,7 +564,7 @@ class _FoodsPageState extends State<FoodsPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(
+            borderRadius:  BorderRadius.vertical(
                 top: Radius.circular(20)),
             child: Image.network(
               food.imageUrl,
@@ -568,13 +574,13 @@ class _FoodsPageState extends State<FoodsPage> {
               errorBuilder: (_, __, ___) => Container(
                 height: isTablet || isDesktop ? 160 : 130,
                 color: Colors.orange.shade50,
-                child: const Icon(Icons.fastfood,
+                child:  Icon(Icons.fastfood,
                     color: Colors.orange, size: 48),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(14, 10, 14, 4),
+            padding:  EdgeInsets.fromLTRB(14, 10, 14, 4),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -593,7 +599,7 @@ class _FoodsPageState extends State<FoodsPage> {
                       ),
                     ),
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding:  EdgeInsets.symmetric(
                           horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
                         color: food.isAvailable
@@ -614,7 +620,7 @@ class _FoodsPageState extends State<FoodsPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 4),
+                 SizedBox(height: 4),
                 Text(
                   food.category,
                   style: TextStyle(
@@ -622,10 +628,10 @@ class _FoodsPageState extends State<FoodsPage> {
                     fontSize: isTablet || isDesktop ? 13 : 12,
                   ),
                 ),
-                const SizedBox(height: 6),
+                 SizedBox(height: 6),
                 Text(
                   "₹${food.price}",
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -635,14 +641,14 @@ class _FoodsPageState extends State<FoodsPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(8, 0, 8, 10),
+            padding:  EdgeInsets.fromLTRB(8, 0, 8, 10),
             child: Row(
               children: [
                 Expanded(
                   child: TextButton.icon(
                     onPressed: () => showFoodDialog(food: food),
-                    icon: const Icon(Icons.edit, size: 16),
-                    label: const Text("Edit"),
+                    icon:  Icon(Icons.edit, size: 16),
+                    label:  Text("Edit"),
                     style: TextButton.styleFrom(
                         foregroundColor: Colors.blue),
                   ),
@@ -665,8 +671,8 @@ class _FoodsPageState extends State<FoodsPage> {
                 Expanded(
                   child: TextButton.icon(
                     onPressed: () => deleteFood(food),
-                    icon: const Icon(Icons.delete, size: 16),
-                    label: const Text("Delete"),
+                    icon:  Icon(Icons.delete, size: 16),
+                    label:  Text("Delete"),
                     style: TextButton.styleFrom(
                         foregroundColor: Colors.red),
                   ),

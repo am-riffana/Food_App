@@ -15,111 +15,118 @@ class PaymentPage extends StatelessWidget {
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    // Horizontal padding
-    final double hPad = isDesktop
-        ? screenWidth * 0.18
-        : isTablet
+    final double hPad =
+        isDesktop
+            ? screenWidth * 0.18
+            : isTablet
             ? screenWidth * 0.06
             : 16.0;
 
-    // Top payment card padding
-    final double cardPadding = isDesktop
-        ? 28.0
-        : isTablet
+    final double cardPadding =
+        isDesktop
+            ? 28.0
+            : isTablet
             ? 24.0
             : 20.0;
 
-    // Total amount font size
-    final double totalFontSize = isDesktop
-        ? 44.0
-        : isTablet
+    final double totalFontSize =
+        isDesktop
+            ? 44.0
+            : isTablet
             ? 40.0
             : 36.0;
 
-    final double totalLabelSize = isDesktop
-        ? 16.0
-        : isTablet
+    final double totalLabelSize =
+        isDesktop
+            ? 16.0
+            : isTablet
             ? 15.0
             : 14.0;
 
-    // Section heading
-    final double sectionTitleSize = isDesktop
-        ? 24.0
-        : isTablet
+    final double sectionTitleSize =
+        isDesktop
+            ? 24.0
+            : isTablet
             ? 22.0
             : 20.0;
 
-    // Payment method tile font
-    final double tileTitleSize = isDesktop
-        ? 19.0
-        : isTablet
+    final double tileTitleSize =
+        isDesktop
+            ? 19.0
+            : isTablet
             ? 18.0
             : 17.0;
 
-    final double tileSubtitleSize = isDesktop
-        ? 14.0
-        : isTablet
+    final double tileSubtitleSize =
+        isDesktop
+            ? 14.0
+            : isTablet
             ? 13.5
             : 13.0;
 
-    // Tile icon size
-    final double tileIconSize = isDesktop
-        ? 32.0
-        : isTablet
+    final double tileIconSize =
+        isDesktop
+            ? 32.0
+            : isTablet
             ? 30.0
             : 28.0;
 
-    // Tile icon container padding
-    final double tileIconPad = isDesktop
-        ? 16.0
-        : isTablet
+    final double tileIconPad =
+        isDesktop
+            ? 16.0
+            : isTablet
             ? 14.0
             : 12.0;
 
-    // AppBar font
-    final double appBarFontSize = isDesktop
-        ? 22.0
-        : isTablet
+    final double appBarFontSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 20.0
             : 18.0;
 
-    // Payment method tiles data
-    final List<({
-      String title,
-      String subtitle,
-      IconData icon,
-      Color color,
-      VoidCallback onTap,
-    })> methods = [
+    final List<
+      ({
+        String title,
+        String subtitle,
+        IconData icon,
+        Color color,
+        VoidCallback onTap,
+      })
+    >
+    methods = [
       (
         title: 'UPI Payment',
         subtitle: 'Google Pay, PhonePe, Paytm',
         icon: Icons.account_balance_wallet,
         color: Colors.green,
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => UpiPaymentPage(total: total)),
-        ),
+        onTap:
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => UpiPaymentPage(total: total)),
+            ),
       ),
       (
         title: 'Card Payment',
         subtitle: 'Visa, MasterCard, RuPay',
         icon: Icons.credit_card,
         color: Colors.blue,
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => CardPaymentPage(total: total)),
-        ),
+        onTap:
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => CardPaymentPage(total: total)),
+            ),
       ),
       (
         title: 'Cash On Delivery',
         subtitle: 'Pay when order arrives',
         icon: Icons.delivery_dining,
         color: Colors.orange,
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => CashPaymentPage(total: total)),
-        ),
+        onTap:
+            () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => CashPaymentPage(total: total)),
+            ),
       ),
     ];
 
@@ -137,28 +144,23 @@ class PaymentPage extends StatelessWidget {
             fontSize: appBarFontSize,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 8),
         child: Center(
           child: ConstrainedBox(
-            // Caps content width on very wide screens
             constraints: BoxConstraints(
               maxWidth: isDesktop ? 860 : double.infinity,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // ── Total Payable Card ──────────────────────────────────
                 Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: hPad,
-                    vertical: 16,
-                  ),
+                  margin: EdgeInsets.symmetric(horizontal: hPad, vertical: 16),
                   padding: EdgeInsets.all(cardPadding),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       colors: [Color(0xFFFF7A00), Color(0xFFFFA726)],
                     ),
                     borderRadius: BorderRadius.circular(24),
@@ -200,7 +202,7 @@ class PaymentPage extends StatelessWidget {
                               color: Colors.white,
                               size: isTablet || isDesktop ? 20 : 18,
                             ),
-                            const SizedBox(width: 8),
+                            SizedBox(width: 8),
                             Text(
                               "100% Secure Payments",
                               style: TextStyle(
@@ -215,8 +217,6 @@ class PaymentPage extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                // ── Section Title ───────────────────────────────────────
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: hPad),
                   child: Text(
@@ -229,8 +229,6 @@ class PaymentPage extends StatelessWidget {
                 ),
 
                 SizedBox(height: isTablet || isDesktop ? 16 : 14),
-
-                // ── Payment Method Tiles ────────────────────────────────
                 ...methods.map(
                   (method) => GestureDetector(
                     onTap: method.onTap,
@@ -239,17 +237,12 @@ class PaymentPage extends StatelessWidget {
                         horizontal: hPad,
                         vertical: isTablet || isDesktop ? 10 : 8,
                       ),
-                      padding: EdgeInsets.all(
-                        isTablet || isDesktop ? 20 : 16,
-                      ),
+                      padding: EdgeInsets.all(isTablet || isDesktop ? 20 : 16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(22),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                          ),
+                        boxShadow: [
+                          BoxShadow(color: Colors.black12, blurRadius: 6),
                         ],
                       ),
                       child: Row(
@@ -269,8 +262,6 @@ class PaymentPage extends StatelessWidget {
                           ),
 
                           SizedBox(width: isTablet || isDesktop ? 20 : 16),
-
-                          // Title + subtitle
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +273,7 @@ class PaymentPage extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   method.subtitle,
                                   style: TextStyle(

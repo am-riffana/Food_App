@@ -16,17 +16,14 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
     final height = Responsive.h(context);
     final isTablet = Responsive.isTablet(context);
 
-    TextEditingController controller =
-        TextEditingController(text: address);
+    TextEditingController controller = TextEditingController(text: address);
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(30),
-        ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       builder: (context) {
         return Padding(
@@ -34,8 +31,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
             left: width * 0.05,
             right: width * 0.05,
             top: height * 0.03,
-            bottom:
-                MediaQuery.of(context).viewInsets.bottom + 25,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 25,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -84,8 +80,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(18),
                     ),
                   ),
                   onPressed: () {
@@ -99,8 +94,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                     "Save Address",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize:
-                          isTablet ? 20 : width * 0.045,
+                      fontSize: isTablet ? 20 : width * 0.045,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -134,12 +128,10 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
             fontSize: isTablet ? 24 : width * 0.05,
           ),
         ),
-        iconTheme:
-            const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
 
-      floatingActionButton:
-          FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.orange,
         onPressed: editAddress,
         icon: Icon(
@@ -151,8 +143,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
           "Add Address",
           style: TextStyle(
             color: Colors.white,
-            fontSize:
-                isTablet ? 18 : width * 0.04,
+            fontSize: isTablet ? 18 : width * 0.04,
           ),
         ),
       ),
@@ -165,10 +156,8 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
               padding: EdgeInsets.all(width * 0.045),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(
-                  isTablet ? 30 : 24,
-                ),
-                boxShadow: const [
+                borderRadius: BorderRadius.circular(isTablet ? 30 : 24),
+                boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 8,
@@ -179,21 +168,15 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
               child: Row(
                 children: [
                   Container(
-                    padding:
-                        EdgeInsets.all(width * 0.035),
+                    padding: EdgeInsets.all(width * 0.035),
                     decoration: BoxDecoration(
                       color: Colors.orange.shade100,
-                      borderRadius:
-                          BorderRadius.circular(
-                        isTablet ? 22 : 18,
-                      ),
+                      borderRadius: BorderRadius.circular(isTablet ? 22 : 18),
                     ),
                     child: Icon(
                       Icons.home,
                       color: Colors.orange,
-                      size: isTablet
-                          ? 36
-                          : width * 0.07,
+                      size: isTablet ? 36 : width * 0.07,
                     ),
                   ),
 
@@ -201,32 +184,24 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
 
                   Expanded(
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Home",
                           style: TextStyle(
-                            fontSize: isTablet
-                                ? 22
-                                : width * 0.045,
-                            fontWeight:
-                                FontWeight.bold,
+                            fontSize: isTablet ? 22 : width * 0.045,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
 
-                        SizedBox(
-                          height: height * 0.008,
-                        ),
+                        SizedBox(height: height * 0.008),
 
                         Text(
                           address,
                           style: TextStyle(
                             color: Colors.grey,
                             height: 1.5,
-                            fontSize: isTablet
-                                ? 16
-                                : width * 0.035,
+                            fontSize: isTablet ? 16 : width * 0.035,
                           ),
                         ),
                       ],
@@ -238,9 +213,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                     icon: Icon(
                       Icons.edit,
                       color: Colors.orange,
-                      size: isTablet
-                          ? 30
-                          : width * 0.06,
+                      size: isTablet ? 30 : width * 0.06,
                     ),
                   ),
                 ],

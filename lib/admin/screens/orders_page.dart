@@ -31,47 +31,52 @@ class _OrdersPageState extends State<OrdersPage> {
       isLoading = false;
     });
   }
+ Future<void> sendOrderNotification(
+  String userId,
+  String status,
+) async {
+  String title = '';
+  String body = '';
 
-  // ── Send order status notification ───────────────────────────────────
-  Future<void> sendOrderNotification(
-      String userId, String status) async {
-    final messages = {
-      'confirmed': (
-        'Order Confirmed ✅',
-        'Your order has been confirmed!',
-        'order_confirmed'
-      ),
-      'preparing': (
-        'Preparing Your Food 👨‍🍳',
-        'Chef is preparing your order.',
-        'order_preparing'
-      ),
-      'delivered': (
-        'Order Delivered 🎉',
-        'Your order has been delivered. Enjoy your meal!',
-        'order_delivered'
-      ),
-      'cancelled': (
-        'Order Cancelled ❌',
-        'Your order has been cancelled.',
-        'order_cancelled'
-      ),
-    };
+  switch (status) {
+    case 'pending':
+      title = 'Order Received 📝';
+      body = 'Your order has been received.';
+      break;
 
-    final msg = messages[status];
-    if (msg == null) return;
+    case 'confirmed':
+      title = 'Order Confirmed ✅';
+      body = 'Your order has been confirmed.';
+      break;
 
-    try {
-      await _supabase.from('notifications').insert({
-        'user_id': userId,
-        'title': msg.$1,
-        'body': msg.$2,
-        'type': msg.$3,
-      });
-    } catch (e) {
-      debugPrint('Notification error: $e');
-    }
+    case 'preparing':
+      title = 'Preparing Your Food 👨‍🍳';
+      body = 'The restaurant is preparing your food.';
+      break;
+
+    case 'delivered':
+      title = 'Order Delivered 🎉';
+      body = 'Your order has been delivered.';
+      break;
+
+    case 'cancelled':
+      title = 'Order Cancelled ❌';
+      body = 'Your order has been cancelled.';
+      break;
   }
+
+  try {
+    await _supabase.from('notifications').insert({
+      'user_id': userId,
+      'title': title,
+      'body': body,
+      'type': 'order',
+      'is_read': false,
+    });
+  } catch (e) {
+    debugPrint('Notification error: $e');
+  }
+}
 
   Color statusColor(String status) {
     switch (status) {
@@ -144,7 +149,7 @@ class _OrdersPageState extends State<OrdersPage> {
         ],
       ),
       body: isLoading
-          ? const Center(
+          ?  Center(
               child: CircularProgressIndicator(color: Colors.orange))
           : orders.isEmpty
               ? Center(
@@ -156,7 +161,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         size: isTablet || isDesktop ? 100 : 80,
                         color: Colors.grey.shade300,
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       Text(
                         "No orders yet",
                         style: TextStyle(
@@ -213,25 +218,24 @@ class _OrdersPageState extends State<OrdersPage> {
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset:  Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Header ───────────────────────────────────────────────────
           Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding:  EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: color.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(icon, color: color, size: 22),
               ),
-              const SizedBox(width: 12),
+               SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,7 +247,7 @@ class _OrdersPageState extends State<OrdersPage> {
                         fontSize: isTablet || isDesktop ? 16 : 14,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                     SizedBox(height: 2),
                     Text(
                       order.createdAt.substring(0, 10),
                       style: TextStyle(
@@ -265,11 +269,10 @@ class _OrdersPageState extends State<OrdersPage> {
             ],
           ),
 
-          const SizedBox(height: 12),
-          const Divider(height: 1),
-          const SizedBox(height: 12),
+           SizedBox(height: 12),
+           Divider(height: 1),
+           SizedBox(height: 12),
 
-          // ── Status dropdown ───────────────────────────────────────────
           Row(
             children: [
               Text(
@@ -279,10 +282,10 @@ class _OrdersPageState extends State<OrdersPage> {
                   fontSize: isTablet || isDesktop ? 14 : 13,
                 ),
               ),
-              const SizedBox(width: 10),
+               SizedBox(width: 10),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
+                  padding:  EdgeInsets.symmetric(
                       horizontal: 12, vertical: 4),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.1),
@@ -293,7 +296,7 @@ class _OrdersPageState extends State<OrdersPage> {
                   ),
                   child: DropdownButton<String>(
                     value: order.status,
-                    underline: const SizedBox(),
+                    underline:  SizedBox(),
                     isExpanded: true,
                     icon: Icon(Icons.arrow_drop_down, color: color),
                     style: TextStyle(
@@ -301,7 +304,7 @@ class _OrdersPageState extends State<OrdersPage> {
                       fontWeight: FontWeight.bold,
                       fontSize: isTablet || isDesktop ? 14 : 13,
                     ),
-                    items: const [
+                    items:  [
                       DropdownMenuItem(
                           value: 'pending', child: Text('Pending')),
                       DropdownMenuItem(
@@ -319,7 +322,6 @@ class _OrdersPageState extends State<OrdersPage> {
                           id: order.id,
                           status: val,
                         );
-                        // ── Send notification to user ─────────────────
                         await sendOrderNotification(
                             order.userId, val);
                         loadOrders();

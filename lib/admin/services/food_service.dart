@@ -9,7 +9,6 @@ class FoodService {
 
   Box<FoodModel> get _box => Hive.box<FoodModel>(_boxName);
 
-  /// Initialize Hive adapter + box
   static Future<void> init() async {
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(FoodModelAdapter());
@@ -20,7 +19,6 @@ class FoodService {
     }
   }
 
-  /// Fetch foods from Supabase → cache locally → return list
   Future<List<FoodModel>> getFoods() async {
     try {
       final response = await _supabase.from('foods').select();
@@ -42,7 +40,6 @@ class FoodService {
     }
   }
 
-  /// Add food (Supabase + Hive)
   Future<void> addFood(FoodModel food) async {
     try {
       await _supabase.from('foods').insert(food.toMap());
@@ -53,7 +50,6 @@ class FoodService {
     }
   }
 
-  /// Update food (Supabase + Hive)
   Future<void> updateFood(FoodModel food) async {
     try {
       await _supabase
@@ -67,7 +63,6 @@ class FoodService {
     }
   }
 
-  /// Delete food (Supabase + Hive)
   Future<void> deleteFood(String id) async {
     try {
       await _supabase.from('foods').delete().eq('id', id);

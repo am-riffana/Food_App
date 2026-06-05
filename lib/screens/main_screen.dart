@@ -30,7 +30,6 @@ class _MainScreenState extends State<MainScreen> {
     final bool isTablet = Responsive.isTablet(context);
     final bool isDesktop = Responsive.isDesktop(context);
 
-    // ── Tablet & Desktop: NavigationRail ──────────────────────────────
     if (isTablet || isDesktop) {
       return Scaffold(
         body: Row(
@@ -42,8 +41,8 @@ class _MainScreenState extends State<MainScreen> {
                   setState(() => _selectedIndex = index),
               labelType: NavigationRailLabelType.all,
               selectedIconTheme:
-                  const IconThemeData(color: Colors.orange),
-              selectedLabelTextStyle: const TextStyle(
+                   IconThemeData(color: Colors.orange),
+              selectedLabelTextStyle:  TextStyle(
                 color: Colors.orange,
                 fontWeight: FontWeight.bold,
               ),
@@ -52,7 +51,7 @@ class _MainScreenState extends State<MainScreen> {
               unselectedLabelTextStyle:
                   TextStyle(color: Colors.grey.shade500),
               indicatorColor: Colors.orange.withOpacity(0.12),
-              destinations: const [
+              destinations:  [
                 NavigationRailDestination(
                   icon: Icon(Icons.home_outlined),
                   selectedIcon: Icon(Icons.home),
@@ -87,7 +86,6 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
 
-    // ── Mobile: BottomNavBar ──────────────────────────────────────────
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavBar(

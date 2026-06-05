@@ -30,7 +30,6 @@ class _NotificationPageState extends State<NotificationPage> {
     try {
       final userId = _supabase.auth.currentUser?.id;
 
-      // ── Not logged in ─────────────────────────────────────────────
       if (userId == null) {
         setState(() {
           isLoading = false;
@@ -171,7 +170,7 @@ class _NotificationPageState extends State<NotificationPage> {
             if (unreadCount > 0)
               Text(
                 "$unreadCount unread",
-                style: const TextStyle(
+                style:  TextStyle(
                   color: Colors.orange,
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
@@ -205,7 +204,6 @@ class _NotificationPageState extends State<NotificationPage> {
           ? const Center(
               child: CircularProgressIndicator(color: Colors.orange))
 
-          // ── Error state ─────────────────────────────────────────────
           : errorMsg != null
               ? Center(
                   child: Padding(

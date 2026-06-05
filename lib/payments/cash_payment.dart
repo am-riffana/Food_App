@@ -21,21 +21,18 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
     final bool isTablet = Responsive.isTablet(context);
     final bool isDesktop = Responsive.isDesktop(context);
 
-    // Card max width
     final double cardWidth = isDesktop
         ? 480.0
         : isTablet
             ? 440.0
             : double.infinity;
 
-    // Card padding
     final double cardPadding = isDesktop
         ? 36.0
         : isTablet
             ? 28.0
             : 24.0;
 
-    // Icon circle size & padding
     final double iconSize = isDesktop
         ? 100.0
         : isTablet
@@ -48,7 +45,6 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
             ? 24.0
             : 20.0;
 
-    // Font sizes
     final double titleSize = isDesktop
         ? 32.0
         : isTablet
@@ -73,14 +69,12 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
             ? 19.0
             : 18.0;
 
-    // Button height
     final double btnHeight = isDesktop
         ? 64.0
         : isTablet
             ? 62.0
             : 58.0;
 
-    // AppBar font
     final double appBarFontSize = isDesktop
         ? 22.0
         : isTablet
@@ -101,7 +95,7 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
             fontSize: appBarFontSize,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme:  IconThemeData(color: Colors.black),
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -113,7 +107,7 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
-                boxShadow: const [
+                boxShadow:  [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 10,
@@ -124,7 +118,6 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // ── Icon ─────────────────────────────────────────────
                   Container(
                     padding: EdgeInsets.all(iconPad),
                     decoration: BoxDecoration(
@@ -144,7 +137,6 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 28 : 24),
 
-                  // ── Title ─────────────────────────────────────────────
                   Text(
                     isConfirmed
                         ? "Order Confirmed"
@@ -159,7 +151,6 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 16 : 14),
 
-                  // ── Subtitle ──────────────────────────────────────────
                   Text(
                     isConfirmed
                         ? "Your order has been placed successfully"
@@ -173,7 +164,6 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 36 : 30),
 
-                  // ── Info Banner ───────────────────────────────────────
                   if (!isConfirmed)
                     Container(
                       padding: EdgeInsets.all(isTablet || isDesktop ? 20 : 18),
@@ -201,7 +191,6 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
 
                   SizedBox(height: isTablet || isDesktop ? 36 : 30),
 
-                  // ── Action Button ─────────────────────────────────────
                   SizedBox(
                     width: double.infinity,
                     height: btnHeight,
@@ -238,7 +227,7 @@ class _CashPaymentPageState extends State<CashPaymentPage> {
                               }
                             },
                       child: isLoading
-                          ? const CircularProgressIndicator(
+                          ?  CircularProgressIndicator(
                               color: Colors.white)
                           : Text(
                               isConfirmed ? "Done" : "Confirm Order",

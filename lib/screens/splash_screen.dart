@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkLogin() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed( Duration(seconds: 3));
 
     final prefs = await SharedPreferences.getInstance();
     final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
@@ -30,8 +30,8 @@ class _SplashScreenState extends State<SplashScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => isLoggedIn
-            ? const MainScreen()
-            : const LoginScreen(),
+            ?  MainScreen()
+            :  LoginScreen(),
       ),
     );
   }
@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: const Color(0xFFF8F8F8),
       body: Center(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 500),
+          constraints:  BoxConstraints(maxWidth: 500),
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: isTablet ? 40 : width * 0.08,
@@ -56,11 +56,9 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                
-                // LOGO
-                Container(
+                                Container(
                   padding: EdgeInsets.all(isTablet ? 28 : width * 0.06),
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                     color: Colors.orange,
                     shape: BoxShape.circle,
                   ),
@@ -73,7 +71,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
                 SizedBox(height: height * 0.03),
 
-                // TITLE
                 Text(
                   "Yumzi",
                   textAlign: TextAlign.center,
@@ -85,8 +82,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
 
                 SizedBox(height: height * 0.01),
-
-                // SUBTITLE
                 Text(
                   "Fresh Food, Faster 🍔",
                   textAlign: TextAlign.center,
@@ -97,9 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
 
                 SizedBox(height: height * 0.04),
-
-                // LOADING INDICATOR (optional but good UX)
-                const CircularProgressIndicator(
+                 CircularProgressIndicator(
                   color: Colors.orange,
                   strokeWidth: 2,
                 ),

@@ -79,7 +79,7 @@ class PaymentMethodTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(22),
-          boxShadow: const [
+          boxShadow:  [
             BoxShadow(
               color: Colors.black12,
               blurRadius: 6,
@@ -101,7 +101,6 @@ class PaymentMethodTile extends StatelessWidget {
 
             SizedBox(width: isTablet || isDesktop ? 20 : 16),
 
-            // Title + subtitle
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +112,7 @@ class PaymentMethodTile extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                   SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: TextStyle(

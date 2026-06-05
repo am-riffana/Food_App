@@ -78,13 +78,13 @@ class _UsersPageState extends State<UsersPage> {
       ),
 
       body: isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.orange))
+          ?  Center(child: CircularProgressIndicator(color: Colors.orange))
           : Column(
               children: [
                 /// DASHBOARD
                 Container(
                   padding: EdgeInsets.all(width * 0.04),
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(28),
@@ -130,8 +130,6 @@ class _UsersPageState extends State<UsersPage> {
                 ),
 
                 SizedBox(height: height * 0.02),
-
-                /// LIST
                 Expanded(
                   child: ListView.builder(
                     padding: EdgeInsets.symmetric(horizontal: width * 0.04),
@@ -147,7 +145,7 @@ class _UsersPageState extends State<UsersPage> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
-                          boxShadow: const [
+                          boxShadow:  [
                             BoxShadow(
                               color: Colors.black12,
                               blurRadius: 8,
@@ -172,8 +170,6 @@ class _UsersPageState extends State<UsersPage> {
                             ),
 
                             SizedBox(width: width * 0.04),
-
-                            /// INFO
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,8 +250,6 @@ class _UsersPageState extends State<UsersPage> {
                                 ],
                               ),
                             ),
-
-                            /// BUTTON
                             if (!isAdmin)
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
@@ -291,8 +285,6 @@ class _UsersPageState extends State<UsersPage> {
             ),
     );
   }
-
-  /// CARD
   Widget dashboardCard(
     String title,
     String count,

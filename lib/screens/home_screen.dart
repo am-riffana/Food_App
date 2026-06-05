@@ -289,7 +289,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
 
-                      // Notification button
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -330,8 +329,6 @@ class _HomePageState extends State<HomePage> {
                       ),
 
                       SizedBox(width: isTablet || isDesktop ? 14 : 12),
-
-                      // Profile button
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -389,8 +386,6 @@ class _HomePageState extends State<HomePage> {
             ),
 
             SizedBox(height: isTablet || isDesktop ? 14 : 10),
-
-            // ── Grid ─────────────────────────────────────────────────────
             Expanded(
               child: GridView.builder(
                 padding: EdgeInsets.symmetric(

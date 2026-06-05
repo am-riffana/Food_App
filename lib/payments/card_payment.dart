@@ -27,105 +27,108 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    // Content max width — centered on wide screens
-    final double contentWidth = isDesktop
-        ? 520.0
-        : isTablet
+    final double contentWidth =
+        isDesktop
+            ? 520.0
+            : isTablet
             ? 480.0
             : double.infinity;
 
-    // Outer scroll padding
-    final double outerPad = isDesktop
-        ? 32.0
-        : isTablet
+    final double outerPad =
+        isDesktop
+            ? 32.0
+            : isTablet
             ? 24.0
             : 16.0;
 
-    // Credit card visual height
-    final double cardHeight = isDesktop
-        ? 240.0
-        : isTablet
+    final double cardHeight =
+        isDesktop
+            ? 240.0
+            : isTablet
             ? 224.0
             : 210.0;
 
-    // Credit card padding
-    final double cardPad = isDesktop
-        ? 28.0
-        : isTablet
+    final double cardPad =
+        isDesktop
+            ? 28.0
+            : isTablet
             ? 24.0
             : 22.0;
 
-    // Card number font size
-    final double cardNumberSize = isDesktop
-        ? 28.0
-        : isTablet
+    final double cardNumberSize =
+        isDesktop
+            ? 28.0
+            : isTablet
             ? 26.0
             : 24.0;
 
-    // Credit card icons
-    final double cardIconSize = isDesktop
-        ? 40.0
-        : isTablet
+    final double cardIconSize =
+        isDesktop
+            ? 40.0
+            : isTablet
             ? 37.0
             : 34.0;
 
-    // Success icon size & padding
-    final double successIconSize = isDesktop
-        ? 110.0
-        : isTablet
+    final double successIconSize =
+        isDesktop
+            ? 110.0
+            : isTablet
             ? 100.0
             : 90.0;
 
-    final double successIconPad = isDesktop
-        ? 28.0
-        : isTablet
+    final double successIconPad =
+        isDesktop
+            ? 28.0
+            : isTablet
             ? 25.0
             : 22.0;
 
-    // Success text sizes
-    final double successTitleSize = isDesktop
-        ? 34.0
-        : isTablet
+    final double successTitleSize =
+        isDesktop
+            ? 34.0
+            : isTablet
             ? 32.0
             : 30.0;
 
-    final double successSubtitleSize = isDesktop
-        ? 18.0
-        : isTablet
+    final double successSubtitleSize =
+        isDesktop
+            ? 18.0
+            : isTablet
             ? 17.0
             : 16.0;
 
-    // Form container padding
-    final double formPad = isDesktop
-        ? 28.0
-        : isTablet
+    final double formPad =
+        isDesktop
+            ? 28.0
+            : isTablet
             ? 24.0
             : 20.0;
 
-    // TextField font size
-    final double fieldFontSize = isDesktop
-        ? 16.0
-        : isTablet
+    final double fieldFontSize =
+        isDesktop
+            ? 16.0
+            : isTablet
             ? 15.0
             : 14.0;
 
-    // Button height & font
-    final double btnHeight = isDesktop
-        ? 64.0
-        : isTablet
+    final double btnHeight =
+        isDesktop
+            ? 64.0
+            : isTablet
             ? 62.0
             : 58.0;
 
-    final double btnFontSize = isDesktop
-        ? 20.0
-        : isTablet
+    final double btnFontSize =
+        isDesktop
+            ? 20.0
+            : isTablet
             ? 19.0
             : 18.0;
 
-    // AppBar font
-    final double appBarFontSize = isDesktop
-        ? 22.0
-        : isTablet
+    final double appBarFontSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 20.0
             : 18.0;
 
@@ -143,7 +146,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
             fontSize: appBarFontSize,
           ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(outerPad),
@@ -152,14 +155,13 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
             constraints: BoxConstraints(maxWidth: contentWidth),
             child: Column(
               children: [
-                // ── Credit Card Visual ──────────────────────────────────
                 if (!isPaid)
                   Container(
                     width: double.infinity,
                     height: cardHeight,
                     padding: EdgeInsets.all(cardPad),
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
+                      gradient: LinearGradient(
                         colors: [Color(0xFFFF7A00), Color(0xFFFFA726)],
                       ),
                       borderRadius: BorderRadius.circular(28),
@@ -182,7 +184,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                             ),
                           ],
                         ),
-                        const Spacer(),
+                        Spacer(),
                         Text(
                           cardController.text.isEmpty
                               ? "**** **** **** 4589"
@@ -205,11 +207,10 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                                   "CARD HOLDER",
                                   style: TextStyle(
                                     color: Colors.white70,
-                                    fontSize:
-                                        isTablet || isDesktop ? 13 : 12,
+                                    fontSize: isTablet || isDesktop ? 13 : 12,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   nameController.text.isEmpty
                                       ? "YOUR NAME"
@@ -217,8 +218,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        isTablet || isDesktop ? 15 : 14,
+                                    fontSize: isTablet || isDesktop ? 15 : 14,
                                   ),
                                 ),
                               ],
@@ -230,11 +230,10 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                                   "EXPIRES",
                                   style: TextStyle(
                                     color: Colors.white70,
-                                    fontSize:
-                                        isTablet || isDesktop ? 13 : 12,
+                                    fontSize: isTablet || isDesktop ? 13 : 12,
                                   ),
                                 ),
-                                const SizedBox(height: 4),
+                                SizedBox(height: 4),
                                 Text(
                                   expiryController.text.isEmpty
                                       ? "08/28"
@@ -242,8 +241,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
-                                    fontSize:
-                                        isTablet || isDesktop ? 15 : 14,
+                                    fontSize: isTablet || isDesktop ? 15 : 14,
                                   ),
                                 ),
                               ],
@@ -254,7 +252,6 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                     ),
                   ),
 
-                // ── Success Icon ────────────────────────────────────────
                 if (isPaid)
                   Container(
                     padding: EdgeInsets.all(successIconPad),
@@ -271,7 +268,6 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
 
                 SizedBox(height: isTablet || isDesktop ? 28 : 24),
 
-                // ── Success Text ────────────────────────────────────────
                 if (isPaid)
                   Column(
                     children: [
@@ -295,29 +291,28 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                     ],
                   ),
 
-                // ── Card Form ───────────────────────────────────────────
                 if (!isPaid)
                   Container(
                     margin: EdgeInsets.only(
-                        top: isTablet || isDesktop ? 28 : 24),
+                      top: isTablet || isDesktop ? 28 : 24,
+                    ),
                     padding: EdgeInsets.all(formPad),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(26),
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(color: Colors.black12, blurRadius: 10),
                       ],
                     ),
                     child: Column(
                       children: [
-                        // Card number
                         TextField(
                           controller: cardController,
                           keyboardType: TextInputType.number,
                           style: TextStyle(fontSize: fieldFontSize),
                           decoration: InputDecoration(
                             hintText: "Card Number",
-                            prefixIcon: const Icon(Icons.credit_card),
+                            prefixIcon: Icon(Icons.credit_card),
                             filled: true,
                             fillColor: Colors.grey.shade100,
                             border: OutlineInputBorder(
@@ -333,8 +328,6 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                         ),
 
                         SizedBox(height: isTablet || isDesktop ? 20 : 18),
-
-                        // Expiry + CVV
                         Row(
                           children: [
                             Expanded(
@@ -350,16 +343,14 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                                     borderSide: BorderSide.none,
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
-                                    vertical:
-                                        isTablet || isDesktop ? 18 : 14,
+                                    vertical: isTablet || isDesktop ? 18 : 14,
                                     horizontal: 16,
                                   ),
                                 ),
                                 onChanged: (_) => setState(() {}),
                               ),
                             ),
-                            SizedBox(
-                                width: isTablet || isDesktop ? 16 : 14),
+                            SizedBox(width: isTablet || isDesktop ? 16 : 14),
                             Expanded(
                               child: TextField(
                                 controller: cvvController,
@@ -374,8 +365,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                                     borderSide: BorderSide.none,
                                   ),
                                   contentPadding: EdgeInsets.symmetric(
-                                    vertical:
-                                        isTablet || isDesktop ? 18 : 14,
+                                    vertical: isTablet || isDesktop ? 18 : 14,
                                     horizontal: 16,
                                   ),
                                 ),
@@ -392,7 +382,7 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                           style: TextStyle(fontSize: fieldFontSize),
                           decoration: InputDecoration(
                             hintText: "Card Holder Name",
-                            prefixIcon: const Icon(Icons.person),
+                            prefixIcon: Icon(Icons.person),
                             filled: true,
                             fillColor: Colors.grey.shade100,
                             border: OutlineInputBorder(
@@ -412,7 +402,6 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
 
                 SizedBox(height: isTablet || isDesktop ? 32 : 28),
 
-                // ── Pay Button ──────────────────────────────────────────
                 SizedBox(
                   width: double.infinity,
                   height: btnHeight,
@@ -423,41 +412,44 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
                         borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-                    onPressed: isLoading
-                        ? null
-                        : () async {
-                            if (isPaid) {
-                              setState(() => isLoading = true);
-                              try {
-                                await saveOrderToSupabase(
-                                    paymentMethod: 'Card');
-                              } catch (e) {
-                                debugPrint('Order save failed: $e');
+                    onPressed:
+                        isLoading
+                            ? null
+                            : () async {
+                              if (isPaid) {
+                                setState(() => isLoading = true);
+                                try {
+                                  await saveOrderToSupabase(
+                                    paymentMethod: 'Card',
+                                  );
+                                } catch (e) {
+                                  debugPrint('Order save failed: $e');
+                                }
+                                if (mounted) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => OrdersPage(),
+                                    ),
+                                  );
+                                }
+                              } else {
+                                setState(() => isPaid = true);
                               }
-                              if (mounted) {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => OrdersPage()),
-                                );
-                              }
-                            } else {
-                              setState(() => isPaid = true);
-                            }
-                          },
-                    child: isLoading
-                        ? const CircularProgressIndicator(
-                            color: Colors.white)
-                        : Text(
-                            isPaid
-                                ? "Done"
-                                : "Pay ₹${widget.total.toStringAsFixed(2)}",
-                            style: TextStyle(
-                              fontSize: btnFontSize,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                            },
+                    child:
+                        isLoading
+                            ? CircularProgressIndicator(color: Colors.white)
+                            : Text(
+                              isPaid
+                                  ? "Done"
+                                  : "Pay ₹${widget.total.toStringAsFixed(2)}",
+                              style: TextStyle(
+                                fontSize: btnFontSize,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
-                          ),
                   ),
                 ),
               ],

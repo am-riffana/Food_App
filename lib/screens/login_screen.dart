@@ -79,7 +79,6 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
 
-      // ── Check is_admin from DB first, then fallback to email + password ─
       final bool isAdmin =
           (userData != null && userData['is_admin'] == true) ||
               (email == 'admin123@gmail.com' &&
@@ -164,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ? BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(28),
-              boxShadow: const [
+              boxShadow:  [
                 BoxShadow(
                   color: Colors.black12,
                   blurRadius: 24,
@@ -197,13 +196,12 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           SizedBox(height: isTablet || isDesktop ? 28 : 20),
 
-          // Email field
           TextField(
             controller: emailController,
             style: TextStyle(fontSize: fieldFontSize),
             decoration: InputDecoration(
               hintText: "Email",
-              prefixIcon: const Icon(Icons.email),
+              prefixIcon:  Icon(Icons.email),
               filled: true,
               fillColor: const Color(0xfff7e6d3),
               border: OutlineInputBorder(
@@ -218,14 +216,13 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           SizedBox(height: isTablet || isDesktop ? 18 : 15),
 
-          // Password field
           TextField(
             controller: passwordController,
             obscureText: true,
             style: TextStyle(fontSize: fieldFontSize),
             decoration: InputDecoration(
               hintText: "Password",
-              prefixIcon: const Icon(Icons.lock),
+              prefixIcon:  Icon(Icons.lock),
               filled: true,
               fillColor: const Color(0xfff7e6d3),
               border: OutlineInputBorder(
@@ -240,7 +237,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           SizedBox(height: isTablet || isDesktop ? 28 : 20),
 
-          // Login button
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -253,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               child: isLoading
-                  ? const CircularProgressIndicator(color: Colors.white)
+                  ?  CircularProgressIndicator(color: Colors.white)
                   : Text(
                       "Login",
                       style: TextStyle(
@@ -282,8 +278,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ],
       ),
     );
-
-    // ── Mobile ────────────────────────────────────────────────────────
     if (!isTablet && !isDesktop) {
       return Scaffold(
         backgroundColor: const Color(0xFFF8F8F8),
@@ -296,14 +290,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     }
-
-    // ── Tablet & Desktop ──────────────────────────────────────────────
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

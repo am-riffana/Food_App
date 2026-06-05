@@ -35,9 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
 
-        iconTheme: const IconThemeData(
-          color: Colors.black,
-        ),
+        iconTheme: IconThemeData(color: Colors.black),
       ),
 
       body: SingleChildScrollView(
@@ -68,7 +66,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {},
                 ),
 
-                const Divider(height: 1),
+                Divider(height: 1),
 
                 _buildTile(
                   context,
@@ -78,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {},
                 ),
 
-                const Divider(height: 1),
+                Divider(height: 1),
 
                 _buildTile(
                   context,
@@ -109,9 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   value: notifications,
                   activeColor: Colors.orange,
 
-                  secondary: _buildIconBox(
-                    Icons.notifications,
-                  ),
+                  secondary: _buildIconBox(Icons.notifications),
 
                   title: Text(
                     "Notifications",
@@ -123,9 +119,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                   subtitle: Text(
                     "Enable app notifications",
-                    style: TextStyle(
-                      fontSize: isTablet ? 14 : width * 0.035,
-                    ),
+                    style: TextStyle(fontSize: isTablet ? 14 : width * 0.035),
                   ),
 
                   onChanged: (value) {
@@ -135,15 +129,13 @@ class _SettingsPageState extends State<SettingsPage> {
                   },
                 ),
 
-                const Divider(height: 1),
+                Divider(height: 1),
 
                 SwitchListTile(
                   value: locationAccess,
                   activeColor: Colors.orange,
 
-                  secondary: _buildIconBox(
-                    Icons.location_on,
-                  ),
+                  secondary: _buildIconBox(Icons.location_on),
 
                   title: Text(
                     "Location Access",
@@ -155,9 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
                   subtitle: Text(
                     "Allow location services",
-                    style: TextStyle(
-                      fontSize: isTablet ? 14 : width * 0.035,
-                    ),
+                    style: TextStyle(fontSize: isTablet ? 14 : width * 0.035),
                   ),
 
                   onChanged: (value) {
@@ -192,7 +182,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {},
                 ),
 
-                const Divider(height: 1),
+                Divider(height: 1),
 
                 _buildTile(
                   context,
@@ -202,7 +192,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {},
                 ),
 
-                const Divider(height: 1),
+                Divider(height: 1),
 
                 _buildTile(
                   context,
@@ -221,21 +211,14 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildCard(
-    BuildContext context, {
-    required List<Widget> children,
-  }) {
+  Widget _buildCard(BuildContext context, {required List<Widget> children}) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
 
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 3),
-          ),
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 8, offset: Offset(0, 3)),
         ],
       ),
       child: Column(children: children),
@@ -244,17 +227,14 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildIconBox(IconData icon) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
 
       decoration: BoxDecoration(
         color: Colors.orange.shade100,
         borderRadius: BorderRadius.circular(14),
       ),
 
-      child: Icon(
-        icon,
-        color: Colors.orange,
-      ),
+      child: Icon(icon, color: Colors.orange),
     );
   }
 
@@ -281,9 +261,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
       subtitle: Text(
         subtitle,
-        style: TextStyle(
-          fontSize: isTablet ? 14 : width * 0.035,
-        ),
+        style: TextStyle(fontSize: isTablet ? 14 : width * 0.035),
       ),
 
       trailing: Icon(

@@ -69,12 +69,13 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      final usageCheck = await Supabase.instance.client
-          .from('coupon_usage')
-          .select()
-          .eq('coupon_code', code)
-          .eq('user_id', userId)
-          .maybeSingle();
+      final usageCheck =
+          await Supabase.instance.client
+              .from('coupon_usage')
+              .select()
+              .eq('coupon_code', code)
+              .eq('user_id', userId)
+              .maybeSingle();
 
       if (usageCheck != null) {
         setState(() {
@@ -86,12 +87,13 @@ class _CartPageState extends State<CartPage> {
         return;
       }
 
-      final data = await Supabase.instance.client
-          .from('coupons')
-          .select()
-          .eq('code', code)
-          .eq('is_active', true)
-          .maybeSingle();
+      final data =
+          await Supabase.instance.client
+              .from('coupons')
+              .select()
+              .eq('code', code)
+              .eq('is_active', true)
+              .maybeSingle();
 
       if (data == null) {
         setState(() {
@@ -185,54 +187,59 @@ class _CartPageState extends State<CartPage> {
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    // Horizontal padding for list & bottom panel
-    final double hPad = isDesktop
-        ? screenWidth * 0.18
-        : isTablet
+    final double hPad =
+        isDesktop
+            ? screenWidth * 0.18
+            : isTablet
             ? screenWidth * 0.06
             : 16.0;
 
-    // Cart item image size
-    final double imgSize = isDesktop
-        ? 130.0
-        : isTablet
+    final double imgSize =
+        isDesktop
+            ? 130.0
+            : isTablet
             ? 120.0
             : 110.0;
 
-    // Font sizes
-    final double itemNameSize = isDesktop
-        ? 20.0
-        : isTablet
+    final double itemNameSize =
+        isDesktop
+            ? 20.0
+            : isTablet
             ? 19.0
             : 18.0;
 
-    final double itemPriceSize = isDesktop
-        ? 22.0
-        : isTablet
+    final double itemPriceSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 21.0
             : 20.0;
 
-    final double billFontSize = isDesktop
-        ? 17.0
-        : isTablet
+    final double billFontSize =
+        isDesktop
+            ? 17.0
+            : isTablet
             ? 16.5
             : 16.0;
 
-    final double payBtnHeight = isDesktop
-        ? 64.0
-        : isTablet
+    final double payBtnHeight =
+        isDesktop
+            ? 64.0
+            : isTablet
             ? 60.0
             : 56.0;
 
-    final double payBtnFontSize = isDesktop
-        ? 19.0
-        : isTablet
+    final double payBtnFontSize =
+        isDesktop
+            ? 19.0
+            : isTablet
             ? 18.0
             : 17.0;
 
-    final double appBarFontSize = isDesktop
-        ? 24.0
-        : isTablet
+    final double appBarFontSize =
+        isDesktop
+            ? 24.0
+            : isTablet
             ? 23.0
             : 22.0;
 
@@ -243,11 +250,12 @@ class _CartPageState extends State<CartPage> {
         elevation: 0,
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => MainScreen()),
-          ),
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed:
+              () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => MainScreen()),
+              ),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
         ),
         title: Text(
           "My Cart",
@@ -278,7 +286,6 @@ class _CartPageState extends State<CartPage> {
       body: ValueListenableBuilder(
         valueListenable: ordersBox.listenable(),
         builder: (context, Box box, _) {
-          // ── Empty State ───────────────────────────────────────────────
           if (box.isEmpty) {
             return Center(
               child: Column(
@@ -308,17 +315,12 @@ class _CartPageState extends State<CartPage> {
               ),
             );
           }
-
-          // ── Cart Content ──────────────────────────────────────────────
           return Column(
             children: [
               // Cart items list
               Expanded(
                 child: ListView.builder(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: hPad,
-                    vertical: 16,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 16),
                   itemCount: box.length,
                   itemBuilder: (context, index) {
                     final item = box.getAt(index);
@@ -330,7 +332,7 @@ class _CartPageState extends State<CartPage> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(24),
-                        boxShadow: const [
+                        boxShadow: [
                           BoxShadow(
                             color: Colors.black12,
                             blurRadius: 8,
@@ -341,7 +343,6 @@ class _CartPageState extends State<CartPage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Thumbnail
                           ClipRRect(
                             borderRadius: BorderRadius.circular(18),
                             child: Image.network(
@@ -349,31 +350,30 @@ class _CartPageState extends State<CartPage> {
                               height: imgSize,
                               width: imgSize,
                               fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Container(
-                                height: imgSize,
-                                width: imgSize,
-                                color: Colors.orange.shade100,
-                                child: const Icon(
-                                  Icons.fastfood,
-                                  color: Colors.orange,
-                                  size: 40,
-                                ),
-                              ),
+                              errorBuilder:
+                                  (_, __, ___) => Container(
+                                    height: imgSize,
+                                    width: imgSize,
+                                    color: Colors.orange.shade100,
+                                    child: Icon(
+                                      Icons.fastfood,
+                                      color: Colors.orange,
+                                      size: 40,
+                                    ),
+                                  ),
                               loadingBuilder: (_, child, progress) {
                                 if (progress == null) return child;
                                 return Container(
                                   height: imgSize,
                                   width: imgSize,
                                   alignment: Alignment.center,
-                                  child: const CircularProgressIndicator(),
+                                  child: CircularProgressIndicator(),
                                 );
                               },
                             ),
                           ),
 
                           SizedBox(width: isTablet || isDesktop ? 18 : 14),
-
-                          // Details
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -387,16 +387,14 @@ class _CartPageState extends State<CartPage> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                SizedBox(
-                                    height: isTablet || isDesktop ? 8 : 6),
-                                const Text(
+                                SizedBox(height: isTablet || isDesktop ? 8 : 6),
+                                Text(
                                   "Fast Delivery",
                                   style: TextStyle(color: Colors.grey),
                                 ),
                                 SizedBox(
-                                    height: isTablet || isDesktop ? 12 : 10),
-
-                                // Price + Qty controls
+                                  height: isTablet || isDesktop ? 12 : 10,
+                                ),
                                 Row(
                                   children: [
                                     Text(
@@ -407,19 +405,18 @@ class _CartPageState extends State<CartPage> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const Spacer(),
+                                    Spacer(),
                                     Container(
                                       padding: EdgeInsets.symmetric(
                                         horizontal:
                                             isTablet || isDesktop ? 12 : 10,
-                                        vertical:
-                                            isTablet || isDesktop ? 8 : 6,
+                                        vertical: isTablet || isDesktop ? 8 : 6,
                                       ),
                                       decoration: BoxDecoration(
-                                        border:
-                                            Border.all(color: Colors.orange),
-                                        borderRadius:
-                                            BorderRadius.circular(14),
+                                        border: Border.all(
+                                          color: Colors.orange,
+                                        ),
+                                        borderRadius: BorderRadius.circular(14),
                                       ),
                                       child: Row(
                                         children: [
@@ -431,23 +428,28 @@ class _CartPageState extends State<CartPage> {
                                                 setState(() {});
                                               }
                                             },
-                                            child: Icon(Icons.remove,
-                                                size: isTablet || isDesktop
-                                                    ? 20
-                                                    : 18),
+                                            child: Icon(
+                                              Icons.remove,
+                                              size:
+                                                  isTablet || isDesktop
+                                                      ? 20
+                                                      : 18,
+                                            ),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
-                                              horizontal: isTablet || isDesktop
-                                                  ? 14
-                                                  : 12,
+                                              horizontal:
+                                                  isTablet || isDesktop
+                                                      ? 14
+                                                      : 12,
                                             ),
                                             child: Text(
                                               item['qty'].toString(),
                                               style: TextStyle(
-                                                fontSize: isTablet || isDesktop
-                                                    ? 17
-                                                    : 16,
+                                                fontSize:
+                                                    isTablet || isDesktop
+                                                        ? 17
+                                                        : 16,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
@@ -460,9 +462,10 @@ class _CartPageState extends State<CartPage> {
                                             },
                                             child: Icon(
                                               Icons.add,
-                                              size: isTablet || isDesktop
-                                                  ? 20
-                                                  : 18,
+                                              size:
+                                                  isTablet || isDesktop
+                                                      ? 20
+                                                      : 18,
                                               color: Colors.orange,
                                             ),
                                           ),
@@ -473,9 +476,8 @@ class _CartPageState extends State<CartPage> {
                                 ),
 
                                 SizedBox(
-                                    height: isTablet || isDesktop ? 14 : 12),
-
-                                // Remove button
+                                  height: isTablet || isDesktop ? 14 : 12,
+                                ),
                                 GestureDetector(
                                   onTap: () {
                                     box.deleteAt(index);
@@ -488,7 +490,7 @@ class _CartPageState extends State<CartPage> {
                                         color: Colors.red,
                                         size: isTablet || isDesktop ? 22 : 20,
                                       ),
-                                      const SizedBox(width: 5),
+                                      SizedBox(width: 5),
                                       Text(
                                         "Remove",
                                         style: TextStyle(
@@ -510,18 +512,14 @@ class _CartPageState extends State<CartPage> {
                   },
                 ),
               ),
-
-              // ── Bill Summary Panel ──────────────────────────────────────
               Container(
                 padding: EdgeInsets.fromLTRB(hPad, 20, hPad, 20),
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(28)),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
                 ),
                 child: Column(
                   children: [
-                    // Coupon input
                     if (!couponApplied)
                       Row(
                         children: [
@@ -534,7 +532,7 @@ class _CartPageState extends State<CartPage> {
                               ),
                               decoration: InputDecoration(
                                 hintText: "Enter coupon code",
-                                prefixIcon: const Icon(
+                                prefixIcon: Icon(
                                   Icons.local_offer_outlined,
                                   color: Colors.orange,
                                 ),
@@ -550,7 +548,7 @@ class _CartPageState extends State<CartPage> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 10),
+                          SizedBox(width: 10),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.orange,
@@ -563,28 +561,27 @@ class _CartPageState extends State<CartPage> {
                               ),
                             ),
                             onPressed: isCheckingCoupon ? null : applyCoupon,
-                            child: isCheckingCoupon
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2,
+                            child:
+                                isCheckingCoupon
+                                    ? SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                    : Text(
+                                      "Apply",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize:
+                                            isTablet || isDesktop ? 15 : 14,
+                                      ),
                                     ),
-                                  )
-                                : Text(
-                                    "Apply",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          isTablet || isDesktop ? 15 : 14,
-                                    ),
-                                  ),
                           ),
                         ],
                       ),
-
-                    // Coupon applied banner
                     if (couponApplied)
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -598,9 +595,8 @@ class _CartPageState extends State<CartPage> {
                         ),
                         child: Row(
                           children: [
-                            const Icon(Icons.check_circle,
-                                color: Colors.green),
-                            const SizedBox(width: 8),
+                            Icon(Icons.check_circle, color: Colors.green),
+                            SizedBox(width: 8),
                             Expanded(
                               child: Text(
                                 couponMessage,
@@ -613,22 +609,26 @@ class _CartPageState extends State<CartPage> {
                             ),
                             GestureDetector(
                               onTap: removeCoupon,
-                              child: const Icon(Icons.close,
-                                  color: Colors.red, size: 20),
+                              child: Icon(
+                                Icons.close,
+                                color: Colors.red,
+                                size: 20,
+                              ),
                             ),
                           ],
                         ),
                       ),
-
-                    // Coupon error message
                     if (couponMessage.isNotEmpty && !couponApplied)
                       Padding(
-                        padding: const EdgeInsets.only(top: 8),
+                        padding: EdgeInsets.only(top: 8),
                         child: Row(
                           children: [
-                            const Icon(Icons.error_outline,
-                                color: Colors.red, size: 16),
-                            const SizedBox(width: 6),
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 16,
+                            ),
+                            SizedBox(width: 6),
                             Text(
                               couponMessage,
                               style: TextStyle(
@@ -642,9 +642,11 @@ class _CartPageState extends State<CartPage> {
 
                     SizedBox(height: isTablet || isDesktop ? 20 : 16),
 
-                    // Bill rows
-                    _billRow("Item Total", "₹${totalPrice.toStringAsFixed(0)}",
-                        fontSize: billFontSize),
+                    _billRow(
+                      "Item Total",
+                      "₹${totalPrice.toStringAsFixed(0)}",
+                      fontSize: billFontSize,
+                    ),
                     SizedBox(height: isTablet || isDesktop ? 14 : 12),
                     _billRow("Delivery Fee", "₹40", fontSize: billFontSize),
                     SizedBox(height: isTablet || isDesktop ? 14 : 12),
@@ -660,7 +662,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ],
 
-                    const Divider(height: 30),
+                    Divider(height: 30),
                     _billRow(
                       "To Pay",
                       "₹${finalTotal.toStringAsFixed(0)}",
@@ -670,7 +672,6 @@ class _CartPageState extends State<CartPage> {
 
                     SizedBox(height: isTablet || isDesktop ? 24 : 20),
 
-                    // Pay button
                     SizedBox(
                       width: double.infinity,
                       height: payBtnHeight,
@@ -683,21 +684,21 @@ class _CartPageState extends State<CartPage> {
                         ),
                         onPressed: () async {
                           if (couponApplied && appliedCoupon != null) {
-                            final userId = Supabase
-                                .instance.client.auth.currentUser?.id;
+                            final userId =
+                                Supabase.instance.client.auth.currentUser?.id;
                             if (userId != null) {
-                              final usageCheck = await Supabase
-                                  .instance.client
-                                  .from('coupon_usage')
-                                  .select()
-                                  .eq('coupon_code', appliedCoupon!['code'])
-                                  .eq('user_id', userId)
-                                  .maybeSingle();
+                              final usageCheck =
+                                  await Supabase.instance.client
+                                      .from('coupon_usage')
+                                      .select()
+                                      .eq('coupon_code', appliedCoupon!['code'])
+                                      .eq('user_id', userId)
+                                      .maybeSingle();
 
                               if (usageCheck != null) {
                                 removeCoupon();
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
+                                  SnackBar(
                                     content: Text(
                                       'Coupon already used. Proceeding without discount.',
                                     ),
@@ -713,8 +714,8 @@ class _CartPageState extends State<CartPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  PaymentPage(total: finalTotal),
+                              builder:
+                                  (context) => PaymentPage(total: finalTotal),
                             ),
                           );
                         },

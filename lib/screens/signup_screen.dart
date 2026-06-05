@@ -24,10 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
-    if (first.isEmpty ||
-        last.isEmpty ||
-        email.isEmpty ||
-        password.isEmpty) {
+    if (first.isEmpty || last.isEmpty || email.isEmpty || password.isEmpty) {
       showMessage("Fill all fields", Colors.red);
       return;
     }
@@ -73,12 +70,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => Otpscreen(
-            firstname: first,
-            lastname: last,
-            email: email,
-            password: password,
-          ),
+          builder:
+              (_) => Otpscreen(
+                firstname: first,
+                lastname: last,
+                email: email,
+                password: password,
+              ),
         ),
       );
 
@@ -91,9 +89,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void showMessage(String msg, Color color) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(msg), backgroundColor: color),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: color));
   }
 
   @override
@@ -106,7 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       backgroundColor: const Color(0xFFF8F8F8),
 
       appBar: AppBar(
-        title: const Text("Sign Up"),
+        title: Text("Sign Up"),
         centerTitle: true,
         backgroundColor: Colors.orange,
       ),
@@ -114,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 520),
+            constraints: BoxConstraints(maxWidth: 520),
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: isTablet ? 40 : width * 0.06,
@@ -135,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
 
                   Text(
                     "Sign up to continue",
@@ -171,16 +169,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child: isLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text(
-                              "Sign Up",
-                              style: TextStyle(color: Colors.white),
-                            ),
+                      child:
+                          isLoading
+                              ? CircularProgressIndicator(color: Colors.white)
+                              : Text(
+                                "Sign Up",
+                                style: TextStyle(color: Colors.white),
+                              ),
                     ),
                   ),
 
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16),
 
                   SizedBox(
                     height: 50,
@@ -200,8 +199,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               height: 18,
                               width: 18,
                             ),
-                            const SizedBox(width: 10),
-                            const Text(
+                            SizedBox(width: 10),
+                            Text(
                               "Continue with Google",
                               style: TextStyle(fontWeight: FontWeight.w600),
                             ),
