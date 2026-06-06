@@ -25,8 +25,6 @@ class FoodSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = Responsive.w(context);
-
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: scale(context, 14),

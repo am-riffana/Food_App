@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/login_screen.dart';
 import 'package:foodapp/screens/main_screen.dart';
-import 'package:foodapp/widgets/responsive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -25,7 +25,6 @@ class _CardPaymentPageState extends State<CardPaymentPage> {
   Widget build(BuildContext context) {
     final bool isTablet = Responsive.isTablet(context);
     final bool isDesktop = Responsive.isDesktop(context);
-    final double screenWidth = Responsive.w(context);
 
     final double contentWidth =
         isDesktop

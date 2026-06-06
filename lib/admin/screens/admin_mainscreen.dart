@@ -47,7 +47,6 @@ class _AdminMainScreenState extends State<AdminMainScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final tablet = isTablet(context);
-    final desktop = isDesktop(context);
 
     return Scaffold(
       backgroundColor: const Color(0xfff5f5f5),

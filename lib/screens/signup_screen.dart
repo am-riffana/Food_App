@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/auth/otpscreen.dart';
-import 'package:foodapp/widgets/responsive.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SignUpScreen extends StatefulWidget {
