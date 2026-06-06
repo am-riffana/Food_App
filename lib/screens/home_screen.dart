@@ -22,6 +22,15 @@ class _HomePageState extends State<HomePage> {
 
   final TextEditingController _searchController = TextEditingController();
 
+  double scale(BuildContext context, double value) {
+    final isTablet = Responsive.isTablet(context);
+    final isDesktop = Responsive.isDesktop(context);
+
+    if (isDesktop) return value * 1.35;
+    if (isTablet) return value * 1.15;
+    return value;
+  }
+
   final List<Restaurant> _items = [
     Restaurant(
       name: 'Cheese Burger',
@@ -39,6 +48,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "25 mins",
       offer: "50% OFF up to ₹100",
     ),
+
     Restaurant(
       name: 'Pepperoni Pizza',
       rating: '4.6',
@@ -55,6 +65,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "30 mins",
       offer: "Free Coke on orders above ₹499",
     ),
+
     Restaurant(
       name: 'Margherita Pizza',
       rating: '4.9',
@@ -71,6 +82,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "28 mins",
       offer: "Flat ₹75 OFF on first order",
     ),
+
     Restaurant(
       name: 'Sushi Set',
       rating: '4.9',
@@ -79,6 +91,7 @@ class _HomePageState extends State<HomePage> {
       images: [
         'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?w=800',
       ],
+
       price: 499,
       category: 'Sushi',
       ingredients: ["Rice", "Salmon", "Seaweed", "Soy Sauce"],
@@ -87,6 +100,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "35 mins",
       offer: "20% OFF on sushi combo",
     ),
+
     Restaurant(
       name: 'Classic Beef Burger',
       rating: '4.8',
@@ -95,6 +109,7 @@ class _HomePageState extends State<HomePage> {
       images: [
         'https://assets.tmecosys.com/image/upload/t_web_rdp_recipe_584x480/img/recipe/ras/Assets/102cf51c-9220-4278-8b63-2b9611ad275e/Derivates/3831dbe2-352e-4409-a2e2-fc87d11cab0a.jpg',
       ],
+
       price: 200,
       category: 'Burgers',
       ingredients: ["Beef Patty", "Cheddar Cheese", "Onion", "Lettuce"],
@@ -103,6 +118,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "22 mins",
       offer: "Buy 1 Get 1 Free",
     ),
+
     Restaurant(
       name: 'Greek Salad',
       rating: '4.7',
@@ -119,6 +135,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "18 mins",
       offer: "Healthy combo at ₹299",
     ),
+
     Restaurant(
       name: 'Chocolate Cake',
       rating: '4.9',
@@ -135,6 +152,7 @@ class _HomePageState extends State<HomePage> {
       deliveryTime: "20 mins",
       offer: "Free dessert on orders above ₹599",
     ),
+
     Restaurant(
       name: 'Ice Cream',
       rating: '4.6',
@@ -206,9 +224,7 @@ class _HomePageState extends State<HomePage> {
       if (mounted) {
         setState(() => _unreadCount = (data as List).length);
       }
-    } catch (e) {
-      debugPrint('Unread count error: $e');
-    }
+    } catch (_) {}
   }
 
   void _subscribeToNotifications() {
@@ -221,8 +237,9 @@ class _HomePageState extends State<HomePage> {
         .eq('user_id', userId)
         .listen((data) {
           if (mounted) {
-            final unread = data.where((n) => n['is_read'] == false).length;
-            setState(() => _unreadCount = unread);
+            setState(() {
+              _unreadCount = data.where((n) => n['is_read'] == false).length;
+            });
           }
         });
   }
@@ -235,60 +252,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isTablet = Responsive.isTablet(context);
-    final bool isDesktop = Responsive.isDesktop(context);
-    final double screenWidth = Responsive.w(context);
+    final width = Responsive.w(context);
+    final isTablet = Responsive.isTablet(context);
+    final isDesktop = Responsive.isDesktop(context);
 
-    final int crossAxisCount =
+    final hPad =
+        isDesktop
+            ? width * 0.06
+            : isTablet
+            ? width * 0.04
+            : 16.0;
+
+    final crossAxisCount =
         isDesktop
             ? 4
             : isTablet
             ? 3
             : 2;
 
-    final double hPad =
+    final bannerHeight = scale(context, 180);
+
+    final cardAspectRatio =
         isDesktop
-            ? screenWidth * 0.06
+            ? 0.78
             : isTablet
-            ? screenWidth * 0.03
-            : 16.0;
-
-    final double bannerHeight =
-        isDesktop
-            ? 260.0
-            : isTablet
-            ? 220.0
-            : 180.0;
-
-    // Font sizes
-    final double locationTitleSize =
-        isDesktop
-            ? 22.0
-            : isTablet
-            ? 20.0
-            : 18.0;
-
-    final double locationSubSize =
-        isDesktop
-            ? 15.0
-            : isTablet
-            ? 14.0
-            : 13.0;
-
-    final double headerIconSize =
-        isDesktop
-            ? 32.0
-            : isTablet
-            ? 30.0
-            : 28.0;
-
-    final double actionIconPad = isDesktop || isTablet ? 12.0 : 10.0;
-
-    final double cardAspectRatio =
-        isDesktop
             ? 0.72
-            : isTablet
-            ? 0.70
             : 0.68;
 
     final displayList =
@@ -300,13 +288,14 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
+
       body: SafeArea(
         child: Column(
           children: [
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: hPad,
-                vertical: isTablet || isDesktop ? 16 : 14,
+                vertical: scale(context, 14),
               ),
               color: Colors.white,
               child: Column(
@@ -316,31 +305,33 @@ class _HomePageState extends State<HomePage> {
                       Icon(
                         Icons.location_on,
                         color: Colors.orange,
-                        size: headerIconSize,
+                        size: scale(context, 24),
                       ),
-                      SizedBox(width: isTablet || isDesktop ? 10 : 8),
-                      Expanded(
+
+                      SizedBox(width: scale(context, 8)),
+
+                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Home",
                               style: TextStyle(
-                                fontSize: locationTitleSize,
                                 fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
                             ),
-                            SizedBox(height: 2),
                             Text(
                               "Calicut, Kerala",
                               style: TextStyle(
                                 color: Colors.grey,
-                                fontSize: locationSubSize,
+                                fontSize: 12,
                               ),
                             ),
                           ],
                         ),
                       ),
+
                       GestureDetector(
                         onTap: () async {
                           await Navigator.push(
@@ -353,48 +344,15 @@ class _HomePageState extends State<HomePage> {
                         },
                         child: Stack(
                           children: [
-                            Container(
-                              padding: EdgeInsets.all(actionIconPad),
-                              decoration: BoxDecoration(
-                                color: Colors.orange.shade50,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.notifications_none,
-                                color: Colors.orange,
-                                size: isTablet || isDesktop ? 26 : 22,
-                              ),
-                            ),
+                            _circleIcon(Icons.notifications_none),
+
                             if (_unreadCount > 0)
-                              Positioned(
-                                right: 2,
-                                top: 2,
-                                child: Container(
-                                  padding: EdgeInsets.all(3),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  constraints: BoxConstraints(
-                                    minWidth: 16,
-                                    minHeight: 16,
-                                  ),
-                                  child: Text(
-                                    _unreadCount > 9 ? '9+' : '$_unreadCount',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
+                              Positioned(right: 0, top: 0, child: _badge()),
                           ],
                         ),
                       ),
 
-                      SizedBox(width: isTablet || isDesktop ? 14 : 12),
+                      SizedBox(width: scale(context, 10)),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
@@ -402,32 +360,18 @@ class _HomePageState extends State<HomePage> {
                             MaterialPageRoute(builder: (_) => ProfilePage()),
                           );
                         },
-                        child: Container(
-                          padding: EdgeInsets.all(actionIconPad),
-                          decoration: BoxDecoration(
-                            color: Colors.orange.shade50,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.orange,
-                            size: isTablet || isDesktop ? 26 : 22,
-                          ),
-                        ),
+                        child: _circleIcon(Icons.person),
                       ),
                     ],
                   ),
 
-                  SizedBox(height: isTablet || isDesktop ? 20 : 18),
+                  SizedBox(height: scale(context, 14)),
+
                   FoodSearchBar(
                     controller: _searchController,
                     isSearching: isSearching,
-                    onSearchTap: () {
-                      setState(() => isSearching = true);
-                    },
-                    onSearchChanged: (value) {
-                      setState(() => _searchText = value);
-                    },
+                    onSearchTap: () => setState(() => isSearching = true),
+                    onSearchChanged: (v) => setState(() => _searchText = v),
                     onClear: () {
                       setState(() {
                         _searchController.clear();
@@ -440,7 +384,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            SizedBox(height: isTablet || isDesktop ? 16 : 12),
+            SizedBox(height: scale(context, 10)),
 
             SizedBox(
               height: bannerHeight,
@@ -450,16 +394,19 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
 
-            SizedBox(height: isTablet || isDesktop ? 14 : 10),
+            SizedBox(height: scale(context, 10)),
 
             Expanded(
               child: GridView.builder(
-                padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: hPad,
+                  vertical: scale(context, 10),
+                ),
                 itemCount: displayList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: isTablet || isDesktop ? 16 : 12,
-                  mainAxisSpacing: isTablet || isDesktop ? 16 : 12,
+                  crossAxisSpacing: scale(context, 10),
+                  mainAxisSpacing: scale(context, 10),
                   childAspectRatio: cardAspectRatio,
                 ),
                 itemBuilder: (context, index) {
@@ -469,6 +416,31 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _circleIcon(IconData icon) {
+    return Container(
+      padding:  EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.orange.shade50,
+        shape: BoxShape.circle,
+      ),
+      child: Icon(icon, color: Colors.orange, size: 22),
+    );
+  }
+
+  Widget _badge() {
+    return Container(
+      padding:  EdgeInsets.all(4),
+      decoration:  BoxDecoration(
+        color: Colors.red,
+        shape: BoxShape.circle,
+      ),
+      child: Text(
+        _unreadCount > 9 ? "9+" : "$_unreadCount",
+        style:  TextStyle(color: Colors.white, fontSize: 9),
       ),
     );
   }
