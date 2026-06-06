@@ -17,22 +17,25 @@ class FoodSearchBar extends StatelessWidget {
     this.isSearching = false,
   });
 
+  double scale(BuildContext context, double v) {
+    if (Responsive.isDesktop(context)) return v * 1.2;
+    if (Responsive.isTablet(context)) return v * 1.1;
+    return v;
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = Responsive.w(context);
-    final isTablet = Responsive.isTablet(context);
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: width * 0.04,
-        vertical: width * 0.03,
+        horizontal: scale(context, 14),
+        vertical: scale(context, 10),
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(
-          isTablet ? 24 : width * 0.045,
-        ),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(scale(context, 16)),
+        boxShadow:  [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 6,
@@ -40,36 +43,30 @@ class FoodSearchBar extends StatelessWidget {
           ),
         ],
       ),
-
       child: Row(
         children: [
           Icon(
             Icons.search,
             color: Colors.grey,
-            size: isTablet ? 28 : width * 0.06,
+            size: scale(context, 22),
           ),
 
-          SizedBox(width: width * 0.025),
+          SizedBox(width: scale(context, 10)),
 
           Expanded(
             child: TextField(
               controller: controller,
               onTap: onSearchTap,
               onChanged: onSearchChanged,
-
-              style: TextStyle(
-                fontSize: isTablet ? 18 : width * 0.04,
-              ),
-
+              style: TextStyle(fontSize: scale(context, 14)),
               decoration: InputDecoration(
                 hintText: "Search foods, restaurants...",
+                hintStyle: TextStyle(
+                  fontSize: scale(context, 13),
+                  color: Colors.grey,
+                ),
                 border: InputBorder.none,
                 isCollapsed: true,
-
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: isTablet ? 16 : width * 0.038,
-                ),
               ),
             ),
           ),
@@ -80,7 +77,7 @@ class FoodSearchBar extends StatelessWidget {
               child: Icon(
                 Icons.close,
                 color: Colors.grey,
-                size: isTablet ? 24 : width * 0.05,
+                size: scale(context, 20),
               ),
             ),
         ],

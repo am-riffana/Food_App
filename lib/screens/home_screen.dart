@@ -309,7 +309,6 @@ class _HomePageState extends State<HomePage> {
                       ),
 
                       SizedBox(width: scale(context, 8)),
-
                        Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -395,7 +394,6 @@ class _HomePageState extends State<HomePage> {
             ),
 
             SizedBox(height: scale(context, 10)),
-
             Expanded(
               child: GridView.builder(
                 padding: EdgeInsets.symmetric(
