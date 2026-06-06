@@ -6,9 +6,10 @@ import 'package:foodapp/widgets/responsive.dart';
 import 'package:foodapp/widgets/resturant_model.dart';
 import 'package:foodapp/widgets/search.dart';
 import 'package:foodapp/widgets/slide_banner.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  const  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isSearching = false;
   String _searchText = "";
+  int _unreadCount = 0;
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -184,6 +186,48 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _loadUnreadCount();
+    _subscribeToNotifications();
+  }
+
+  Future<void> _loadUnreadCount() async {
+    try {
+      final userId = Supabase.instance.client.auth.currentUser?.id;
+      if (userId == null) return;
+
+      final data = await Supabase.instance.client
+          .from('notifications')
+          .select('id')
+          .eq('user_id', userId)
+          .eq('is_read', false);
+
+      if (mounted) {
+        setState(() => _unreadCount = (data as List).length);
+      }
+    } catch (e) {
+      debugPrint('Unread count error: $e');
+    }
+  }
+
+  void _subscribeToNotifications() {
+    final userId = Supabase.instance.client.auth.currentUser?.id;
+    if (userId == null) return;
+
+    Supabase.instance.client
+        .from('notifications')
+        .stream(primaryKey: ['id'])
+        .eq('user_id', userId)
+        .listen((data) {
+          if (mounted) {
+            final unread = data.where((n) => n['is_read'] == false).length;
+            setState(() => _unreadCount = unread);
+          }
+        });
+  }
+
+  @override
   void dispose() {
     _searchController.dispose();
     super.dispose();
@@ -195,55 +239,64 @@ class _HomePageState extends State<HomePage> {
     final bool isDesktop = Responsive.isDesktop(context);
     final double screenWidth = Responsive.w(context);
 
-    final int crossAxisCount = isDesktop
-        ? 4
-        : isTablet
+    final int crossAxisCount =
+        isDesktop
+            ? 4
+            : isTablet
             ? 3
             : 2;
 
-    final double hPad = isDesktop
-        ? screenWidth * 0.06
-        : isTablet
+    final double hPad =
+        isDesktop
+            ? screenWidth * 0.06
+            : isTablet
             ? screenWidth * 0.03
             : 16.0;
 
-    final double bannerHeight = isDesktop
-        ? 260.0
-        : isTablet
+    final double bannerHeight =
+        isDesktop
+            ? 260.0
+            : isTablet
             ? 220.0
             : 180.0;
 
-    final double locationTitleSize = isDesktop
-        ? 22.0
-        : isTablet
+    // Font sizes
+    final double locationTitleSize =
+        isDesktop
+            ? 22.0
+            : isTablet
             ? 20.0
             : 18.0;
 
-    final double locationSubSize = isDesktop
-        ? 15.0
-        : isTablet
+    final double locationSubSize =
+        isDesktop
+            ? 15.0
+            : isTablet
             ? 14.0
             : 13.0;
 
-    final double headerIconSize = isDesktop
-        ? 32.0
-        : isTablet
+    final double headerIconSize =
+        isDesktop
+            ? 32.0
+            : isTablet
             ? 30.0
             : 28.0;
 
     final double actionIconPad = isDesktop || isTablet ? 12.0 : 10.0;
 
-    final double cardAspectRatio = isDesktop
-        ? 0.72
-        : isTablet
+    final double cardAspectRatio =
+        isDesktop
+            ? 0.72
+            : isTablet
             ? 0.70
             : 0.68;
 
-    final displayList = _items
-        .where(
-          (r) => r.name.toLowerCase().contains(_searchText.toLowerCase()),
-        )
-        .toList();
+    final displayList =
+        _items
+            .where(
+              (r) => r.name.toLowerCase().contains(_searchText.toLowerCase()),
+            )
+            .toList();
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F8F8),
@@ -277,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                             SizedBox(height: 2),
+                            SizedBox(height: 2),
                             Text(
                               "Calicut, Kerala",
                               style: TextStyle(
@@ -288,15 +341,15 @@ class _HomePageState extends State<HomePage> {
                           ],
                         ),
                       ),
-
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
+                        onTap: () async {
+                          await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => NotificationPage(),
                             ),
                           );
+                          _loadUnreadCount();
                         },
                         child: Stack(
                           children: [
@@ -312,18 +365,31 @@ class _HomePageState extends State<HomePage> {
                                 size: isTablet || isDesktop ? 26 : 22,
                               ),
                             ),
-                            Positioned(
-                              right: 2,
-                              top: 2,
-                              child: Container(
-                                height: 10,
-                                width: 10,
-                                decoration:  BoxDecoration(
-                                  color: Colors.red,
-                                  shape: BoxShape.circle,
+                            if (_unreadCount > 0)
+                              Positioned(
+                                right: 2,
+                                top: 2,
+                                child: Container(
+                                  padding: EdgeInsets.all(3),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  constraints: BoxConstraints(
+                                    minWidth: 16,
+                                    minHeight: 16,
+                                  ),
+                                  child: Text(
+                                    _unreadCount > 9 ? '9+' : '$_unreadCount',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -333,9 +399,7 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (_) => ProfilePage(),
-                            ),
+                            MaterialPageRoute(builder: (_) => ProfilePage()),
                           );
                         },
                         child: Container(
@@ -377,6 +441,7 @@ class _HomePageState extends State<HomePage> {
             ),
 
             SizedBox(height: isTablet || isDesktop ? 16 : 12),
+
             SizedBox(
               height: bannerHeight,
               child: Padding(
@@ -386,12 +451,10 @@ class _HomePageState extends State<HomePage> {
             ),
 
             SizedBox(height: isTablet || isDesktop ? 14 : 10),
+
             Expanded(
               child: GridView.builder(
-                padding: EdgeInsets.symmetric(
-                  horizontal: hPad,
-                  vertical: 12,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: hPad, vertical: 12),
                 itemCount: displayList.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: crossAxisCount,

@@ -12,95 +12,100 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
   String address = "Calicut, Kerala";
 
   void editAddress() {
-    final width = Responsive.w(context);
-    final height = Responsive.h(context);
-    final isTablet = Responsive.isTablet(context);
-
-    TextEditingController controller = TextEditingController(text: address);
+    final controller = TextEditingController(text: address);
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      shape:  RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (context) {
+        final viewInsets = MediaQuery.of(context).viewInsets.bottom;
+        final width = Responsive.w(context);
+        final isTablet = Responsive.isTablet(context);
+
+        double scale(double size) =>
+            isTablet ? size * 1.2 : size;
+
         return Padding(
           padding: EdgeInsets.only(
             left: width * 0.05,
             right: width * 0.05,
-            top: height * 0.03,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 25,
+            top: width * 0.05,
+            bottom: viewInsets + 20,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: width * 0.15,
-                height: 5,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-
-              SizedBox(height: height * 0.025),
-
-              Text(
-                "Edit Address",
-                style: TextStyle(
-                  fontSize: isTablet ? 26 : width * 0.055,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              SizedBox(height: height * 0.025),
-
-              TextField(
-                controller: controller,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  hintText: "Enter address",
-                  filled: true,
-                  fillColor: Colors.grey.shade100,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(18),
-                    borderSide: BorderSide.none,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 50,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                 ),
-              ),
 
-              SizedBox(height: height * 0.03),
+                SizedBox(height: scale(20)),
 
-              SizedBox(
-                width: double.infinity,
-                height: isTablet ? 65 : 55,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
-                    ),
+                Text(
+                  "Edit Address",
+                  style: TextStyle(
+                    fontSize: scale(20),
+                    fontWeight: FontWeight.bold,
                   ),
-                  onPressed: () {
-                    setState(() {
-                      address = controller.text;
-                    });
+                ),
 
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    "Save Address",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: isTablet ? 20 : width * 0.045,
-                      fontWeight: FontWeight.bold,
+                SizedBox(height: scale(20)),
+
+                TextField(
+                  controller: controller,
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                    hintText: "Enter address",
+                    filled: true,
+                    fillColor: Colors.grey.shade100,
+                    contentPadding: EdgeInsets.all(scale(14)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(16),
+                      borderSide: BorderSide.none,
                     ),
                   ),
                 ),
-              ),
-            ],
+
+                SizedBox(height: scale(25)),
+
+                SizedBox(
+                  width: double.infinity,
+                  height: scale(50),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        address = controller.text.trim();
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Save Address",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: scale(16),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -110,8 +115,9 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
   @override
   Widget build(BuildContext context) {
     final width = Responsive.w(context);
-    final height = Responsive.h(context);
     final isTablet = Responsive.isTablet(context);
+
+    double scale(double size) => isTablet ? size * 1.2 : size;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF6F6F6),
@@ -120,15 +126,15 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
+        iconTheme:  IconThemeData(color: Colors.black),
         title: Text(
           "Manage Address",
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontSize: isTablet ? 24 : width * 0.05,
+            fontSize: scale(18),
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.black),
       ),
 
       floatingActionButton: FloatingActionButton.extended(
@@ -136,14 +142,14 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
         onPressed: editAddress,
         icon: Icon(
           Icons.add_location_alt,
+          size: scale(22),
           color: Colors.white,
-          size: isTablet ? 28 : width * 0.06,
         ),
         label: Text(
           "Add Address",
           style: TextStyle(
             color: Colors.white,
-            fontSize: isTablet ? 18 : width * 0.04,
+            fontSize: scale(14),
           ),
         ),
       ),
@@ -153,11 +159,11 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.all(width * 0.045),
+              padding: EdgeInsets.all(scale(14)),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(isTablet ? 30 : 24),
-                boxShadow: [
+                borderRadius: BorderRadius.circular(20),
+                boxShadow:  [
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 8,
@@ -168,19 +174,19 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
               child: Row(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(width * 0.035),
+                    padding: EdgeInsets.all(scale(10)),
                     decoration: BoxDecoration(
                       color: Colors.orange.shade100,
-                      borderRadius: BorderRadius.circular(isTablet ? 22 : 18),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     child: Icon(
                       Icons.home,
                       color: Colors.orange,
-                      size: isTablet ? 36 : width * 0.07,
+                      size: scale(26),
                     ),
                   ),
 
-                  SizedBox(width: width * 0.04),
+                  SizedBox(width: scale(12)),
 
                   Expanded(
                     child: Column(
@@ -189,19 +195,17 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                         Text(
                           "Home",
                           style: TextStyle(
-                            fontSize: isTablet ? 22 : width * 0.045,
+                            fontSize: scale(16),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-
-                        SizedBox(height: height * 0.008),
-
+                        SizedBox(height: scale(4)),
                         Text(
                           address,
                           style: TextStyle(
                             color: Colors.grey,
-                            height: 1.5,
-                            fontSize: isTablet ? 16 : width * 0.035,
+                            fontSize: scale(13),
+                            height: 1.4,
                           ),
                         ),
                       ],
@@ -213,7 +217,7 @@ class _ManageAddressPageState extends State<ManageAddressPage> {
                     icon: Icon(
                       Icons.edit,
                       color: Colors.orange,
-                      size: isTablet ? 30 : width * 0.06,
+                      size: scale(22),
                     ),
                   ),
                 ],
